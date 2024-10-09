@@ -1,0 +1,66 @@
+
+
+<ion-content class="ion-padding animated fadeIn login auth-page">
+
+
+  <ion-modal [isOpen]="isModalOpen">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Sobre o aplicativo</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="setOpen(false)">Fechar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <p class="texto">
+          Aplicativo desenvolvido para o projeto PROAT de Desenvolvimento de Softwares Gerenciais.
+          <br>
+          <br>
+          Aplicações de gerenciamento são de grande utilidade devido à sua praticidade em diversos sistemas de gerenciamento. Como atualmente o acesso à internet vem crescendo bastante, a rotina de gerenciamento de recursos por meio da escrita ficou ineficiente e quase inutilizável. Aplicativos que gerenciam o básico de certos recursos de produção, seja ele mão de obra ou insumos, se tornaram interessantes por promover mais eficiência e gestão de tempo para quem utiliza. O trabalho foi criado para gestão de fazendas e permite que pequenos produtores gerenciem seus recursos e fazendas.
+        </p>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+  
+  <div class="auth-content">
+
+    <!-- Logo -->
+    <div padding-horizontal text-center class="image">
+      <div class="logo"></div>
+        <h4 no-margin>
+          <img src="../../assets/LogoAgro-removebg-preview.png" alt="">
+        </h4>
+    </div>
+
+    <!-- Login form -->
+    <div>
+      <ion-button icon-left size="medium" expand="full" shape="round" color="dark" (click)="login()"  tappable>
+        <ion-icon name="log-in"></ion-icon>
+        Login
+      </ion-button>
+
+      <ion-button icon-left size="medium" expand="full" shape="round" color="dark" (click)="cadastro()"  tappable>
+        <ion-icon name="log-in"></ion-icon>
+        Sign In
+      </ion-button>
+
+      <ion-button class="sobre" icon-left size="bigger" expand="full" shape="round" color="success" (click)="setOpen(true)"  tappable>
+        <ion-icon name="information-circle-outline"></ion-icon>
+        About
+      </ion-button>
+
+      <!-- <ion-button icon-left size="medium" expand="full" shape="round" color="danger" (click)="resetarAbriu()" tappable>
+        <ion-icon name="refresh"></ion-icon>
+        Resetar
+      </ion-button> -->
+
+
+
+
+    </div>
+
+  </div>
+</ion-content>
+

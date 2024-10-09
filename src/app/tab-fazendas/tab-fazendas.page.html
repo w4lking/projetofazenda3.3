@@ -1,0 +1,99 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Gerenciar Fazendas</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="setOpen(true)">
+        <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true" class="ion-padding">
+
+  <!-- Modal para adicionar fazenda -->
+  <!-- Modal para adicionar/editar fazenda -->
+<ion-modal [isOpen]="isModalOpen">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title *ngIf="idFazenda">Editar Fazenda</ion-title>
+        <ion-title *ngIf="!idFazenda">Adicionar Fazenda</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="setOpen(false)">
+            <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <ion-item>
+        <ion-label position="floating">Nome da Fazenda</ion-label>
+        <ion-input [(ngModel)]="nome"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">CEP</ion-label>
+        <ion-input [maskito]="cepMask" [maskitoElement]="maskPredicate" [(ngModel)]="cep"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Endereço</ion-label>
+        <ion-input [(ngModel)]="endereco"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Valor</ion-label>
+        <ion-input type="number" [(ngModel)]="valor"></ion-input>
+      </ion-item>
+
+      <ion-button expand="block" color="success" (click)="salvarFazenda()">Salvar</ion-button>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+  <!-- Lista de Fazendas -->
+  <ion-list *ngIf="fazendas.length > 0; else semFazendas">
+    <ion-item *ngFor="let fazenda of fazendas">
+      <ion-label>
+        <h2>{{ fazenda.nome }}</h2>
+        <p><strong>CEP:</strong> {{ fazenda.cep }}</p>
+        <p><strong>Endereço:</strong> {{ fazenda.endereco }}</p>
+        <p><strong>Valor:</strong> {{ fazenda.valor | currency }}</p>
+      </ion-label>
+
+      <ion-buttons slot="end">
+        <!-- Botão de Edição -->
+        <ion-button  (click)="editarFazenda(fazenda.nome, fazenda.cep, fazenda.endereco, fazenda.valor, fazenda.idfazendas)">
+          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+        </ion-button>
+
+        <!-- Botão de Exclusão -->
+        <ion-button color="danger" (click)="confirmarExclusaofazenda(fazenda.idfazendas)">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+
+  <!-- Caso não haja fazendas -->
+  <ng-template #semFazendas>
+    <div class="empty-state">
+      <ion-icon name="alert-circle-outline" size="large"></ion-icon>
+      <p>Nenhuma fazenda encontrada.</p>
+    </div>
+  </ng-template>
+
+  <!-- Botão flutuante -->
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button>
+      <ion-icon name="chevron-up-circle"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button (click)="setOpen(true)">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+
+</ion-content>

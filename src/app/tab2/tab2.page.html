@@ -1,0 +1,45 @@
+
+<ion-header>
+  <ion-toolbar color="medium">
+    <ion-title class="titulo">Administrador</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="usuarios.length > 0; else semUsuarios">
+    <ion-item *ngFor="let usuario of usuarios">
+      <ion-label>
+        <h2>{{usuario.idusuarios}} - {{ usuario.nome }}</h2>
+        <p>CPF: {{ usuario.cpf }}</p>
+        <p>Telefone: {{ usuario.telefone }}</p>
+        <p>Email: {{ usuario.email }}</p>
+        <p>Bloqueado: {{ usuario.bloqueado == 1 ? 'Sim' : 'Não' }}</p>
+        <p>Autenticado: {{ usuario.autenticado == 1 ? 'Sim' : 'Não' }}</p>
+        <small>{{ usuario.perfil }}</small>
+      </ion-label>
+
+      <ion-buttons slot="end">
+        <!-- Botão de Edição -->
+        <ion-button (click)="editarUsuario(usuario)">
+          <ion-icon slot="icon-only" name="pencil-outline"></ion-icon>
+        </ion-button>
+
+        <!-- Botão de Bloqueio/Desbloqueio -->
+        <ion-button (click)="alterarBloqueio(usuario)">
+          <ion-icon  [name]="usuario.bloqueado == 1 ? 'lock-closed-outline' : 'lock-open-outline'"></ion-icon>
+        </ion-button>
+
+        <!-- Botão de Exclusão -->
+        <ion-button color="danger" (click)="confirmarExclusaoUsuario(usuario)">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+
+  <ng-template #semUsuarios>
+    <ion-item class="empty-message">
+      <ion-label>Nenhum usuário encontrado.</ion-label>
+    </ion-item>
+  </ng-template>
+</ion-content>

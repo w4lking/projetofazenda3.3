@@ -1,0 +1,120 @@
+<ion-content class="ion-padding animated fadeIn login auth-page">
+
+
+  <ion-toolbar color="none">
+    <ion-buttons slot="start">
+      <ion-button (click)="backInicio()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  
+  <div class="auth-content">
+
+    <!-- Logo -->
+    <div padding-horizontal text-center class="animated fadeInDown">
+      <div class="logo"></div>
+      <h4 no-margin>
+        <img src="../../assets/fazenda-inteligente.png" alt="">
+       </h4>
+    </div>
+
+    <!-- Login form -->
+
+
+
+    <div  class="list-form">
+      <ion-item no-padding class="animated fadeInUp">
+        <ion-input labelPlacement="stacked" label="Email" color="light" placeholder="Seu email..." type="text" [(ngModel)]="email"> <ion-icon slot="start" name="mail" aria-hidden="true"></ion-icon></ion-input>
+      </ion-item>
+
+
+      <ion-item no-padding class="animated fadeInUp">
+        <ion-input labelPlacement="stacked" label="Senha" color="light" placeholder="Sua senha..." type="password" [(ngModel)]="senha"> <ion-icon slot="start" name="lock-closed" aria-hidden="true"></ion-icon></ion-input>
+      </ion-item> 
+      <p ion-text color="warning" class="text08">
+        <a id="open-reset" class="esqueci-senha">Esqueceu a senha?</a>
+      </p>
+        
+    </div>
+
+    <ion-item lines="none">
+    
+    </ion-item>
+    
+    <br><br>
+
+    <div>
+      <ion-button icon-left size="medium" expand="full" shape="round" color="dark" (click)="login()"  tappable>
+        <ion-icon name="log-in" ></ion-icon>
+        Login
+      </ion-button>
+
+    </div>
+
+  </div>
+
+  <!-- MODAL -->
+
+  <ion-modal  trigger="open-reset" >
+    <ng-template>
+      <ion-toolbar id="modal-toolbar">
+        <ion-buttons slot="start">
+          <ion-button (click)="cancel()">
+            <ion-icon name="close-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+      
+      
+      <ion-content id="modal" class="ion-padding animated fadeIn login auth-page" >
+
+        <!-- Logo -->
+    <div padding-horizontal text-center class="animated fadeInDown">
+      <div class="logo"></div>
+      <h4 no-margin>
+        <img src="../../assets/fazenda-inteligente.png" alt="">
+      </h4>
+    </div>
+        <div class="list-form">
+          <ion-item no-padding class="animated fadeInUp">
+            <ion-label color="light" position="floating">
+              <ion-icon name="mail" color="light" item-start></ion-icon>
+              Email
+            </ion-label>
+            <ion-input color="light" type="text" [(ngModel)]="emailReset"></ion-input>
+          </ion-item>
+            
+        </div>
+    
+        <ion-item no-padding class="animated fadeInUp">
+          <ion-label position="floating" ></ion-label>
+        <!-- liga o campo nome com o valor que ele receberá -->
+        <ion-select class="place" placeholder="Perfil" [(ngModel)]="perfilReset">
+          <ion-select-option value="proprietarios">Proprietário</ion-select-option>
+          <ion-select-option  value="funcionarios">Funcionário</ion-select-option>
+        </ion-select>
+        </ion-item>
+        
+        
+        <br><br>
+    
+        <div>
+          <ion-button icon-left size="medium" expand="full" shape="round" color="dark" (click)="enviarEmail()"  tappable>
+            <ion-icon name="log-in" ></ion-icon>
+            Enviar email
+          </ion-button>
+    
+        </div>
+    
+
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+</ion-content>

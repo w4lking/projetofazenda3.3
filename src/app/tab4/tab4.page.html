@@ -1,0 +1,111 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Gerenciar Funcionários</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="abrirModalAdicionar()">
+        <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true" class="ion-padding">
+
+  <!-- Modal para adicionar/editar funcionário -->
+  <ion-modal [isOpen]="isModalOpen">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title *ngIf="editando">Editar Funcionário</ion-title>
+          <ion-title *ngIf="!editando">Adicionar Funcionário</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="fecharModal()">
+              <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-label position="floating">Nome</ion-label>
+          <ion-input [(ngModel)]="nome" [maskitoElement]="maskPredicate" [maskito]="userNameMask"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">CPF</ion-label>
+          <ion-input [(ngModel)]="cpf" [maskitoElement]="maskPredicate" [maskito]="cpfMask"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">E-mail</ion-label>
+          <ion-input [(ngModel)]="email" type="email"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Telefone</ion-label>
+          <ion-input [(ngModel)]="telefone" [maskitoElement]="maskPredicate" [maskito]="telefoneMask"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Salário</ion-label>
+          <ion-input [(ngModel)]="salario" type="number"></ion-input>
+        </ion-item>
+
+        <!-- Campo de Senha aparece apenas ao adicionar -->
+        <ion-item *ngIf="!editando">
+          <ion-label position="floating">Senha</ion-label>
+          <ion-input [(ngModel)]="senha" type="password"></ion-input>
+        </ion-item>
+
+        <!-- Select de Fazenda aparece apenas ao adicionar -->
+        <ion-item *ngIf="!editando">
+          <ion-label position="floating">Fazenda</ion-label>
+          <ion-select [(ngModel)]="idFazenda">
+            <ion-select-option *ngFor="let fazenda of fazendas" [value]="fazenda.idfazendas">
+              {{ fazenda.nome }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-button expand="block" color="success" (click)="salvarFuncionario()">Salvar</ion-button>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Lista de Funcionários -->
+  <ion-list *ngIf="funcionarios.length > 0; else semFuncionarios">
+    <ion-item *ngFor="let funcionario of funcionarios">
+      <ion-label>
+        <h2>{{ funcionario.nome }}</h2>
+        <p><strong>CPF:</strong> {{ funcionario.cpf }}</p>
+        <p><strong>Telefone:</strong> {{ funcionario.telefone }}</p>
+        <p><strong>E-mail:</strong> {{ funcionario.email }}</p>
+        <p><strong>Salário:</strong> R$ {{ funcionario.salario | currency }}</p>
+        <p><strong>Fazenda:</strong> {{ getNomeFazenda(funcionario.fazendas_idfazendas) }}</p>
+      </ion-label>
+  
+      <ion-buttons slot="end">
+        <!-- Botão de Edição -->
+        <ion-button (click)="abrirModalEditar(funcionario)">
+          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+        </ion-button>
+  
+        <!-- Botão de Exclusão -->
+        <ion-button color="danger" (click)="confirmarExclusaofuncionario(funcionario.idfuncionarios)">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+  
+
+  <!-- Caso não haja Funcionários -->
+  <ng-template #semFuncionarios>
+    <div class="empty-state">
+      <ion-icon name="alert-circle-outline" size="large"></ion-icon>
+      <p>Nenhum Funcionário encontrado.</p>
+    </div>
+  </ng-template>
+
+</ion-content>

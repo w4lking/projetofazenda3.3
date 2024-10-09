@@ -1,0 +1,71 @@
+
+<ion-content  class="ion-padding animated fadeIn login auth-page">
+
+  <ion-toolbar color="none">
+    <ion-buttons slot="start">
+      <ion-button (click)="backInicio()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button>
+        <img src="../../assets/brasil24.png">
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  
+  <div class="auth-content" >
+    <!-- Logo -->
+    <div padding-horizontal text-center class="animated fadeInDown">
+      <h4 no-margin>
+        <img src="../../assets/fazenda-inteligente (1).png" alt="">
+       </h4>
+    </div>
+
+    <!-- Login form -->
+    <div  class="list-form">
+      <ion-item no-padding class="animated fadeInUp">
+        <ion-input labelPlacement="stacked" label="Nome" color="light" placeholder="Seu nome..." type="text" [(ngModel)]="nome" 
+        [maskito]="userNameMask"
+        [maskitoElement]="maskPredicate"> <ion-icon slot="start" name="people" aria-hidden="true"></ion-icon></ion-input>
+      </ion-item>
+
+      <ion-item no-padding class="animated fadeInUp">
+        <ion-input labelPlacement="stacked" label="Cpf" color="light" placeholder="Seu Cpf" type="text" [(ngModel)]="cpf"
+        [maskito]="cpfMask"
+        [maskitoElement]="maskPredicate"> <ion-icon slot="start" name="person" aria-hidden="true"></ion-icon></ion-input>
+        </ion-item>
+
+        <ion-item no-padding class="animated fadeInUp">
+          <ion-input labelPlacement="stacked" label="Telefone" color="light" placeholder="Seu telefone..." type="text" [(ngModel)]="telefone"
+          [maskito]="telefoneMask"
+          [maskitoElement]="maskPredicate"> <ion-icon slot="start" name="phone-portrait" aria-hidden="true"></ion-icon></ion-input>
+      </ion-item> 
+
+        <ion-item no-padding class="animated fadeInUp">
+          <ion-input labelPlacement="stacked" label="Email" color="light" placeholder="Seu email..." type="text" [(ngModel)]="email"> <ion-icon slot="start" name="mail" aria-hidden="true"></ion-icon></ion-input>
+      </ion-item> 
+
+
+      <ion-item no-padding class="animated fadeInUp">
+        <ion-input labelPlacement="stacked" label="Senha" color="light" placeholder="Sua senha..." type="password" [(ngModel)]="senha"> <ion-icon slot="start" name="lock-closed" aria-hidden="true"></ion-icon></ion-input>
+      </ion-item>
+
+      <ion-item no-padding class="animated fadeInUp">
+        <ion-input labelPlacement="stacked" label="confirmarSenha" color="light" placeholder="Sua confirmação de Senha..." type="password" [(ngModel)]="confirmarSenha"> <ion-icon slot="start" name="lock-open" aria-hidden="true"></ion-icon></ion-input>
+      </ion-item>
+
+        
+    </div>
+    <br><br>
+
+    <div>
+      <ion-button icon-left size="medium" expand="full" shape="round" color="dark" (click)="cadastrarUsuario()" tappable>
+        <ion-icon name="log-in"></ion-icon>
+        Confirmar
+      </ion-button>
+      
+    </div>
+
+  </div>
+</ion-content>
