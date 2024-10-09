@@ -4,12 +4,6 @@ ion-item {
     padding-bottom: 15px;
 }
 
-.text-final {
-  width: 320px;
-  font-size: 12px;
-  color: #000000;
-  text-align: center;
-}
 
 .place{
   --placeholder-color: #ffffff;
@@ -89,24 +83,7 @@ strong {
       background-image: linear-gradient(-135deg, var(--ion-color-medium), var(--ion-color-dark))
   }
   
-  // Helpers //
-  .w100 {
-    width: 100%;
-  }
-  
-  .bold,
-  .fw500 {
-      font-weight: 500 !important;
-  }
-  
-  .fw400 {
-      font-weight: 400 !important;
-     
-  }
 
-  .fw700 {
-    font-weight: 700 !important;
-}
   
   .text08 {
     font-size: .8rem;
@@ -114,64 +91,6 @@ strong {
     text-align: end;
   }
   
-  .text1 {
-    font-size: 1rem !important;
-  }
-
-  .text12 {
-    font-size: 1.2rem;
-  }
-
-  .text15 {
-    font-size: 1.5rem;
-  }
-  
-  .text20 {
-    font-size: 2rem;
-  }
-  
-  .text-white {
-      color: #fff;
-  }
-  
-  .text-primary {
-      color: var(--ion-color-primary);
-  }
-
-  .text-secondary {
-    color: var(--ion-color-secondary);
-}
-  
-  .text-dark {
-    color: var(--ion-color-dark);
-  }
-  
-  // menu //
-  // Menu user profile
-  ion-toolbar.user-profile {
-  
-    .user-avatar {
-      width: 68px;
-      height: 68px;
-    }
-    .item-inner {
-      border-width: 0;
-    }
-  }
-  
-  // Custom toolbar (overriding Shadow DOM)
-  ion-toolbar {
-    &.ion-color-primary {
-      --ion-color-base: linear-gradient(135deg, var(--ion-color-dark), var(--ion-color-primary)) !important;
-    }
-  }
-  
-  // Android card shadow
-  ion-card {
-    &.sc-ion-card-md-h {
-      box-shadow: 0 2px 4px rgba(var(--ion-color-dark-rgb),.24);
-    }
-  }
   
   // style for auth pages
   .auth-page {
@@ -242,24 +161,7 @@ strong {
     }
   
   }
-  
-  // Custom Menu styles (overriding Shadow DOM)
-  ion-menu {
-    ion-header {
-      ion-toolbar {
-        &.ion-color-dark {
-          --ion-color-base: linear-gradient(135deg, var(--ion-color-medium), var(--ion-color-dark)) !important;
-        }
-      }
-    }
-  }
-  
-  .mto {
-    margin-top: 12px;
-    ion-icon {
-      margin-bottom: -2px;
-    }
-  }
+
 
 
   .icon-add{
@@ -267,25 +169,6 @@ strong {
   }
 
 
-  .form-registrar {
-    --background: linear-gradient(135deg, var(--ion-color-medium), var(--ion-color-dark))
-  }
-
-  .branco{
-      color: #FFF;
-  }
-
-  .red{
-    color: red;
-}
-
-.green{
-  color: green;
-}
-
-
-
-    
     :host {
         ion-content {
             --background: linear-gradient(90deg, rgba(2,66,1,0.4066001400560224) 0%, rgba(0,0,0,0.700717787114846) 100%);
@@ -296,10 +179,6 @@ strong {
         }
     }
     
-    .paz {
-        position: relative;
-        z-index: 10;
-    }
     
     .img-login{
         width:80px;
