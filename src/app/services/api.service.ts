@@ -1,6 +1,6 @@
 import { telefoneMask } from './../masks';
 import { map } from 'rxjs/operators';
-import {HttpClient, HttpHeaders, HttpSentEvent} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 export class ApiService {
 
 //   server: string = 'http://apisfazenda2-b103529777b5.herokuapp.com/';
-  server : string = 'https://apisfazenda2-b103529777b5.herokuapp.com/'; // Adicione esta linha 
+  server : string = 'http://localhost/apisfazenda2.0/'; // Adicione esta linha 
 
     constructor(private http : HttpClient){
        
