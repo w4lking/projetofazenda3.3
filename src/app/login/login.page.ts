@@ -1,9 +1,8 @@
-import { ApiService } from '../services/api.service';
+import { ApiService } from '../services/api.service';  // Serviço atualizado para Node.js
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { ToastController, LoadingController, AlertController } from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
-
 
 @Component({
   selector: 'app-login',
@@ -12,32 +11,28 @@ import { ModalController } from '@ionic/angular';
 })
 export class LoginPage implements OnInit {
 
-  email : string = "";
-  senha : string = "";
-  perfil : string = "";
-  id : string = "";
-  autenticado : string = "";
-  bloqueado : string = "";
-  emailReset : string = "";
-  perfilReset : string = "";
-  antigo : string = "";
-
+  email: string = "";
+  senha: string = "";
+  perfil: string = "";
+  id: string = "";
+  autenticado: string = "";
+  bloqueado: string = "";
+  emailReset: string = "";
+  perfilReset: string = "";
+  antigo: string = "";
 
   constructor(
-    private router:Router,
-    private provider:ApiService,
+    private router: Router,
+    private provider: ApiService,
     public toastController: ToastController,
     private modalCtrl: ModalController,
     public loadingController: LoadingController,
     private alertController: AlertController
-  ) { }
+  ) {}
 
-  ngOnInit() {
+  ngOnInit() {}
 
-  }
-
-
-  async mensagem(mensagem:any, cor:string){
+  async mensagem(mensagem: any, cor: string) {
     const toast = await this.toastController.create({
       message: mensagem,
       duration: 2000,
@@ -46,7 +41,7 @@ export class LoginPage implements OnInit {
     toast.present();
   }
 
-  backInicio(){
+  backInicio() {
     this.router.navigate(['inicial']);
   }
 
@@ -68,22 +63,19 @@ export class LoginPage implements OnInit {
       header: cor === 'danger' ? 'Erro' : 'Sucesso',
       message: mensagem,
     });
-  
     await alert.present();
-  
-    // Fechar o alerta automaticamente após 3 segundos (3000 ms)
+
     setTimeout(() => {
       alert.dismiss();
     }, 1500);
   }
-  
 
-  resetlimpar(){
+  resetlimpar() {
     this.emailReset = "";
     this.perfilReset = "";
   }
 
-  async enviarEmail(){
+  async enviarEmail() {
     const loading = await this.loadingController.create({
       message: 'Por favor, aguarde...',
     });
@@ -92,91 +84,99 @@ export class LoginPage implements OnInit {
 
     return new Promise(resolve => {
       let dados = {
-        email : this.emailReset,
-        perfil : this.perfilReset,
-        antigo : this.antigo,
-      }
-      this.provider.dadosApi(dados, 'login/enviarEmail.php').subscribe (async (data: any) => {
-        await loading.dismiss();
+        email: this.emailReset,
+        perfil: this.perfilReset,
+        antigo: this.antigo,
+      };
+      this.provider.dadosApi(dados, 'email/sendResetEmail')  // Novo endpoint na API Node.js
+        .then(async (data: any) => {
+          await loading.dismiss();
 
-        if(data.ok == true){
-          this.mensagem(data.mensagem, 'primary');
-          localStorage.getItem('email');
-          this.resetlimpar();
-          this.cancel();
-        }
-        else{
-          this.mensagem(data.mensagem, 'danger');
-        }
-      });
-    });
-  }
-
-
-  login() {
-    if (!this.email || !this.senha) {
-      this.exibirAlerta('Por favor, preencha o e-mail e a senha', 'danger');
-      return;
-    }
-  
-    let dados = {
-      email: this.email,
-      senha: this.senha,
-      perfil: this.provider.getTipoDeUsuario(this.email),
-      sessionId: this.generateUniqueId(), // ID único para sessão
-      id: this.id,
-    };
-  
-    // Obtendo o ID do usuário via serviço
-    this.provider.getIdUsuario(this.email).subscribe(
-      (id: any) => {
-        dados.id = id; // Atribui o ID obtido
-  
-        this.provider.dadosApi(dados, 'login/login.php').subscribe(
-          (data: any) => {
-            if (data.ok) {
-              this.Alerta(data.mensagem, 'primary');
-  
-              // Salvando o JWT no sessionStorage
-              sessionStorage.setItem('token', data.dados.token);
-              sessionStorage.setItem('id', dados.id.toString());
-              sessionStorage.setItem('email', this.email);
-              sessionStorage.setItem('perfil', data.dados.perfil);
-              sessionStorage.setItem('sessionId', dados.sessionId);
-              console.log(data.dados);
-  
-              // Redirecionar para o painel dependendo do perfil
-              if (data.dados.perfil === 'ADMINISTRADOR') {
-                this.router.navigate(['tabs']);
-              } else if (data.dados.perfil === 'PROPRIETARIO') {
-                this.router.navigate(['tabs/tab3']);
-              }
-            } else {
-              this.exibirAlerta(data.mensagem, 'danger');
-            }
-          },
-          (error: any) => {
-            console.log('Erro na comunicação com a API:', error);
-            this.exibirAlerta('Erro ao tentar realizar o login. Tente novamente mais tarde.', 'danger');
+          if (data.ok === true) {
+            this.mensagem(data.mensagem, 'primary');
+            localStorage.getItem('email');
+            this.resetlimpar();
+            this.cancel();
+          } else {
+            this.mensagem(data.mensagem, 'danger');
           }
-        );
-      },
-      (error) => {
-        console.log('Erro ao obter o usuário:', error);
-        this.exibirAlerta('Erro ao tentar obter o ID e Usuário não encontrado. Tente novamente mais tarde.', 'danger');
-      }
-    );
-  }
-  
-  
-
-// Método para gerar um identificador único
-generateUniqueId(): string {
-    return 'xxxx-xxxx-xxxx'.replace(/[x]/g, () => {
-        return Math.floor(Math.random() * 9).toString();
+        })
+        .catch(async (error: any) => {
+          await loading.dismiss();
+          this.mensagem('Erro ao enviar o e-mail. Tente novamente mais tarde.', 'danger');
+          console.error('Erro ao enviar o e-mail:', error);
+        });
     });
+  }
+
+  async login() {
+    if (!this.email || !this.senha) {
+        this.exibirAlerta('Por favor, preencha o e-mail e a senha', 'danger');
+        return;
+    }
+
+    try {
+        const id = await this.provider.obterUsuarioWithEmail(this.email);
+        const perfil = await this.provider.getTipoDeUsuario(this.email);
+
+        const dados = {
+            email: this.email,
+            senha: this.senha,
+            perfil,
+            sessionId: this.generateUniqueId(),
+        };
+
+        const response = await this.provider.dadosApi(dados, 'user/login');
+
+        // Log da resposta da API
+        console.log('Resposta da API:', response);
+
+        // Verificação se a resposta é ok
+        if (response && response.ok) {
+            console.log('Login realizado com sucesso!');
+            console.log(response.perfil);
+            this.handleLoginSuccess(dados, response.perfil, id);
+            sessionStorage.setItem('id', id);
+        } else {
+            const message = response.message || 'Erro no login';
+            console.warn('Falha no login:', message);
+            this.exibirAlerta(message, 'danger');
+        }
+    } catch (error) {
+        console.error('Erro ao tentar realizar o login:', error);
+        this.exibirAlerta('Erro ao tentar realizar o login. Tente novamente mais tarde.', 'danger');
+    }
 }
 
 
-}
 
+
+// Método separado para tratar sucesso no login
+  private handleLoginSuccess(dados: any, perfil: string, id : number) {
+    this.Alerta(dados.mensagem, 'primary');
+    sessionStorage.setItem('token', dados.token);
+
+    console.log('id', id);
+    this.provider.armazenarUsuario(dados.email);
+    sessionStorage.setItem('sessionId', dados.sessionId);
+    sessionStorage.setItem('perfil', perfil);
+    console.log('sessionId', dados.sessionId);
+    
+    
+    if (perfil === "ADMINISTRADOR") {
+      console.log('Redirecionando para a página do administrador...');
+      this.router.navigate(['tabs']);
+    } else if (perfil === "PROPRIETARIO") {
+      console.log('Redirecionando para a página do proprietário...');
+      this.router.navigate(['tabs/tab3']);
+    }
+  }
+
+
+  // Método para gerar um identificador único
+  generateUniqueId(): string {
+    return 'xxxx-xxxx-xxxx'.replace(/[x]/g, () => {
+      return Math.floor(Math.random() * 9).toString();
+    });
+  }
+}

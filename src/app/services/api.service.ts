@@ -1,161 +1,403 @@
-import { telefoneMask } from './../masks';
-import { map } from 'rxjs/operators';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { CapacitorHttp, HttpResponse } from '@capacitor/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApiService {
+  
+  server: string = 'http://localhost:5000/api/'; // URL do servidor Node.js local
 
-//   server: string = 'http://apisfazenda2-b103529777b5.herokuapp.com/';
-  server : string = 'http://localhost/apisfazenda2.0/'; // Adicione esta linha 
+  constructor(private http: HttpClient)
+   {}
 
-    constructor(private http : HttpClient){
-       
+  async dadosApi(dados: any, api: string) {
+    const options = {
+      url: this.server + api,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify(dados),
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao enviar dados para API', error);
+      throw error;
     }
+  }
 
+  registrarUsuario(cpf: string, nome: string, email: string, senha: string, telefone: string, perfil: string): Observable<any> {
+    const url = `${this.server}user/register`; // URL para a API de registro
+    const body = { cpf, nome, email, senha, telefone, perfil }; // Dados enviados no corpo da requisição
 
-     dadosApi(dados: any, api: string){
-            const httpOptions = {
-                headers: new HttpHeaders({'Content-Type' : 'application/json'})
-                }
+    return this.http.post(url, body); // Realiza a requisição POST
+  }
 
-            let url = this.server + api;
-            return this.http.post(url, JSON.stringify(dados), httpOptions).pipe(map(res => res));
-        }
+  async login(email: string, senha: string) {
+    const options = {
+        url: this.server + 'user/login',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: JSON.stringify({ email, senha }),
+    };
 
-    getTipoDeUsuario(email: any){
-        return this.http.get(this.server + 'gets/getPerfil.php?email=' + email).pipe(map((res: any) => res));
+    try {
+        const response = await CapacitorHttp.request(options);
+        return response.data;
+    } catch (error) {
+        console.error('Erro ao fazer login:', error);
+        throw new Error('Erro na comunicação com o servidor.');
     }
+}
 
-    obterUsuariosDesautenticados() {
-        return this.http.get(this.server + 'gets/getUsuariosNaoAutenticados.php').pipe(map((res: any) => res));
+
+async getTipoDeUsuario(email: any) {
+  const options = {
+      url: this.server + 'user/type?email=' + email,
+      method: 'GET',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+  };
+
+  try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+  } catch (error) {
+      console.error('Erro ao obter o tipo de usuário:', error);
+      throw new Error('Erro ao tentar obter o tipo de usuário.');
+  }
+}
+
+
+  async obterUsuariosDesautenticados() {
+    const options = {
+      url: this.server + 'users/unauthenticated',
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao obter usuários desautenticados', error);
+      throw error;
     }
+  }
 
-    obterBloqueado(email: string){
-        return this.http.get(this.server + 'gets/getBloqueado.php?email=' + email).pipe(map((res: any) => res));
+  async obterBloqueado(email: string) {
+    const options = {
+      url: this.server + 'user/blocked?email=' + email,
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao obter status de bloqueio', error);
+      throw error;
     }
+  }
 
-    obterAutenticado(email: string){
-        return this.http.get(this.server + 'gets/getAutenticado.php?email=' + email).pipe(map((res: any) => res));
+  async obterAutenticado(email: string) {
+    const options = {
+      url: this.server + 'user/authenticated?email=' + email,
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao obter status de autenticação', error);
+      throw error;
     }
+  }
 
-    obterTodosUsuarios() {
-        return this.http.get(this.server + 'gets/getUsuarios.php').pipe(map((res: any) => res));
+  async obterUsuarios() {
+    const options = {
+      url: this.server + 'users',  // URL correta para a rota
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+  
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao obter usuários', error);
+      throw error;
     }
+  }
+  
 
-    obterUsuario(id: number) {
-        return this.http.get(this.server + 'gets/getUsuario.php?id=' + id).pipe(map((res: any) => res));
+  async obterUsuario(id: any) {
+    const options = {
+      url: this.server + 'user?id=' + id, // Ajuste o caminho para corresponder ao backend
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+  
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao obter usuário', error);
+      throw error;
     }
+  }
+  
 
-    obterUsuarioWithEmail(email: any) {
-        return this.http.get(this.server + 'gets/getUsuarioWithEmail.php?email=' + email).pipe(map((res: any) => res));
+  async obterUsuarioWithEmail(email: any) {
+    const options = {
+      url: this.server + 'user/email?email=' + email,
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao obter usuário pelo email', error);
+      throw error;
     }
+  }
 
-      
+  async alterarBloqueio(email: string, bloqueado: number) {
+    const options = {
+      url: this.server + 'user/block',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify({ email: email, bloqueado: bloqueado }),
+    };
 
-    alterarBloqueio(email: string, bloqueado: number) {
-        return this.http.post(this.server + 'updates/updateBloqueio.php', {
-          email: email,
-          bloqueado: bloqueado
-        }).pipe(map((res: any) => res));
-      }
-
-    altenticarUsuario(id: any){
-        return this.http.post(this.server + 'updates/updateAutenticado.php', {
-            id: id
-        }).pipe(map((res: any) => res));
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao alterar bloqueio', error);
+      throw error;
     }
+  }
 
-    deletarUsuario(id: any){
-        return this.http.post(this.server + 'deletes/deleteUsuario.php', {
-            id: id
-        }).pipe(map((res: any) => res));
+  async autenticarUsuario(id: any) {
+    const options = {
+      url: this.server + 'user/authenticate',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify({ id: id }),
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao autenticar usuário', error);
+      throw error;
     }
-      
-    armazernarUsuario(email: any){
-        sessionStorage.setItem('email', email);
+  }
+
+  async deletarUsuario(id: any) {
+    const options = {
+      url: this.server + 'user/delete',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify({ id: id }),
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao deletar usuário', error);
+      throw error;
     }
+  }
 
-    getIdUsuario(email: any) {
-        return this.http.get(this.server + 'gets/getIdUsuario.php?email=' + email).pipe(
-            map((res: any) => {
-                if (res.ok) {
-                    return res.id; // Retorna apenas o ID do usuário
-                } else {
-                    throw new Error(res.message); // Lança um erro se a resposta não for OK
-                }
-            })
-        );
+  async armazenarUsuario(email: any) {
+    sessionStorage.setItem('email', email.toString());
+  }
+
+  getUsuario() {
+    return sessionStorage.getItem('email');
+  }
+
+  async obterFazenda(id: any) {
+    const options = {
+      url: this.server + 'farm?id=' + id,
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao obter fazenda', error);
+      throw error;
     }
-    
+  }
 
-    getUsuario(){
-        return sessionStorage.getItem('email');
+  async addFazenda(nome: any, cep: any, endereco: any, valor: any, id: any) {
+    const options = {
+      url: this.server + 'farm/add',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify({ nome, cep, endereco, valor, id }),
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao adicionar fazenda', error);
+      throw error;
     }
+  }
 
+  async obterFuncionarios(id: any) {
+    const options = {
+      url: this.server + 'employees?id=' + id,
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
 
-    obterFazenda(id: any) {
-        return this.http.get(this.server + 'gets/getFazenda.php?id=' + id).pipe(map((res: any) => res));
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao obter funcionários', error);
+      throw error;
     }
+  }
 
-    addFazenda(nome: any, cep: any, endereco: any ,valor: any, id: any){
-        return this.http.post(this.server + 'inserts/insertFazenda.php', {
-            nome: nome,
-            cep: cep,
-            endereco: endereco,
-            valor: valor,
-            id: id
-        }).pipe(map((res: any) => res));
+  async addFuncionarios(nome: any, cpf: any, email: any, telefone: any, salario: any, senha: any, idFazenda: any, idUsuario: any) {
+    const options = {
+      url: this.server + 'employees/add',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify({ nome, cpf, email, telefone, salario, senha, idFazenda, idUsuario }),
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao adicionar funcionário', error);
+      throw error;
     }
+  }
 
-    obterFuncionarios(id: any) {
-        return this.http.get(this.server + 'gets/getFuncionarios.php?id=' + id).pipe(map((res: any) => res));
+  async editarFuncionarios(idfuncionario: any, nome: any, cpf: any, email: any, telefone: any, salario: any) {
+    const options = {
+      url: this.server + 'employees/update',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify({ idfuncionario, nome, cpf, email, telefone, salario }),
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao editar funcionário', error);
+      throw error;
     }
+  }
 
-    addFuncionarios(nome: any, cpf: any, email: any ,telefone: any, salario: any, senha: any, idFazenda: any,  idUsuario: any){
-        return this.http.post(this.server + 'inserts/insertFuncionarios.php', {
-            nome: nome,
-            cpf: cpf,
-            email: email,
-            telefone: telefone,
-            salario: salario,
-            senha: senha,
-            idFazenda: idFazenda,
-            idUsuario: idUsuario
-        }).pipe(map((res: any) => res));
+  async deletarFuncionarios(id: number) {
+    const options = {
+      url: this.server + 'employees/delete?id=' + id,
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao deletar funcionário', error);
+      throw error;
     }
+  }
 
-    editarFuncionarios(idfuncionario: any, nome: any, cpf: any, email: any,telefone: any, salario: any){
-        return this.http.post(this.server + 'updates/updateFuncionario.php', {
-            idfuncionario: idfuncionario,
-            nome: nome,
-            cpf: cpf,
-            email: email,
-            telefone: telefone,
-            salario: salario,
-        }).pipe(map((res: any) => res));
+  async editarFazenda(nome: any, cep: any, endereco: any, valor: number, id: any) {
+    const options = {
+      url: this.server + 'farm/update',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify({ nome, cep, endereco, valor, id }),
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao editar fazenda', error);
+      throw error;
     }
+  }
 
-    deletarFuncionarios(id: number){
-        return this.http.get(this.server + 'deletes/deleteFuncionario.php?id=' + id).pipe(map((res: any) => res));
+  async deletarFazenda(id: number) {
+    const options = {
+      url: this.server + 'farm/delete?id=' + id,
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao deletar fazenda', error);
+      throw error;
     }
-
-    editarFazenda(nome: any, cep: any, endereco: any, valor: number, id: any){
-        console.log('Dados enviados para a API:', {nome, cep, endereco, valor, id});  // Adicione este log
-        return this.http.post(this.server + 'updates/updateFazenda.php', {
-            nome: nome,
-            cep: cep,
-            endereco: endereco,
-            valor: valor,
-            id: id
-        }).pipe(map((res: any) => res));
-    }
-    
-
-    deletarFazenda(id: number){
-        return this.http.get(this.server + 'deletes/deleteFazenda.php?id=' + id).pipe(map((res: any) => res));
-    }
-
+  }
 }

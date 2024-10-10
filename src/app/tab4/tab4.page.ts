@@ -126,7 +126,7 @@ export class Tab4Page implements OnInit, ViewWillEnter {
     });
     await loading.present();
 
-    this.provider.obterFazenda(this.idUsuario).subscribe(
+    this.provider.obterFazenda(this.idUsuario).then(
       async (data: any) => {
         if (data.ok) {
           this.fazendas = data.ok;
@@ -134,12 +134,11 @@ export class Tab4Page implements OnInit, ViewWillEnter {
           this.fazendas = [];
         }
         await loading.dismiss();
-      },
-      async (error) => {
-        await loading.dismiss();
-        this.mensagem('Erro ao carregar Fazendas', 'danger');
       }
-    );
+    ).catch(async (error) => {
+      await loading.dismiss();
+      this.mensagem('Erro ao carregar Fazendas', 'danger');
+    });
   }
 
   async obterfuncionarios() {
@@ -148,7 +147,7 @@ export class Tab4Page implements OnInit, ViewWillEnter {
     });
     await loading.present();
 
-    this.provider.obterFuncionarios(this.idUsuario).subscribe(
+    this.provider.obterFuncionarios(this.idUsuario).then(
       async (data: any) => {
         if (data.ok) {
           this.funcionarios = data.ok;
@@ -156,12 +155,11 @@ export class Tab4Page implements OnInit, ViewWillEnter {
           this.funcionarios = [];
         }
         await loading.dismiss();
-      },
-      async (error) => {
-        await loading.dismiss();
-        this.mensagem('Erro ao carregar funcionarios', 'danger');
       }
-    );
+    ).catch(async (error) => {
+      await loading.dismiss();
+      this.mensagem('Erro ao carregar funcionarios', 'danger');
+    });
   }
 
   editarfuncionarios(idfuncionario: any, nome: any, cpf: any, telefone: any, salario: any) {
@@ -187,7 +185,7 @@ export class Tab4Page implements OnInit, ViewWillEnter {
             this.email,
             this.telefone,
             this.salario
-        ).subscribe(
+        ).then(
             async (res: any) => {
                 if (res.ok) {
                     this.exibirAlerta('Funcionário atualizado com sucesso', 'success');
@@ -197,12 +195,11 @@ export class Tab4Page implements OnInit, ViewWillEnter {
                     this.exibirAlerta('Erro ao atualizar funcionário', 'danger');
                 }
                 this.setOpen(false); // Fecha o modal
-            },
-            (error) => {
-                console.error('Erro ao editar funcionário:', error);
-                this.mensagem('Erro ao conectar-se ao servidor. Tente novamente!', 'danger');
             }
-        );
+        ).catch((error) => {
+            console.error('Erro ao editar funcionário:', error);
+            this.mensagem('Erro ao conectar-se ao servidor. Tente novamente!', 'danger');
+        });
     } else {
         // Adicionar novo funcionário
         this.adicionarFuncionario();
@@ -222,7 +219,7 @@ async adicionarFuncionario() {
       });
       await loading.present();
 
-      this.provider.addFuncionarios(this.nome, this.cpf, this.email, this.telefone, this.salario ,this.senha, this.idFazenda, this.idUsuario).subscribe(
+      this.provider.addFuncionarios(this.nome, this.cpf, this.email, this.telefone, this.salario ,this.senha, this.idFazenda, this.idUsuario).then(
           async (res: any) => {
               console.log('Resposta da API:', res);
               console.log('idFazenda:', this.idFazenda);
@@ -236,13 +233,12 @@ async adicionarFuncionario() {
                   this.mensagem('Erro ao adicionar funcionário. Tente novamente!', 'danger');
               }
               await loading.dismiss();
-          },
-          async (error) => {
-              console.error('Erro na requisição:', error);
-              this.mensagem('Erro ao conectar-se ao servidor. Tente novamente!', 'danger');
-              await loading.dismiss();
           }
-      );
+      ).catch(async (error) => {
+          console.error('Erro na requisição:', error);
+          this.mensagem('Erro ao conectar-se ao servidor. Tente novamente!', 'danger');
+          await loading.dismiss();
+      });
   }
 }
 
@@ -323,7 +319,7 @@ async adicionarFuncionario() {
   // Função de exclusão
   excluirFuncionario(id: number) {
     console.log('ID do Funcionário: ', id, 'Tipo do ID: ', typeof id);
-    this.provider.deletarFuncionarios(id).subscribe(
+    this.provider.deletarFuncionarios(id).then(
       (res: any) => {
         console.log('Resposta da API:', res);
         if (res.ok) {
@@ -334,12 +330,11 @@ async adicionarFuncionario() {
           console.log('Falha ao excluir a Funcionário:', res.mensagem);
           this.mensagem('Erro ao excluir a Funcionário. Tente novamente!', 'danger');
         }
-      },
-      (error) => {
-        console.error('Erro na requisição:', error);
-        this.mensagem('Erro ao conectar-se ao servidor. Tente novamente!', 'danger');
       }
-    );
+    ).catch((error) => {
+      console.error('Erro na requisição:', error);
+      this.mensagem('Erro ao conectar-se ao servidor. Tente novamente!', 'danger');
+    });
   }
   
 

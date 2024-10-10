@@ -67,7 +67,7 @@ export class TabFazendasPage implements OnInit, ViewWillEnter {
     });
     await loading.present();
 
-    this.provider.obterFazenda(this.id).subscribe(
+    this.provider.obterFazenda(this.id).then(
       async (data: any) => {
         if (data.ok) {
           this.fazendas = data.ok;
@@ -75,12 +75,11 @@ export class TabFazendasPage implements OnInit, ViewWillEnter {
           this.fazendas = [];
         }
         await loading.dismiss();
-      },
-      async (error) => {
-        await loading.dismiss();
-        this.mensagem('Erro ao carregar Fazendas', 'danger');
       }
-    );
+    ).catch(async (error) => {
+      await loading.dismiss();
+      this.mensagem('Erro ao carregar Fazendas', 'danger');
+    });
   }
 
   editarFazenda(nome: any, cep: any, endereco: any, valor: number, idFazenda: number) {
@@ -100,7 +99,7 @@ export class TabFazendasPage implements OnInit, ViewWillEnter {
     if (this.idFazenda) {
       console.log('Editando fazenda:', this.fazendas);
       // Editar fazenda existente
-      this.provider.editarFazenda(this.nome, this.cep, this.endereco, this.valor, this.idFazenda).subscribe(
+      this.provider.editarFazenda(this.nome, this.cep, this.endereco, this.valor, this.idFazenda).then(
         async (res: any) => {
           if (res.ok) {
             this.exibirAlerta('Fazenda atualizada com sucesso', 'success');
@@ -110,12 +109,11 @@ export class TabFazendasPage implements OnInit, ViewWillEnter {
             this.exibirAlerta('Erro ao atualizar fazenda', 'danger');
           }
           this.setOpen(false); // Fecha o modal
-        },
-        (error) => {
-          console.error('Erro ao editar fazenda:', error);
-          this.mensagem('Erro ao conectar-se ao servidor. Tente novamente!', 'danger');
         }
-      );
+      ).catch((error) => {
+        console.error('Erro ao editar fazenda:', error);
+        this.mensagem('Erro ao conectar-se ao servidor. Tente novamente!', 'danger');
+      });
     } else {
       // Adicionar nova fazenda
       this.adicionarFazenda();
@@ -131,7 +129,7 @@ export class TabFazendasPage implements OnInit, ViewWillEnter {
       });
       await loading.present();
 
-      this.provider.addFazenda(this.nome, this.cep, this.endereco, this.valor, this.id).subscribe(
+      this.provider.addFazenda(this.nome, this.cep, this.endereco, this.valor, this.id).then(
         async (res: any) => {
           if (res.ok) {
             this.exibirAlerta('Fazenda adicionada com sucesso', 'success');
@@ -141,13 +139,12 @@ export class TabFazendasPage implements OnInit, ViewWillEnter {
             this.mensagem('Erro ao adicionar fazenda. Tente novamente!', 'danger');
           }
           await loading.dismiss();
-        },
-        async (error) => {
-          await loading.dismiss();
-          console.error('Erro na requisição:', error);
-          this.mensagem('Erro ao conectar-se ao servidor. Tente novamente!', 'danger');
         }
-      );
+      ).catch(async (error) => {
+        await loading.dismiss();
+        console.error('Erro na requisição:', error);
+        this.mensagem('Erro ao conectar-se ao servidor. Tente novamente!', 'danger');
+      });
     }
   }
 
@@ -221,7 +218,7 @@ export class TabFazendasPage implements OnInit, ViewWillEnter {
   // Função de exclusão
   excluirfazenda(id: number) {
     console.log('ID da Fazenda: ', id, 'Tipo do ID: ', typeof id);
-    this.provider.deletarFazenda(id).subscribe(
+    this.provider.deletarFazenda(id).then(
       (res: any) => {
         if (res.ok) {
           console.log('Fazenda excluída com sucesso:', id);
@@ -231,12 +228,11 @@ export class TabFazendasPage implements OnInit, ViewWillEnter {
           console.log('Falha ao excluir a Fazenda:', res.mensagem);
           this.mensagem('Erro ao excluir a Fazenda. Tente novamente!', 'danger');
         }
-      },
-      (error) => {
-        console.error('Erro na requisição:', error);
-        this.mensagem('Erro ao conectar-se ao servidor. Tente novamente!', 'danger');
       }
-    );
+    ).catch((error) => {
+      console.error('Erro na requisição:', error);
+      this.mensagem('Erro ao conectar-se ao servidor. Tente novamente!', 'danger');
+    });
   }
   
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { ApiService } from '../services/api.service'; // Importe seu serviço de API
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -22,7 +22,12 @@ export class RedirectGuardGuard implements CanActivate {
     }
 
     // Obtém o perfil do usuário através do serviço de autenticação
-    return this.apiService.getTipoDeUsuario(email).pipe(
+    const perfil = sessionStorage.getItem('perfil');
+    if (!perfil) {
+      // Handle the case where perfil is null
+      return new Observable((observer) => observer.next(false));
+    }
+    return from([perfil]).pipe(
       map((res: any) => {
         if (res.perfil === 'ADMINISTRADOR') {
           this.router.navigate(['/tabs/tab1']); // Redireciona para tab1

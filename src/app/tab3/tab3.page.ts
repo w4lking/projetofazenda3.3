@@ -33,31 +33,35 @@ export class Tab3Page implements OnInit, ViewWillEnter {
     this.obterUsuario();
   }
   
+
   async obterUsuario() {
     const loading = await this.loadingController.create({
       message: 'Carregando usuario...',
     });
     await loading.present();
     const email = sessionStorage.getItem('email');
-
-    if (email) {
-      this.provider.obterUsuarioWithEmail(email).subscribe(
-      async (data: any) => {
-        if (data.ok) {
-          this.usuarios = data.usuarios[0]; // Supondo que o array tenha apenas um usuário
-          this.nome = this.usuarios.nome;
-        } else {
-          this.mensagem('Nenhum usuário encontrado', 'warning');
-        }
-        await loading.dismiss();
-      },
-      async (error) => {
-        await loading.dismiss();
-        this.mensagem('Erro ao carregar autenticação', 'danger');
-      }
-    );
+    const id = sessionStorage.getItem('id');
+  
+    if (id) {
+      this.provider.obterUsuario(id).then(
+        async (data: any) => {
+          // Verifica se o status da resposta é 'success'
+          if (data.status === 'success') {
+            this.usuarios = data.usuario; // Acessa os dados do usuário corretamente
+            this.nome = this.usuarios.nome;
+            this.email = this.usuarios.email;
+            this.telefone = this.usuarios.telefone;
+          } else {
+            this.mensagem('Nenhum usuário encontrado', 'warning');
+          }
+          await loading.dismiss();
+        }).catch(async (error) => {
+          await loading.dismiss();
+          this.mensagem('Erro ao carregar autenticação', 'danger');
+        });
+    }
   }
-}
+  
 
   fecharMenu() {
     this.menu.close();
