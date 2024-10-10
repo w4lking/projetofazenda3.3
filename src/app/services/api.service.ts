@@ -269,26 +269,48 @@ async getTipoDeUsuario(email: any) {
       console.error('Erro ao obter fazenda', error);
       throw error;
     }
-  }
+}
+
 
   async addFazenda(nome: any, cep: any, endereco: any, valor: any, id: any) {
     const options = {
-      url: this.server + 'farm/add',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      data: JSON.stringify({ nome, cep, endereco, valor, id }),
+        url: this.server + 'farm/add',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: JSON.stringify({ nome, cep, endereco, valor, id }), // Certifique-se de que os dados estão sendo convertidos em JSON
+    };
+
+    try {
+        const response = await CapacitorHttp.request(options);
+        return response.data; // Verifique se a resposta tem a estrutura correta
+    } catch (error) {
+        console.error('Erro ao adicionar ela no banco', error);
+        throw error; // Joga o erro para ser tratado no front-end
+    }
+  }
+
+  async deletarFazenda(idfazendas: number) {
+    console.log('ID da Fazenda:', idfazendas); // Verifique se o ID está correto
+    const options = {
+        url: this.server + 'delete?idfazendas=' + idfazendas,
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            
+        },
     };
 
     try {
       const response = await CapacitorHttp.request(options);
       return response.data;
     } catch (error) {
-      console.error('Erro ao adicionar fazenda', error);
+      console.error('Erro ao deletar fazenda', error);
       throw error;
     }
   }
+
 
   async obterFuncionarios(id: any) {
     const options = {
@@ -383,21 +405,5 @@ async getTipoDeUsuario(email: any) {
     }
   }
 
-  async deletarFazenda(id: number) {
-    const options = {
-      url: this.server + 'farm/delete?id=' + id,
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
 
-    try {
-      const response = await CapacitorHttp.request(options);
-      return response.data;
-    } catch (error) {
-      console.error('Erro ao deletar fazenda', error);
-      throw error;
-    }
-  }
 }
