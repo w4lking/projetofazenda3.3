@@ -26,7 +26,7 @@ export class SignUpPage implements OnInit {
   email: string = "";
   senha: string = "";
   confirmarSenha: string = "";
-  perfil: string = "ADMINISTRADOR";
+  perfil: string = "PROPRIETARIO";
 
   constructor(
     private router: Router,
