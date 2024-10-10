@@ -330,24 +330,34 @@ async getTipoDeUsuario(email: any) {
     }
   }
 
-  async addFuncionarios(nome: any, cpf: any, email: any, telefone: any, salario: any, senha: any, idFazenda: any, idUsuario: any) {
+  async addFuncionarios(nome: any, cpf: any, email: any, telefone: any, salario: any, senha: any, idFazenda: number, idUsuario: number) {
     const options = {
-      url: this.server + 'employees/add',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      data: JSON.stringify({ nome, cpf, email, telefone, salario, senha, idFazenda, idUsuario }),
+        url: this.server + 'employees/add',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: JSON.stringify({ 
+            nome, 
+            cpf, 
+            email, 
+            telefone, 
+            salario, 
+            senha, 
+            idfazendas: idFazenda,  // Alterado para corresponder ao back-end
+            idusuario: idUsuario     // Alterado para corresponder ao back-end
+        }),
     };
 
     try {
-      const response = await CapacitorHttp.request(options);
-      return response.data;
+        const response = await CapacitorHttp.request(options);
+        return response.data;
     } catch (error) {
-      console.error('Erro ao adicionar funcionário', error);
-      throw error;
+        console.error('Erro ao adicionar funcionário', error);
+        throw error;
     }
-  }
+}
+
 
   async editarFuncionarios(idfuncionario: any, nome: any, cpf: any, email: any, telefone: any, salario: any) {
     const options = {

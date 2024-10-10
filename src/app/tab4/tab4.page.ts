@@ -41,9 +41,9 @@ export class Tab4Page implements OnInit, ViewWillEnter {
 
  
 
-  funcionarios: any = [];
-  fazendas: any = [];
-  idUsuario = sessionStorage.getItem('id');
+  funcionarios: any[] = [];
+  fazendas: any[] = [];
+  idUsuario = Number(sessionStorage.getItem('id'));
   nome: string = "";
   cpf : string = "";
   email: string = "";
@@ -52,8 +52,8 @@ export class Tab4Page implements OnInit, ViewWillEnter {
   perfil = "FUNCIONARIO";
   salario = maskitoTransform('R$ 0,00', salarioMask);
 
-  idfuncionario: number | null = null;  // Armazena o id do funcionario para edição
-  idFazenda: number | null = null;  // Armazena o id da fazenda para edição
+  idfuncionario: any;  // Armazena o id do funcionario para edição
+  idFazenda: any // Armazena o id da fazenda para edição
 
   constructor(
     private provider: ApiService,
@@ -96,11 +96,11 @@ export class Tab4Page implements OnInit, ViewWillEnter {
     this.telefone = '';
     this.senha = '';
     this.salario = maskitoTransform('R$ 0,00', salarioMask);
-    this.idFazenda = null;
+    this.idFazenda;
     this.setOpen(true);
   }
 
-  abrirModalEditar(funcionario: { idfuncionarios: number | null; nome: string; cpf: string; email: string; telefone: string; salario: number; fazendas_idfazenda: number | null; }) {
+  abrirModalEditar(funcionario: { idfuncionarios: number; nome: string; cpf: string; email: string; telefone: string; salario: number; fazendas_idfazenda: number}) {
     this.editando = true;
     this.idfuncionario = funcionario.idfuncionarios;
     this.nome = funcionario.nome;
@@ -126,19 +126,17 @@ export class Tab4Page implements OnInit, ViewWillEnter {
     });
     await loading.present();
 
-    this.provider.obterFazenda(this.idUsuario).then(
-      async (data: any) => {
-        if (data.ok) {
-          this.fazendas = data.ok;
-        } else {
-          this.fazendas = [];
-        }
-        await loading.dismiss();
-      }
-    ).catch(async (error) => {
+    this.provider.obterFazenda(this.idUsuario).then(async (data: any) => {
       await loading.dismiss();
-      this.mensagem('Erro ao carregar Fazendas', 'danger');
-    });
+      if (data.status === 'success' && data.fazendas.length > 0) { // Verifica o status e se há fazendas
+          this.fazendas = data.fazendas; // Atribui os dados retornados diretamente
+      } else {
+          this.mensagem('Nenhuma fazenda encontrada', 'danger');
+      }
+    }).catch(async (error) => {
+      await loading.dismiss();
+      this.mensagem('Erro ao carregar fazendas', 'danger');
+  });
   }
 
   async obterfuncionarios() {
@@ -149,8 +147,8 @@ export class Tab4Page implements OnInit, ViewWillEnter {
 
     this.provider.obterFuncionarios(this.idUsuario).then(
       async (data: any) => {
-        if (data.ok) {
-          this.funcionarios = data.ok;
+        if (data.status === 'success' && data.funcionarios.length > 0) {
+          this.funcionarios = data.funcionarios;
         } else {
           this.funcionarios = [];
         }
@@ -210,7 +208,8 @@ export class Tab4Page implements OnInit, ViewWillEnter {
 
 async adicionarFuncionario() {
   console.log('Dados enviados:', this.nome, this.cpf, this.email, this.telefone, this.salario, this.senha, this.idFazenda, this.idUsuario);
-  
+  console.log('Tipo do idFazenda:', typeof this.idFazenda);
+  console.log('Tipo do idUsuario:', typeof this.idUsuario);
   if (this.nome === '' || this.cpf === '' || this.email === '') {
       this.presentToast();
   } else {
@@ -219,26 +218,30 @@ async adicionarFuncionario() {
       });
       await loading.present();
 
-      this.provider.addFuncionarios(this.nome, this.cpf, this.email, this.telefone, this.salario ,this.senha, this.idFazenda, this.idUsuario).then(
-          async (res: any) => {
-              console.log('Resposta da API:', res);
-              console.log('idFazenda:', this.idFazenda);
-              console.log('idUsuario:', this.idUsuario);
-
-              if (res.ok) {
-                  this.exibirAlerta('Funcionário adicionado com sucesso', 'success');
-                  this.limpar();
-                  this.obterfuncionarios();  // Atualiza a lista
-              } else {
-                  this.mensagem('Erro ao adicionar funcionário. Tente novamente!', 'danger');
-              }
-              await loading.dismiss();
-          }
-      ).catch(async (error) => {
-          console.error('Erro na requisição:', error);
-          this.mensagem('Erro ao conectar-se ao servidor. Tente novamente!', 'danger');
-          await loading.dismiss();
-      });
+      this.provider.addFuncionarios(
+        this.nome, 
+        this.cpf, 
+        this.email, 
+        this.telefone, 
+        this.salario, 
+        this.senha, 
+        this.idFazenda, 
+        Number(this.idUsuario)  // Aqui garantir que idUsuario é um número
+      ).then(async (res: any) => {
+            await loading.dismiss();
+            if (res.status === 'success') {
+                this.exibirAlerta('Funcionario adicionado com sucesso!', 'success');
+                this.limpar();
+                this.obterfuncionarios(); // Atualiza a lista
+            } else {
+                this.mensagem('Erro ao adicionar funcionario. Tente novamente!', 'danger');
+            }
+        }
+    ).catch(async (error) => {
+        await loading.dismiss();
+        console.error('Erro na requisição ao adicionar funcionario:', error);
+        this.mensagem('Erro ao conectar-se ao servidor. Tente novamente!', 'danger');
+    });
   }
 }
 
@@ -260,8 +263,8 @@ async adicionarFuncionario() {
     this.telefone = '';
     this.senha = '';
     this.salario = maskitoTransform('R$ 0,00', salarioMask);
-    this.idfuncionario = null;
-    this.idFazenda = null;
+    this.idfuncionario;
+    this.idFazenda;
 }
 
 
