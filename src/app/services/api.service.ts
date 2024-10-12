@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class ApiService {
   
-  server: string = 'https://api-node-fazenda-08afd65c1866.herokuapp.com/api/'; // URL do servidor Node.js local
+  server: string = 'https://jsonserver-jet.vercel.app/api/'; // URL do servidor Node.js local
 
   constructor(private http: HttpClient)
    {}
