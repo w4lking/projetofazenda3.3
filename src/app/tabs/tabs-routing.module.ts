@@ -6,7 +6,7 @@ const routes: Routes = [
   {
     path: '',
     component: TabsPage,
-    // canActivate: [RedirectGuardGuard], // Aplica o guard para esta rota
+    canActivate: [RedirectGuardGuard], // Aplica o guard para esta rota
     children: [
       {
         path: 'tab1',

@@ -10,6 +10,8 @@ export class ApiService {
   
   server: string = 'https://jsonserver-jet.vercel.app/api/'; // URL do servidor Node.js local
 
+  // server : string = 'http://localhost:5000/api/'; // URL do servidor Node.js local para testes
+
   constructor(private http: HttpClient)
    {}
 
@@ -188,14 +190,14 @@ async getTipoDeUsuario(email: any) {
     }
   }
 
-  async alterarBloqueio(email: string, bloqueado: number) {
+  async alterarBloqueio(id: any, bloqueado: number) {
     const options = {
       url: this.server + 'user/block',
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      data: JSON.stringify({ email: email, bloqueado: bloqueado }),
+      data: JSON.stringify({ id: id, bloqueado: bloqueado }),
     };
 
     try {

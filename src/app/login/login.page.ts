@@ -135,8 +135,11 @@ export class LoginPage implements OnInit {
         if (response && response.ok) {
             console.log('Login realizado com sucesso!');
             console.log(response.perfil);
+
             this.handleLoginSuccess(dados, response.perfil, id);
             sessionStorage.setItem('id', id);
+            sessionStorage.setItem('token', response.token);
+            console.log('token:', response.token);
         } else {
             const message = response.message || 'Erro no login';
             console.warn('Falha no login:', message);
@@ -154,9 +157,6 @@ export class LoginPage implements OnInit {
 // Método separado para tratar sucesso no login
   private handleLoginSuccess(dados: any, perfil: string, id : number) {
     this.Alerta(dados.mensagem, 'primary');
-    sessionStorage.setItem('token', dados.token);
-
-    console.log('id', id);
     this.provider.armazenarUsuario(dados.email);
     sessionStorage.setItem('sessionId', dados.sessionId);
     sessionStorage.setItem('perfil', perfil);

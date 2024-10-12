@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../services/api.service';
-import { ToastController, LoadingController } from '@ionic/angular';
+import { ToastController, LoadingController, AlertController } from '@ionic/angular';
 import { ViewWillEnter } from '@ionic/angular';
 
 @Component({
@@ -18,7 +18,8 @@ export class Tab1Page implements OnInit, ViewWillEnter {
     private provider: ApiService,
     private actRouter: ActivatedRoute,
     public toastController: ToastController,
-    public loadingController: LoadingController
+    public loadingController: LoadingController,
+    public alertController: AlertController
   ) {}
 
   ngOnInit() {
@@ -38,11 +39,11 @@ export class Tab1Page implements OnInit, ViewWillEnter {
         if (data.length > 0) {  // Aqui verificamos se existem usuários retornados
             this.itens = data; // Atribuímos os dados retornados diretamente
         } else {
-            this.mensagem('Nenhuma solicitação de usuário encontrada', 'warning');
+            this.Alerta('Nenhuma solicitação de usuário encontrada', 'warning');
         }
     }).catch(async (error) => {
         await loading.dismiss();
-        this.mensagem('Erro ao carregar solicitações de autenticação', 'danger');
+        this.Alerta('Erro ao carregar solicitações de autenticação', 'danger');
     });
 }
 
@@ -57,7 +58,8 @@ export class Tab1Page implements OnInit, ViewWillEnter {
     this.provider.autenticarUsuario(usuario.idusuarios).then(
       async (res: any) => {
         await loading.dismiss();
-        if (res.ok) {
+        console.log('Resposta da API:', res);  // Verificar a resposta completa aqui
+        if (res.status == 'success') {
           console.log('Usuário autenticado com sucesso:', usuario);
           this.mensagem('Usuário autenticado com sucesso!', 'success');
           this.atualizarListaUsuarios();  // Atualizar a lista de usuários após sucesso
@@ -70,7 +72,7 @@ export class Tab1Page implements OnInit, ViewWillEnter {
       await loading.dismiss();
       console.log('Erro ao autenticar usuário:', error);
       this.mensagem('Erro ao autenticar usuário', 'danger');
-    });
+    });    
   }
 
   atualizarListaUsuarios() {
@@ -105,5 +107,17 @@ export class Tab1Page implements OnInit, ViewWillEnter {
       color: cor
     });
     toast.present();
+  }
+
+  async Alerta(mensagem: string, cor: string) {
+    const alert = await this.alertController.create({
+      header: cor === 'warning' ? 'Sucesso' : 'Erro',
+      message: mensagem,
+    });
+    await alert.present();
+
+    setTimeout(() => {
+      alert.dismiss();
+    }, 1200);
   }
 }

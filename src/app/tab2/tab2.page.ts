@@ -62,9 +62,9 @@ export class Tab2Page implements OnInit, ViewWillEnter  {
     usuario.bloqueado = usuario.bloqueado == 1 ? 0 : 1; // Alterna o bloqueio
   
     // Envia a requisição para o backend para alterar o status no banco de dados
-    this.provider.alterarBloqueio(usuario.email, usuario.bloqueado).then(
+    this.provider.alterarBloqueio(usuario.idusuarios, usuario.bloqueado).then(
       (res: any) => {
-        if (res.ok) {
+        if (res.status === 'success' || res.ok === true) {
           console.log('Status de bloqueio alterado com sucesso no banco de dados:', usuario);
           this.mensagem('Bloqueio atualizado com sucesso!', 'success');
         } else {
