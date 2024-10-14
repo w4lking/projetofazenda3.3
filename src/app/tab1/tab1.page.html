@@ -44,15 +44,15 @@
 
       <ion-buttons slot="end">
         <!-- Botão de Edição -->
-        <ion-button (click)="aceitarUsuario(item)">
+        <ion-button (click)="confirmarUsuario(item)">
           <ion-icon slot="icon-only" name="checkmark" color="success"></ion-icon>
         </ion-button>
 
 
         <!-- Botão de Exclusão -->
-        <!-- <ion-button color="danger" (click)="rejeitarUsuario(item)" >
-          <ion-icon slot="icon-only" name="trash-outline" color="danger"></ion-icon>
-        </ion-button> -->
+        <ion-button color="danger" (click)="confirmarExclusaoUsuario(item)" >
+          <ion-icon slot="icon-only" name="close-outline" color="danger"></ion-icon>
+        </ion-button>
       </ion-buttons>
     </ion-item>
   </ion-list>

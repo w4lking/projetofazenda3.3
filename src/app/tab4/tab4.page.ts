@@ -131,7 +131,7 @@ export class Tab4Page implements OnInit, ViewWillEnter {
       if (data.status === 'success' && data.fazendas.length > 0) { // Verifica o status e se há fazendas
           this.fazendas = data.fazendas; // Atribui os dados retornados diretamente
       } else {
-          this.mensagem('Nenhuma fazenda encontrada', 'danger');
+          this.fazendas = [];
       }
     }).catch(async (error) => {
       await loading.dismiss();

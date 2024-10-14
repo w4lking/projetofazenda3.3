@@ -114,7 +114,7 @@ export class Tab2Page implements OnInit, ViewWillEnter  {
     console.log('Excluir usuário:', id); // Aqui você deve ver o ID sendo exibido no console
     this.provider.deletarUsuario(id).then(
       (res: any) => {
-        if (res.ok) {
+        if (res.status === 'success' || res.ok === true) {
           console.log('Usuário excluído com sucesso:', id);
           this.mensagem('Usuário excluído com sucesso!', 'success');
           this.obterUsuarios(); // Atualiza a lista de usuários

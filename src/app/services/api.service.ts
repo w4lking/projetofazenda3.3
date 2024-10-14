@@ -228,14 +228,13 @@ async getTipoDeUsuario(email: any) {
     }
   }
 
-  async deletarUsuario(id: any) {
+  async deletarUsuario(id: number) {
     const options = {
-      url: this.server + 'user/delete',
-      method: 'POST',
+      url: this.server + 'user/delete?id=' + id,
+      method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
       },
-      data: JSON.stringify({ id: id }),
     };
 
     try {

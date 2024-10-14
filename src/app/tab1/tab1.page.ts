@@ -48,6 +48,7 @@ export class Tab1Page implements OnInit, ViewWillEnter {
 }
 
 
+
   async aceitarUsuario(usuario: any) {
     const loading = await this.loadingController.create({
       message: 'Autenticando usuário...',
@@ -86,10 +87,82 @@ export class Tab1Page implements OnInit, ViewWillEnter {
     });
   }
 
-  rejeitarUsuario(usuario: any) {
+
+  async confirmarUsuario(usuario: any) {
+  
+    const alert = await this.alertController.create({
+      header: 'Confirmação de Usuário',
+      message: 'Tem certeza que deseja aceitar este usuário?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            console.log('confirmação cancelada');
+          }
+        },
+        {
+          text: 'Aceitar',
+          handler: () => {
+            this.aceitarUsuario(usuario.idusuarios); // Chama a função de exclusão se o usuário confirmar
+          }
+        }
+      ]
+    });
+  
+    await alert.present();
+  }
+
+
+  async confirmarExclusaoUsuario(usuario: any) {
+  
+    const alert = await this.alertController.create({
+      header: 'Confirmação de rejeição',
+      message: 'Tem certeza que deseja rejeitar este usuário?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            console.log('rejeição cancelada');
+          }
+        },
+        {
+          text: 'Excluir',
+          handler: () => {
+            this.rejeitarUsuario(usuario); // Chama a função de exclusão se o usuário confirmar
+          }
+        }
+      ]
+    });
+  
+    await alert.present();
+  }
+
+  async rejeitarUsuario(usuario: any) {
+    const loading = await this.loadingController.create({
+      message: 'Rejeitando usuário...',
+    });
+    await loading.present();
     console.log('Rejeitar usuário:', usuario);
-    // Lógica para rejeitar o usuário
-    // Por exemplo, você pode chamar um método de API aqui para rejeitar
+    this.provider.deletarUsuario(usuario.idusuarios).then(
+      async (res: any) => {
+        await loading.dismiss();
+        console.log('Resposta da API:', res);  // Verificar a resposta completa aqui
+        if (res.status == 'success' || res.ok === true) {
+          console.log('Usuário rejeitado com sucesso:', usuario);
+          this.mensagem('Usuário rejeitado com sucesso!', 'success');
+          this.atualizarListaUsuarios();  // Atualizar a lista de usuários após sucesso
+        } else {
+          console.log('Falha ao autenticar usuário:', res.mensagem);
+          this.mensagem('Falha ao autenticar usuário', 'danger');
+        }
+      }
+    ).catch(async (error) => {
+      await loading.dismiss();
+      console.log('Erro ao autenticar usuário:', error);
+      this.mensagem('Erro ao autenticar usuário', 'danger');
+    });    
   }
   
   sair() {

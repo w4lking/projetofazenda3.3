@@ -70,7 +70,7 @@ export class TabFazendasPage implements OnInit, ViewWillEnter {
       if (data.status === 'success' && data.fazendas.length > 0) { // Verifica o status e se há fazendas
           this.fazendas = data.fazendas; // Atribui os dados retornados diretamente
       } else {
-          this.mensagem('Nenhuma fazenda encontrada', 'danger');
+        this.fazendas = [];
       }
     }).catch(async (error) => {
       await loading.dismiss();
@@ -131,7 +131,7 @@ export class TabFazendasPage implements OnInit, ViewWillEnter {
     this.provider.addFazenda(this.nome, this.cep, this.endereco, this.valor, this.id).then(
         async (res: any) => {
             await loading.dismiss();
-            if (res.status === 'success') {
+            if (res.status === 'success' || res.ok) {
                 this.exibirAlerta('Fazenda adicionada com sucesso!', 'success');
                 this.limpar();
                 this.obterFazendas(); // Atualiza a lista
@@ -191,7 +191,7 @@ export class TabFazendasPage implements OnInit, ViewWillEnter {
   
     const alert = await this.alertController.create({
       header: 'Confirmação de exclusão',
-      message: 'Tem certeza que deseja excluir esta fazenda?',
+      message: 'Tem certeza que deseja excluir esta fazenda? Todos os dados serão perdidos. Inclusive funcionários e insumos relacionados a ela.',
       buttons: [
         {
           text: 'Cancelar',
