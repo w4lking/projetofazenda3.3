@@ -382,7 +382,7 @@ async getTipoDeUsuario(email: any) {
   async deletarFuncionarios(id: number) {
     const options = {
       url: this.server + 'employees/delete?id=' + id,
-      method: 'GET',
+      method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
       },

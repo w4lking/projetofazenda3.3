@@ -325,7 +325,7 @@ async adicionarFuncionario() {
     this.provider.deletarFuncionarios(id).then(
       (res: any) => {
         console.log('Resposta da API:', res);
-        if (res.ok) {
+        if (res.status === 'success') {
           console.log('Funcionário excluída com sucesso:', id);
           this.exibirAlerta(res.mensagem, 'primary');
           this.obterfuncionarios(); // Atualiza a lista de funcionarios
