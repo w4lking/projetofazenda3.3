@@ -104,7 +104,7 @@ export class Tab1Page implements OnInit, ViewWillEnter {
         {
           text: 'Aceitar',
           handler: () => {
-            this.aceitarUsuario(usuario.idusuarios); // Chama a função de exclusão se o usuário confirmar
+            this.aceitarUsuario(usuario); // Chama a função de exclusão se o usuário confirmar
           }
         }
       ]
