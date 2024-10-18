@@ -138,8 +138,8 @@ export class Tab4Page implements OnInit, ViewWillEnter {
           this.fazendas = [];
       }
     }).catch(async (error) => {
-      await loading.dismiss();
-      this.mensagem('Erro ao carregar fazendas', 'danger');
+      // await loading.dismiss();
+      // this.mensagem('Erro ao carregar fazendas', 'danger');
   });
   }
 
@@ -159,8 +159,8 @@ export class Tab4Page implements OnInit, ViewWillEnter {
         await loading.dismiss();
       }
     ).catch(async (error) => {
-      await loading.dismiss();
-      this.mensagem('Erro ao carregar funcionarios', 'danger');
+      // await loading.dismiss();
+      // this.mensagem('Erro ao carregar funcionarios', 'danger');
     });
   }
 
