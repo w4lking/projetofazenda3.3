@@ -53,7 +53,7 @@ export class Tab4Page implements OnInit, ViewWillEnter {
   salario = maskitoTransform('R$ 0,00', salarioMask);
 
   idfuncionario: any;  // Armazena o id do funcionario para edição
-  idFazenda: any // Armazena o id da fazenda para edição
+  idFazenda: any; // Armazena o id da fazenda para edição
 
   constructor(
     private provider: ApiService,
@@ -100,7 +100,7 @@ export class Tab4Page implements OnInit, ViewWillEnter {
     this.setOpen(true);
   }
 
-  abrirModalEditar(funcionario: { idfuncionarios: number; nome: string; cpf: string; email: string; telefone: string; salario: number; fazendas_idfazenda: number}) {
+  abrirModalEditar(funcionario: { idfuncionarios: number; nome: string; cpf: string; email: string; telefone: string; salario: number; fazendas_idfazenda: number }) {
     this.editando = true;
     this.idfuncionario = funcionario.idfuncionarios;
     this.nome = funcionario.nome;
@@ -109,8 +109,12 @@ export class Tab4Page implements OnInit, ViewWillEnter {
     this.telefone = funcionario.telefone;
     this.salario = funcionario.salario.toString();
     this.idFazenda = funcionario.fazendas_idfazenda;
+    
+    console.log('idFazenda ao editar:', this.idFazenda); // Verifique se o valor é correto aqui
+    
     this.setOpen(true);
   }
+  
 
   getNomeFazenda(idFazenda: number | null): string {
     const fazenda = this.fazendas.find((f: { idfazendas: number | null }) => f.idfazendas == idFazenda); // Usando "==" para comparar diferentes tipos
@@ -160,50 +164,52 @@ export class Tab4Page implements OnInit, ViewWillEnter {
     });
   }
 
-  editarfuncionarios(idfuncionario: any, nome: any, cpf: any, telefone: any, salario: any) {
+  editarfuncionarios(idfuncionario: any, nome: any, email: any, cpf: any, telefone: any, salario: any, idfazendas: any) {
     this.idfuncionario = idfuncionario;
     this.nome = nome;
+    this.email = email;
     this.cpf = cpf;
     this.telefone = telefone;
     this.salario = salario;
+    this.idFazenda = idfazendas;  // Certifique-se de que o nome está correto
   
     this.setOpen(true);  // Abre o modal para edição
   }
-  
 
+  
   async salvarFuncionario() {
-    console.log(this.idFazenda);
     if (this.editando) {
-        console.log('Editando funcionário:', this.funcionarios);
-        // Editar funcionário existente
-        this.provider.editarFuncionarios(
-            this.idfuncionario,
-            this.nome,
-            this.cpf,
-            this.email,
-            this.telefone,
-            this.salario
-        ).then(
-            async (res: any) => {
-                if (res.ok) {
-                    this.exibirAlerta('Funcionário atualizado com sucesso', 'success');
-                    this.limpar();
-                    this.obterfuncionarios();  // Atualiza a lista
-                } else {
-                    this.exibirAlerta('Erro ao atualizar funcionário', 'danger');
-                }
-                this.setOpen(false); // Fecha o modal
-            }
-        ).catch((error) => {
-            console.error('Erro ao editar funcionário:', error);
-            this.mensagem('Erro ao conectar-se ao servidor. Tente novamente!', 'danger');
-        });
+      console.log('idFazenda ao salvar (edição):', this.idFazenda); // Adicione um log aqui
+  
+      this.provider.editarFuncionarios(
+        this.idfuncionario,
+        this.nome,
+        this.cpf,
+        this.email,
+        this.telefone,
+        this.salario,
+        this.idFazenda // Certifique-se de que está correto
+      ).then(async (res: any) => {
+        if (res.status === 'success') {
+          this.exibirAlerta('Funcionário atualizado com sucesso', 'success');
+          this.limpar();
+          this.obterfuncionarios();
+        } else {
+          this.exibirAlerta('Erro ao atualizar funcionário', 'danger');
+        }
+        this.setOpen(false);
+      }).catch((error) => {
+        console.error('Erro ao editar funcionário:', error);
+        this.mensagem('Erro ao conectar-se ao servidor. Tente novamente!', 'danger');
+      });
     } else {
-        // Adicionar novo funcionário
-        this.adicionarFuncionario();
+      console.log('idFazenda ao salvar (novo):', this.idFazenda); // Verifique o valor aqui ao adicionar novo
+  
+      this.adicionarFuncionario();
     }
-    this.setOpen(false); // Fecha o modal
-}
+  }
+  
+  
 
 
 async adicionarFuncionario() {

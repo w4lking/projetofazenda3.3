@@ -58,8 +58,8 @@
           <ion-input [(ngModel)]="senha" type="password"></ion-input>
         </ion-item>
 
-        <!-- Select de Fazenda aparece apenas ao adicionar -->
-        <ion-item *ngIf="!editando">
+        <!-- Select de Fazenda deve aparecer tanto ao adicionar quanto ao editar -->
+        <ion-item>
           <ion-label position="floating">Fazenda</ion-label>
           <ion-select [(ngModel)]="idFazenda">
             <ion-select-option *ngFor="let fazenda of fazendas" [value]="fazenda.idfazendas">
@@ -84,13 +84,13 @@
         <p><strong>Salário:</strong> R$ {{ funcionario.salario | currency }}</p>
         <p><strong>Fazenda:</strong> {{ getNomeFazenda(funcionario.fazendas_idfazendas) }}</p>
       </ion-label>
-  
+
       <ion-buttons slot="end">
         <!-- Botão de Edição -->
         <ion-button (click)="abrirModalEditar(funcionario)">
           <ion-icon slot="icon-only" name="create-outline"></ion-icon>
         </ion-button>
-  
+
         <!-- Botão de Exclusão -->
         <ion-button color="danger" (click)="confirmarExclusaofuncionario(funcionario.idfuncionarios)">
           <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
@@ -98,7 +98,6 @@
       </ion-buttons>
     </ion-item>
   </ion-list>
-  
 
   <!-- Caso não haja Funcionários -->
   <ng-template #semFuncionarios>

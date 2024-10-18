@@ -61,7 +61,7 @@ export class TabFazendasPage implements OnInit, ViewWillEnter {
 
   async obterFazendas() {
     const loading = await this.loadingController.create({
-      message: 'Carregando usuários...',
+      message: 'Carregando Fazendas...',
     });
     await loading.present();
 
@@ -98,7 +98,7 @@ export class TabFazendasPage implements OnInit, ViewWillEnter {
       // Editar fazenda existente
       this.provider.editarFazenda(this.nome, this.cep, this.endereco, this.valor, this.idFazenda).then(
         async (res: any) => {
-          if (res.ok) {
+          if (res.status === 'success') {
             this.exibirAlerta('Fazenda atualizada com sucesso', 'success');
             this.limpar();
             this.obterFazendas();  // Atualiza a lista

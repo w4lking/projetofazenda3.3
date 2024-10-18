@@ -8,9 +8,9 @@ import { Observable } from 'rxjs';
 })
 export class ApiService {
   
-  server: string = 'https://jsonserver-jet.vercel.app/api/'; // URL do servidor Node.js local
+  // server: string = 'https://jsonserver-jet.vercel.app/api/'; // URL do servidor Node.js local
 
-  // server : string = 'http://localhost:5000/api/'; // URL do servidor Node.js local para testes
+  server : string = 'http://localhost:5000/api/'; // URL do servidor Node.js local para testes
 
   constructor(private http: HttpClient)
    {}
@@ -360,24 +360,26 @@ async getTipoDeUsuario(email: any) {
 }
 
 
-  async editarFuncionarios(idfuncionario: any, nome: any, cpf: any, email: any, telefone: any, salario: any) {
-    const options = {
-      url: this.server + 'employees/update',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      data: JSON.stringify({ idfuncionario, nome, cpf, email, telefone, salario }),
-    };
+async editarFuncionarios(idfuncionario: any, nome: any, cpf: any, email: any, telefone: any, salario: any, idFazenda: any) {
+  const options = {
+    url: this.server + 'employees/update',
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    // Inclui idFazenda e id (em vez de idfuncionario)
+    data: JSON.stringify({ id: idfuncionario, nome, cpf, email, telefone, salario, idFazenda }),
+  };
 
-    try {
-      const response = await CapacitorHttp.request(options);
-      return response.data;
-    } catch (error) {
-      console.error('Erro ao editar funcionário', error);
-      throw error;
-    }
+  try {
+    const response = await CapacitorHttp.request(options);
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao editar funcionário', error);
+    throw error;
   }
+}
+
 
   async deletarFuncionarios(id: number) {
     const options = {
@@ -400,7 +402,7 @@ async getTipoDeUsuario(email: any) {
   async editarFazenda(nome: any, cep: any, endereco: any, valor: number, id: any) {
     const options = {
       url: this.server + 'farm/update',
-      method: 'POST',
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
