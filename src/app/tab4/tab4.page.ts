@@ -195,7 +195,7 @@ export class Tab4Page implements OnInit, ViewWillEnter {
           this.limpar();
           this.obterfuncionarios();
         } else {
-          this.exibirAlerta('Erro ao atualizar funcionário', 'danger');
+          this.exibirAlerta('Erro ao atualizar funcionário, alguns não foram preenchidos...', 'danger');
         }
         this.setOpen(false);
       }).catch((error) => {
@@ -216,7 +216,7 @@ async adicionarFuncionario() {
   console.log('Dados enviados:', this.nome, this.cpf, this.email, this.telefone, this.salario, this.senha, this.idFazenda, this.idUsuario);
   console.log('Tipo do idFazenda:', typeof this.idFazenda);
   console.log('Tipo do idUsuario:', typeof this.idUsuario);
-  if (this.nome === '' || this.cpf === '' || this.email === '') {
+  if (this.nome === '' || this.cpf === '' || this.email === '' || this.telefone === '' || this.salario === '' || this.idFazenda === null) {
       this.presentToast();
   } else {
       const loading = await this.loadingController.create({
