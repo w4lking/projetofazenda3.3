@@ -35,10 +35,10 @@ export class Tab3Page implements OnInit, ViewWillEnter {
   
 
   async obterUsuario() {
-    const loading = await this.loadingController.create({
-      message: 'Carregando usuario...',
-    });
-    await loading.present();
+    // const loading = await this.loadingController.create({
+    //   message: 'Carregando usuario...',
+    // });
+    // await loading.present();
     const email = sessionStorage.getItem('email');
     const id = sessionStorage.getItem('id');
   
@@ -54,9 +54,9 @@ export class Tab3Page implements OnInit, ViewWillEnter {
           } else {
             this.mensagem('Nenhum usuário encontrado', 'warning');
           }
-          await loading.dismiss();
+          // await loading.dismiss();
         }).catch(async (error) => {
-          await loading.dismiss();
+          // await loading.dismiss();
           this.mensagem('Erro ao carregar autenticação', 'danger');
         });
     }
