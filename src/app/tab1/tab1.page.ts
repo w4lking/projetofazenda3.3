@@ -39,7 +39,7 @@ export class Tab1Page implements OnInit, ViewWillEnter {
         if (data.length > 0) {  // Aqui verificamos se existem usuários retornados
             this.itens = data; // Atribuímos os dados retornados diretamente
         } else {
-            this.Alerta('Nenhuma solicitação de usuário encontrada', 'warning');
+            // this.Alerta('Nenhuma solicitação de usuário encontrada', 'warning');
         }
     }).catch(async (error) => {
         await loading.dismiss();
