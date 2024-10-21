@@ -55,7 +55,7 @@
         <!-- Campo de Senha aparece apenas ao adicionar -->
         <ion-item *ngIf="!editando">
           <ion-label position="floating">Senha</ion-label>
-          <ion-input [(ngModel)]="senha" type="password"></ion-input>
+          <ion-input [(ngModel)]="senha" maxlength="8" type="password"></ion-input>
         </ion-item>
 
         <!-- Select de Fazenda deve aparecer tanto ao adicionar quanto ao editar -->
@@ -106,5 +106,17 @@
       <p>Nenhum Funcionário encontrado.</p>
     </div>
   </ng-template>
+
+  <!-- Botão flutuante -->
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button>
+      <ion-icon name="chevron-up-circle"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button (click)="setOpen(true)">
+        <ion-icon name="person-add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
 
 </ion-content>
