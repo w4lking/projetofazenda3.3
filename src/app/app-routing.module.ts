@@ -38,6 +38,10 @@ const routes: Routes = [
   {
     path: 'profile',
     loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
+  },
+  {
+    path: 'tab-registro',
+    loadChildren: () => import('./tab-registro/tab-registro.module').then( m => m.TabRegistroPageModule)
   }
 ];
 @NgModule({

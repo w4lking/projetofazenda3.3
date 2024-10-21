@@ -33,6 +33,10 @@ const routes: Routes = [
         loadChildren: () => import('../tab-fazendas/tab-fazendas.module').then( m => m.TabFazendasPageModule),
       },
       {
+        path:'tabRegistros',
+        loadChildren: () => import('../tab-registro/tab-registro.module').then( m => m.TabRegistroPageModule),
+      },
+      {
         path: '',
         redirectTo: '/tabs/tab1',
         pathMatch: 'full'
