@@ -10,7 +10,7 @@ import { MenuController } from '@ionic/angular';
   templateUrl: 'tab3.page.html',
   styleUrls: ['tab3.page.scss']
 })
-export class Tab3Page implements OnInit, ViewWillEnter {
+export class Tab3Page implements OnInit {
 
   usuarios: any = {};
   nome : any = "";
@@ -29,16 +29,16 @@ export class Tab3Page implements OnInit, ViewWillEnter {
     this.obterUsuario();
   }
 
-  ionViewWillEnter() {
-    this.obterUsuario();
-  }
+  // ionViewWillEnter() {
+  //   this.obterUsuario();
+  // }
   
 
   async obterUsuario() {
-    // const loading = await this.loadingController.create({
-    //   message: 'Carregando usuario...',
-    // });
-    // await loading.present();
+    const loading = await this.loadingController.create({
+      message: 'Carregando dados ...',
+    });
+    await loading.present();
     const email = sessionStorage.getItem('email');
     const id = sessionStorage.getItem('id');
   
@@ -54,9 +54,9 @@ export class Tab3Page implements OnInit, ViewWillEnter {
           } else {
             this.mensagem('Nenhum usuário encontrado', 'warning');
           }
-          // await loading.dismiss();
+          await loading.dismiss();
         }).catch(async (error) => {
-          // await loading.dismiss();
+          await loading.dismiss();
           this.mensagem('Erro ao carregar autenticação', 'danger');
         });
     }
@@ -76,8 +76,10 @@ export class Tab3Page implements OnInit, ViewWillEnter {
     toast.present();
   }
 
+  goProfile() {
+    this.router.navigate(['/profile']);
+  }
 
-  
   sair() {
     this.router.navigate(['/login']);
     sessionStorage.removeItem('token');

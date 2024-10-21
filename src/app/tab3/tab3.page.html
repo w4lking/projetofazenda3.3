@@ -16,32 +16,7 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <!-- Exibir os dados do usuário -->
-  <ion-card class="user-info-card">
-    <ion-card-header>
-      <ion-card-title>Informações do Usuário</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-list lines="none">
-        <ion-item>
-          <ion-icon name="person-outline" slot="start"></ion-icon>
-          <ion-label><strong>Nome:</strong> {{ usuarios.nome }}</ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-icon name="mail-outline" slot="start"></ion-icon>
-          <ion-label><strong>Email:</strong> {{ usuarios.email }}</ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-icon name="call-outline" slot="start"></ion-icon>
-          <ion-label><strong>Telefone:</strong> {{ usuarios.telefone }}</ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-icon name="briefcase-outline" slot="start"></ion-icon>
-          <ion-label><strong>Perfil:</strong> {{ usuarios.perfil }}</ion-label>
-        </ion-item>
-      </ion-list>
-    </ion-card-content>
-  </ion-card>
+ 
 </ion-content>
 
 <!-- Menu lateral -->
@@ -62,7 +37,7 @@
 
   <ion-content>
     <ion-list>
-      <ion-item button>
+      <ion-item button (click)="goProfile()">
         <ion-icon name="people-outline" slot="start"></ion-icon>
         <ion-label>Perfil</ion-label>
       </ion-item>

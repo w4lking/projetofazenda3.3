@@ -34,6 +34,10 @@ const routes: Routes = [
   {
     path: 'tab-fazendas',
     loadChildren: () => import('./tab-fazendas/tab-fazendas.module').then( m => m.TabFazendasPageModule)
+  },
+  {
+    path: 'profile',
+    loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
   }
 ];
 @NgModule({
