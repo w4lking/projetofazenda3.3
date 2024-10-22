@@ -7,13 +7,12 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ApiService {
-  
+
   server: string = 'https://jsonserver-jet.vercel.app/api/'; // URL do servidor Node.js local
 
-  // server : string = 'http://localhost:5000/api/'; // URL do servidor Node.js local para testes
+  // server: string = 'http://localhost:5000/api/'; // URL do servidor Node.js local para testes
 
-  constructor(private http: HttpClient)
-   {}
+  constructor(private http: HttpClient) { }
 
   async dadosApi(dados: any, api: string) {
     const options = {
@@ -43,41 +42,41 @@ export class ApiService {
 
   async login(email: string, senha: string) {
     const options = {
-        url: this.server + 'user/login',
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        data: JSON.stringify({ email, senha }),
+      url: this.server + 'user/login',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify({ email, senha }),
     };
 
     try {
-        const response = await CapacitorHttp.request(options);
-        return response.data;
+      const response = await CapacitorHttp.request(options);
+      return response.data;
     } catch (error) {
-        console.error('Erro ao fazer login:', error);
-        throw new Error('Erro na comunicação com o servidor.');
+      console.error('Erro ao fazer login:', error);
+      throw new Error('Erro na comunicação com o servidor.');
     }
-}
+  }
 
 
-async getTipoDeUsuario(email: any) {
-  const options = {
+  async getTipoDeUsuario(email: any) {
+    const options = {
       url: this.server + 'user/type?email=' + email,
       method: 'GET',
       headers: {
-          'Content-Type': 'application/json',
+        'Content-Type': 'application/json',
       },
-  };
+    };
 
-  try {
+    try {
       const response = await CapacitorHttp.request(options);
       return response.data;
-  } catch (error) {
+    } catch (error) {
       console.error('Erro ao obter o tipo de usuário:', error);
       throw new Error('Erro ao tentar obter o tipo de usuário.');
+    }
   }
-}
 
 
   async obterUsuariosDesautenticados() {
@@ -142,7 +141,7 @@ async getTipoDeUsuario(email: any) {
         'Content-Type': 'application/json',
       },
     };
-  
+
     try {
       const response = await CapacitorHttp.request(options);
       return response.data;
@@ -151,7 +150,7 @@ async getTipoDeUsuario(email: any) {
       throw error;
     }
   }
-  
+
 
   async obterUsuario(id: any) {
     const options = {
@@ -161,7 +160,7 @@ async getTipoDeUsuario(email: any) {
         'Content-Type': 'application/json',
       },
     };
-  
+
     try {
       const response = await CapacitorHttp.request(options);
       return response.data;
@@ -170,7 +169,7 @@ async getTipoDeUsuario(email: any) {
       throw error;
     }
   }
-  
+
 
   async obterUsuarioWithEmail(email: any) {
     const options = {
@@ -270,37 +269,37 @@ async getTipoDeUsuario(email: any) {
       console.error('Erro ao obter fazenda', error);
       throw error;
     }
-}
+  }
 
 
   async addFazenda(nome: any, cep: any, endereco: any, valor: any, id: any) {
     const options = {
-        url: this.server + 'farm/add',
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        data: JSON.stringify({ nome, cep, endereco, valor, id }), // Certifique-se de que os dados estão sendo convertidos em JSON
+      url: this.server + 'farm/add',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify({ nome, cep, endereco, valor, id }), // Certifique-se de que os dados estão sendo convertidos em JSON
     };
 
     try {
-        const response = await CapacitorHttp.request(options);
-        return response.data; // Verifique se a resposta tem a estrutura correta
+      const response = await CapacitorHttp.request(options);
+      return response.data; // Verifique se a resposta tem a estrutura correta
     } catch (error) {
-        console.error('Erro ao adicionar ela no banco', error);
-        throw error; // Joga o erro para ser tratado no front-end
+      console.error('Erro ao adicionar ela no banco', error);
+      throw error; // Joga o erro para ser tratado no front-end
     }
   }
 
   async deletarFazenda(idfazendas: number) {
     console.log('ID da Fazenda:', idfazendas); // Verifique se o ID está correto
     const options = {
-        url: this.server + 'delete?idfazendas=' + idfazendas,
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-            
-        },
+      url: this.server + 'delete?idfazendas=' + idfazendas,
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+
+      },
     };
 
     try {
@@ -333,52 +332,52 @@ async getTipoDeUsuario(email: any) {
 
   async addFuncionarios(nome: any, cpf: any, email: any, telefone: any, salario: any, senha: any, idFazenda: number, idUsuario: number) {
     const options = {
-        url: this.server + 'employees/add',
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        data: JSON.stringify({ 
-            nome, 
-            cpf, 
-            email, 
-            telefone, 
-            salario, 
-            senha, 
-            idfazendas: idFazenda,  // Alterado para corresponder ao back-end
-            idusuario: idUsuario     // Alterado para corresponder ao back-end
-        }),
+      url: this.server + 'employees/add',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify({
+        nome,
+        cpf,
+        email,
+        telefone,
+        salario,
+        senha,
+        idfazendas: idFazenda,  // Alterado para corresponder ao back-end
+        idusuario: idUsuario     // Alterado para corresponder ao back-end
+      }),
     };
 
     try {
-        const response = await CapacitorHttp.request(options);
-        return response.data;
+      const response = await CapacitorHttp.request(options);
+      return response.data;
     } catch (error) {
-        console.error('Erro ao adicionar funcionário', error);
-        throw error;
+      console.error('Erro ao adicionar funcionário', error);
+      throw error;
     }
-}
-
-
-async editarFuncionarios(idfuncionario: any, nome: any, cpf: any, email: any, telefone: any, salario: any, idFazenda: any) {
-  const options = {
-    url: this.server + 'employees/update',
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    // Inclui idFazenda e id (em vez de idfuncionario)
-    data: JSON.stringify({ id: idfuncionario, nome, cpf, email, telefone, salario, idFazenda }),
-  };
-
-  try {
-    const response = await CapacitorHttp.request(options);
-    return response.data;
-  } catch (error) {
-    console.error('Erro ao editar funcionário', error);
-    throw error;
   }
-}
+
+
+  async editarFuncionarios(idfuncionario: any, nome: any, cpf: any, email: any, telefone: any, salario: any, idFazenda: any) {
+    const options = {
+      url: this.server + 'employees/update',
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      // Inclui idFazenda e id (em vez de idfuncionario)
+      data: JSON.stringify({ id: idfuncionario, nome, cpf, email, telefone, salario, idFazenda }),
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao editar funcionário', error);
+      throw error;
+    }
+  }
 
 
   async deletarFuncionarios(id: number) {
@@ -418,5 +417,44 @@ async editarFuncionarios(idfuncionario: any, nome: any, cpf: any, email: any, te
     }
   }
 
+  // Função para adicionar equipamentos
+  async addEquipamento(nome: string) {
+    const options = {
+      url: this.server + 'equipaments/add',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify({ nome })
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao adicionar equipamento', error);
+      throw error;
+    }
+  }
+
+  // Função para adicionar insumos
+  async addInsumo(nome: string, unidade: string) {
+    const options = {
+      url: this.server + 'insum/add',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify({ nome, unidade })
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao adicionar insumo', error);
+      throw error;
+    }
+  }
 
 }
