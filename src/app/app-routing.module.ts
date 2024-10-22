@@ -42,6 +42,10 @@ const routes: Routes = [
   {
     path: 'tab-registro',
     loadChildren: () => import('./tab-registro/tab-registro.module').then( m => m.TabRegistroPageModule)
+  },
+  {
+    path: 'tab-unidades',
+    loadChildren: () => import('./tab-unidades/tab-unidades.module').then( m => m.TabUnidadesPageModule)
   }
 ];
 @NgModule({

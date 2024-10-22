@@ -173,6 +173,10 @@ export class Tab1Page implements OnInit, ViewWillEnter {
     console.log('Sessão encerrada ADMINISTRADOR');
   }
 
+  goUnidades() {
+    this.router.navigate(['/tab-unidades']);
+  }
+
   async mensagem(mensagem: any, cor: string) {
     const toast = await this.toastController.create({
       message: mensagem,
