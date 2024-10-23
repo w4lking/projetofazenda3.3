@@ -457,4 +457,58 @@ export class ApiService {
     }
   }
 
+  async obterEquipamentos() {
+    const options = {
+      url: this.server + 'equipaments',
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao obter equipamentos', error);
+      throw error;
+    }
+  }
+
+  async obterInsumos() {
+    const options = {
+      url: this.server + 'insum',
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao obter insumos', error);
+      throw error;
+    }
+  }
+
+  async deletarEquipamento(id: number) {
+    const options = {
+      url: this.server + 'equipaments/delete?id=' + id,
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao deletar equipamento', error);
+      throw error;
+    }
+  }
+
 }
