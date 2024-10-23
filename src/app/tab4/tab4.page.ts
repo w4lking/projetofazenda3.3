@@ -117,7 +117,7 @@ export class Tab4Page implements OnInit, ViewWillEnter {
 
 
   getNomeFazenda(idFazenda: number | null): string {
-    const fazenda = this.fazendas.find((f: { idfazendas: number | null }) => f.idfazendas == idFazenda); // Usando "==" para comparar diferentes tipos
+    const fazenda = this.fazendas.find((f: { idfazendas: number | null }) => f.idfazendas == idFazenda);
     return fazenda ? fazenda.nome : 'Fazenda não encontrada';
   }
 

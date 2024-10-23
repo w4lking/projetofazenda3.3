@@ -253,9 +253,9 @@ export class ApiService {
     return sessionStorage.getItem('email');
   }
 
-  async obterFazenda(id: any) {
+  async obterFazenda(idUsuario: any) {
     const options = {
-      url: this.server + 'farm?id=' + id,
+      url: this.server + 'farm?id=' + idUsuario,
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -493,6 +493,44 @@ export class ApiService {
     }
   }
 
+  async obterInsumosProprietario(idUsuario: number) {
+    const options = {
+      url: this.server + 'insum/owner?id=' + idUsuario,
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao obter insumos do proprietário', error);
+      throw error;
+    }
+  }
+
+
+  async adicionarInsumos(quantidade:number, valor:number, idFazenda:number, idUsuario:number, idInsumo:number) {
+    const options = {
+      url: this.server + 'farm/insum/add',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify({ quantidade, valor, idFazenda, idUsuario, idInsumo })
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao adicionar insumo', error);
+      throw error;
+    }
+  }
+
   async deletarEquipamento(id: number) {
     const options = {
       url: this.server + 'equipaments/delete?id=' + id,
@@ -510,5 +548,25 @@ export class ApiService {
       throw error;
     }
   }
+
+  async deletarInsumo(id: number) {
+    const options = {
+      url: this.server + 'insum/delete?id=' + id,
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao deletar insumo', error);
+      throw error;
+    }
+  }
+
+  
 
 }

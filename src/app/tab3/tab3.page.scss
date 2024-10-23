@@ -26,3 +26,30 @@ ion-label p {
 ion-item ion-icon {
   color: var(--ion-color-primary);
 }
+
+
+.empty-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+    font-size: 18px;
+    color: var(--ion-color-medium);
+  }
+
+
+  .empty-state {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: var(--ion-color-medium);
+}
+
+.empty-state p {
+  margin-top: 10px;
+  font-size: 18px;
+  text-align: center;
+}

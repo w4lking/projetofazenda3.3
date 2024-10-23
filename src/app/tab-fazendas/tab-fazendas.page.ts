@@ -2,7 +2,7 @@ import { cepMask } from './../masks';
 import { MaskitoOptions, MaskitoElementPredicate, maskitoTransform } from '@maskito/core';
 import { ApiService } from './../services/api.service';
 import { Component, OnInit } from '@angular/core';
-import { ToastController, LoadingController, AlertController } from '@ionic/angular'; // Adicione AlertController
+import { ToastController, LoadingController, AlertController } from '@ionic/angular'; 
 import { addIcons } from 'ionicons';
 import { add, thumbsUpSharp } from 'ionicons/icons';
 import { ViewWillEnter } from '@ionic/angular';
