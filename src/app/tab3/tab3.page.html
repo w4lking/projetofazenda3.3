@@ -23,7 +23,7 @@
       <ion-label>
         <h2>{{ getNomeInsumo(insumo.insumosCadastrados_idinsumosCadastrados) }}</h2>
         <p><strong>Quantidade:</strong> {{ insumo.quantidade }}</p>
-        <p><strong>Salário:</strong> R$ {{ insumos.valor | currency }}</p>
+        <p><strong>Valor Unitário:</strong> R$ {{ insumo.valor | currency }}</p>
         <p><strong>Fazenda:</strong> {{ getNomeFazenda(insumo.fazendas_idfazendas) }}</p>
       </ion-label>
 
@@ -79,7 +79,7 @@
       </ion-item>
 
       <ion-item>
-        <ion-label position="floating">Valor</ion-label>
+        <ion-label position="floating">Valor Unitário</ion-label>
         <ion-input type="number" [(ngModel)]="valor"></ion-input>
       </ion-item>
 
