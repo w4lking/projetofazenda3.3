@@ -47,7 +47,7 @@ export class Tab3Page implements OnInit {
     this.obterUsuario();
     this.obterInsumo();
     this.obterFazendas();
-    
+    this.obterProprietarioInsumos();
   }
 
   getNomeFazenda(idFazenda: number | null): string {
@@ -67,12 +67,12 @@ export class Tab3Page implements OnInit {
   }
 
   async obterInsumo(){
-    const loading = await this.loadingController.create({
-      message: 'Carregando insumos...',
-    });
-    await loading.present();
+    // const loading = await this.loadingController.create({
+    //   message: 'Carregando insumos...',
+    // });
+    // await loading.present();
     this.provider.obterInsumos().then(async (data: any) => {
-      await loading.dismiss();
+      // await loading.dismiss();
       if (data.status === 'success' && data.insumos.length > 0) {
         this.insumos = data.insumos;
       }
@@ -80,16 +80,16 @@ export class Tab3Page implements OnInit {
         this.insumos = [];
       }
     }).catch(async (error) => {
-      await loading.dismiss();
+      // await loading.dismiss();
       this.mensagem('Erro ao carregar insumos', 'danger');
     });
   }
 
   async obterUsuario() {
-    const loading = await this.loadingController.create({
-      message: 'Carregando dados ...',
-    });
-    await loading.present();
+    // const loading = await this.loadingController.create({
+    //   message: 'Carregando dados ...',
+    // });
+    // await loading.present();
     const email = sessionStorage.getItem('email');
   
     if (this.idUsuario) {
@@ -104,22 +104,22 @@ export class Tab3Page implements OnInit {
           } else {
             this.mensagem('Nenhum usuário encontrado', 'warning');
           }
-          await loading.dismiss();
+          // await loading.dismiss();
         }).catch(async (error) => {
-          await loading.dismiss();
+          // await loading.dismiss();
           this.mensagem('Erro ao carregar autenticação', 'danger');
         });
     }
   }
 
   async obterFazendas() {
-    const loading = await this.loadingController.create({
-      message: 'Carregando Fazendas...',
-    });
-    await loading.present();
+    // const loading = await this.loadingController.create({
+    //   message: 'Carregando Fazendas...',
+    // });
+    // await loading.present();
 
     this.provider.obterFazenda(this.idUsuario).then(async (data: any) => {
-      await loading.dismiss();
+      // await loading.dismiss();
       if (data.status === 'success' && data.fazendas.length > 0) { // Verifica o status e se há fazendas
         this.fazendas = data.fazendas;
       } else {
@@ -148,17 +148,24 @@ export class Tab3Page implements OnInit {
     });
   }
 
-  obterProprietarioInsumos() {
+  async obterProprietarioInsumos() {
+    const loading = await this.loadingController.create({
+      message: 'Carregando Fazendas...',
+    });
+    await loading.present();
     this.provider.obterInsumosProprietario(this.idUsuario).then(
       async (data: any) => {
         if (data.status === 'success' && data.insumos.length > 0) {
           this.insumosProprietario = data.insumos;
+          await loading.dismiss();
         } else {
           this.insumosProprietario = [];
+          await loading.dismiss();
         }
       }
     ).catch(async (error) => {
       this.mensagem('Erro ao carregar insumos', 'danger');
+      await loading.dismiss();
     });
   }
 
