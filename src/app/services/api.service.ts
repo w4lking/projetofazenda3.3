@@ -549,6 +549,25 @@ export class ApiService {
     }
   }
 
+  async editarInsumo(quantidade: number, valor: number, id:number,  idFazenda:number, idUsuario:number, idInsumo:number) {
+    const options = {
+      url: this.server + 'farm/insum/update',
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify({ quantidade, valor, id ,idFazenda, idUsuario, idInsumo })
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao editar insumo', error);
+      throw error;
+    }
+  }
+
   async deletarInsumo(id: number) {
     const options = {
       url: this.server + 'insum/delete?id=' + id,

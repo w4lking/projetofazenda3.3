@@ -125,13 +125,13 @@ export class Tab4Page implements OnInit, ViewWillEnter {
 
 
   async obterFazendas() {
-    const loading = await this.loadingController.create({
-      message: 'Carregando Fazendas...',
-    });
-    await loading.present();
+    // const loading = await this.loadingController.create({
+    //   message: 'Carregando Fazendas...',
+    // });
+    // await loading.present();
 
     this.provider.obterFazenda(this.idUsuario).then(async (data: any) => {
-      await loading.dismiss();
+      // await loading.dismiss();
       if (data.status === 'success' && data.fazendas.length > 0) { // Verifica o status e se há fazendas
         this.fazendas = data.fazendas; // Atribui os dados retornados diretamente
       } else {
@@ -144,10 +144,10 @@ export class Tab4Page implements OnInit, ViewWillEnter {
   }
 
   async obterfuncionarios() {
-    const loading = await this.loadingController.create({
-      message: 'Carregando funcionarios...',
-    });
-    await loading.present();
+    // const loading = await this.loadingController.create({
+    //   message: 'Carregando funcionarios...',
+    // });
+    // await loading.present();
 
     this.provider.obterFuncionarios(this.idUsuario).then(
       async (data: any) => {
@@ -156,7 +156,7 @@ export class Tab4Page implements OnInit, ViewWillEnter {
         } else {
           this.funcionarios = [];
         }
-        await loading.dismiss();
+        // await loading.dismiss();
       }
     ).catch(async (error) => {
       // await loading.dismiss();

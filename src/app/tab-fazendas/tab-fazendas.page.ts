@@ -60,20 +60,20 @@ export class TabFazendasPage implements OnInit, ViewWillEnter {
   }
 
   async obterFazendas() {
-    const loading = await this.loadingController.create({
-      message: 'Carregando Fazendas...',
-    });
-    await loading.present();
+    // const loading = await this.loadingController.create({
+    //   message: 'Carregando Fazendas...',
+    // });
+    // await loading.present();
 
     this.provider.obterFazenda(this.id).then(async (data: any) => {
-      await loading.dismiss();
+      // await loading.dismiss();
       if (data.status === 'success' && data.fazendas.length > 0) { // Verifica o status e se há fazendas
           this.fazendas = data.fazendas; // Atribui os dados retornados diretamente
       } else {
         this.fazendas = [];
       }
     }).catch(async (error) => {
-      await loading.dismiss();
+      // await loading.dismiss();
       this.mensagem('Erro ao carregar fazendas', 'danger');
   });
   }

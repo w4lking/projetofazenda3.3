@@ -17,24 +17,25 @@
 
 <ion-content class="ion-padding">
 
-  <!-- Lista de Funcionários -->
+  <!-- Lista de Insumos -->
   <ion-list *ngIf="insumosProprietario.length > 0; else semInsumos">
-    <ion-item *ngFor="let insumo of insumosProprietario ">
+    <ion-item *ngFor="let insumo of insumosProprietario">
       <ion-label>
         <h2>{{ getNomeInsumo(insumo.insumosCadastrados_idinsumosCadastrados) }}</h2>
         <p><strong>Quantidade:</strong> {{ insumo.quantidade }}</p>
-        <p><strong>Valor Unitário:</strong> R$ {{ insumo.valor | currency }}</p>
+        <p><strong>Valor Unitário:</strong> R$ {{ insumo.valor | currency:'BRL' }}</p>
+        <p><strong>Valor Total:</strong> R$ {{ insumo.quantidade * insumo.valor | currency:'BRL' }}</p>
         <p><strong>Fazenda:</strong> {{ getNomeFazenda(insumo.fazendas_idfazendas) }}</p>
       </ion-label>
 
       <ion-buttons slot="end">
         <!-- Botão de Edição -->
-        <ion-button>
+        <ion-button color="primary" (click)="editarInsumo(insumo.id, insumo.quantidade, insumo.valor, insumo.fazendas_idfazendas, insumo.insumosCadastrados_idinsumosCadastrados )">
           <ion-icon slot="icon-only" name="create-outline"></ion-icon>
         </ion-button>
 
         <!-- Botão de Exclusão -->
-        <ion-button color="danger">
+        <ion-button color="danger" (click)="confirmarExclusaoInsumo(insumo.id)">
           <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
         </ion-button>
       </ion-buttons>
@@ -45,71 +46,73 @@
   <ng-template #semInsumos>
     <div class="empty-state">
       <ion-icon name="alert-circle-outline" size="large"></ion-icon>
-      <p>Nenhum Insumo encontrado.</p>
+      <p>Nenhum insumo encontrado.</p>
     </div>
   </ng-template>
 
+  <!-- Modal para Adicionar/Editar Insumo -->
   <ion-modal [isOpen]="isModalOpen">
-  <ng-template>
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Adicionar Insumo</ion-title>
-        <ion-buttons slot="end">
-          <ion-button (click)="setOpen(false)">
-            <ion-icon slot="icon-only" name="close-outline"></ion-icon>
-          </ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content class="ion-padding">
-
-
-      <ion-item>
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title *ngIf="insumoId">Editar Insumo</ion-title>
+          <ion-title *ngIf="!insumoId">Adicionar Insumo</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="setOpen(false)">
+              <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>
           <ion-label position="floating">Insumo</ion-label>
           <ion-select [(ngModel)]="idInsumo">
             <ion-select-option *ngFor="let insumo of insumos" [value]="insumo.idinsumosCadastrados">
               {{ insumo.nome }} - {{ insumo.unidade }}
             </ion-select-option>
           </ion-select>
-      </ion-item>
+        </ion-item>
 
-      <ion-item>
-        <ion-label position="floating">Quantidade</ion-label>
-        <ion-input type="number" [(ngModel)]="quantidade"></ion-input>
-      </ion-item>
+        <ion-item>
+          <ion-label position="floating">Quantidade</ion-label>
+          <ion-input type="number" [(ngModel)]="quantidade"></ion-input>
+        </ion-item>
 
-      <ion-item>
-        <ion-label position="floating">Valor Unitário</ion-label>
-        <ion-input type="number" [(ngModel)]="valor"></ion-input>
-      </ion-item>
+        <ion-item>
+          <ion-label position="floating">Valor Unitário</ion-label>
+          <ion-input type="number" [(ngModel)]="valor"></ion-input>
+        </ion-item>
 
-      <ion-item>
+        <ion-item>
+          <ion-input readonly [value]="(quantidade * valor) | currency:'BRL'"></ion-input>
+        </ion-item>
+
+        <ion-item>
           <ion-label position="floating">Fazenda</ion-label>
           <ion-select [(ngModel)]="idFazenda">
             <ion-select-option *ngFor="let fazenda of fazendas" [value]="fazenda.idfazendas">
               {{ fazenda.nome }}
             </ion-select-option>
           </ion-select>
-      </ion-item>
+        </ion-item>
 
-      <ion-button expand="block" color="success" (click)="adicionarInsumos()">Salvar</ion-button>
-    </ion-content>
-  </ng-template>
-</ion-modal>
+        <ion-button expand="block" color="success" (click)="salvarInsumo()"> Salvar Alterações
+        </ion-button>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 
-  <!-- Botão flutuante -->
+  <!-- Botão flutuante para adicionar novo insumo -->
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button>
-      <ion-icon name="chevron-up-circle"></ion-icon>
+    <ion-fab-button (click)="setOpen(true)">
+      <ion-icon name="add"></ion-icon>
     </ion-fab-button>
-    <ion-fab-list side="top">
-      <ion-fab-button (click)="setOpen(true)">
-        <ion-icon name="hammer"></ion-icon>
-      </ion-fab-button>
-    </ion-fab-list>
   </ion-fab>
- 
+
 </ion-content>
+
+
 
 <!-- Menu lateral -->
 <ion-menu side="end" content-id="main-content">
