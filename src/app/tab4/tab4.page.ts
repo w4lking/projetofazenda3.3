@@ -65,15 +65,22 @@ export class Tab4Page implements OnInit, ViewWillEnter {
     addIcons({ chevronDownCircle, chevronForwardCircle, chevronUpCircle, colorPalette, document, globe, add });
   }
 
-  ngOnInit() {
-    this.obterFazendas();  // Primeiro, carregar fazendas
-    this.obterfuncionarios();  // Em seguida, carregar funcionários
-    this.cdr.detectChanges();
+  async ngOnInit() {
+    const loading = await this.loadingController.create({
+      message: 'Carregando Funcionários...',
+    });
+    await loading.present();
+    this.carregarDados();
+    await loading.dismiss();
   }
 
   ionViewWillEnter() {
-    this.obterFazendas();  // Primeiro, carregar fazendas
-    this.obterfuncionarios();  // Em seguida, carregar funcionários
+    this.carregarDados();
+  }
+
+  carregarDados() {
+    this.obterFazendas();
+    this.obterfuncionarios();
     this.cdr.detectChanges();
   }
 
@@ -100,15 +107,15 @@ export class Tab4Page implements OnInit, ViewWillEnter {
     this.setOpen(true);
   }
 
-  abrirModalEditar(funcionario: { idfuncionarios: number; nome: string; cpf: string; email: string; telefone: string; salario: number; fazendas_idfazenda: number }) {
+  abrirModalEditar(idfuncionarios: number, nome: string, cpf: string, email: string, telefone: string, salario: number, fazendas_idfazenda: number) {
     this.editando = true;
-    this.idfuncionario = funcionario.idfuncionarios;
-    this.nome = funcionario.nome;
-    this.cpf = funcionario.cpf;
-    this.email = funcionario.email;
-    this.telefone = funcionario.telefone;
-    this.salario = funcionario.salario.toString();
-    this.idFazenda = funcionario.fazendas_idfazenda;
+    this.idfuncionario = idfuncionarios;
+    this.nome = nome;
+    this.cpf = cpf;
+    this.email = email;
+    this.telefone = telefone;
+    this.salario = salario.toString();
+    this.idFazenda = fazendas_idfazenda;
 
     console.log('idFazenda ao editar:', this.idFazenda); // Verifique se o valor é correto aqui
 
@@ -125,29 +132,19 @@ export class Tab4Page implements OnInit, ViewWillEnter {
 
 
   async obterFazendas() {
-    // const loading = await this.loadingController.create({
-    //   message: 'Carregando Fazendas...',
-    // });
-    // await loading.present();
-
     this.provider.obterFazenda(this.idUsuario).then(async (data: any) => {
-      // await loading.dismiss();
-      if (data.status === 'success' && data.fazendas.length > 0) { // Verifica o status e se há fazendas
-        this.fazendas = data.fazendas; // Atribui os dados retornados diretamente
+
+      if (data.status === 'success' && data.fazendas.length > 0) { // 
+        this.fazendas = data.fazendas;
       } else {
         this.fazendas = [];
       }
     }).catch(async (error) => {
-      // await loading.dismiss();
       // this.mensagem('Erro ao carregar fazendas', 'danger');
     });
   }
 
   async obterfuncionarios() {
-    // const loading = await this.loadingController.create({
-    //   message: 'Carregando funcionarios...',
-    // });
-    // await loading.present();
 
     this.provider.obterFuncionarios(this.idUsuario).then(
       async (data: any) => {
@@ -156,11 +153,9 @@ export class Tab4Page implements OnInit, ViewWillEnter {
         } else {
           this.funcionarios = [];
         }
-        // await loading.dismiss();
       }
     ).catch(async (error) => {
-      // await loading.dismiss();
-      // this.mensagem('Erro ao carregar funcionarios', 'danger');
+      this.mensagem('Erro ao carregar funcionários', 'danger');
     });
   }
 
@@ -179,7 +174,16 @@ export class Tab4Page implements OnInit, ViewWillEnter {
 
   async salvarFuncionario() {
     if (this.editando) {
-      console.log('idFazenda ao salvar (edição):', this.idFazenda); // Adicione um log aqui
+
+      console.log('Dados enviados:', this.nome, this.cpf, this.email, this.telefone, this.salario, this.senha, this.idFazenda, this.idUsuario);
+      if (!this.validarCPF(this.cpf)) {
+        this.exibirAlerta('CPF inválido. Preencha corretamente!', 'danger');
+        return;
+      }
+      if (!this.validarEmail(this.email)) {
+        this.exibirAlerta('E-mail inválido. Preencha corretamente!', 'danger');
+        return;
+      }
 
       this.provider.editarFuncionarios(
         this.idfuncionario,
@@ -203,8 +207,6 @@ export class Tab4Page implements OnInit, ViewWillEnter {
         this.mensagem('Erro ao conectar-se ao servidor. Tente novamente!', 'danger');
       });
     } else {
-      console.log('idFazenda ao salvar (novo):', this.idFazenda); // Verifique o valor aqui ao adicionar novo
-
       this.adicionarFuncionario();
     }
   }
@@ -239,7 +241,7 @@ export class Tab4Page implements OnInit, ViewWillEnter {
       await this.exibirAlerta(`A senha não deve conter todos os caracteres iguais, como ${this.senha}.`, 'danger');
       return;
     }
-    
+
 
     const loading = await this.loadingController.create({
       message: 'Adicionando funcionário...',

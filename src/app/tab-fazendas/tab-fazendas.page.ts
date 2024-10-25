@@ -45,8 +45,13 @@ export class TabFazendasPage implements OnInit, ViewWillEnter {
     addIcons({ chevronDownCircle, chevronForwardCircle, chevronUpCircle, colorPalette, document, globe, add });
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    const loading = await this.loadingController.create({
+      message: 'Carregando Fazendas...',
+    });
+    await loading.present();
     this.obterFazendas();
+    await loading.dismiss();
   }
 
   ionViewWillEnter() {

@@ -35,8 +35,13 @@ export class Tab3Page implements OnInit {
     private alertController: AlertController
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    const loading = await this.loadingController.create({
+      message: 'Carregando Dados...',
+    });
+    await loading.present();
     this.carregarDados();
+    await loading.dismiss();
   }
 
   ionViewWillEnter() {
@@ -88,7 +93,7 @@ export class Tab3Page implements OnInit {
         }
       }
     } catch (error) {
-      this.exibirAlerta('Erro ao carregar autenticação', 'danger');
+      // this.exibirAlerta('Erro ao carregar autenticação', 'danger');
     }
   }
 
@@ -126,7 +131,7 @@ export class Tab3Page implements OnInit {
       const data = await this.provider.obterInsumosProprietario(this.idUsuario);
       this.insumosProprietario = (data.status === 'success' && data.insumos.length > 0) ? data.insumos : [];
     } catch (error) {
-      this.exibirAlerta('Erro ao carregar insumos', 'danger');
+      // this.exibirAlerta('Erro ao carregar insumos', 'danger');
     }
   }
 
