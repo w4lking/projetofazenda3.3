@@ -2,8 +2,8 @@
   <ion-toolbar color="primary">
     <ion-item lines="none" class="header-item" detail="false">
       <ion-label>
-        <!-- <h2>Olá, {{ usuarios.nome }}</h2> -->
-        <ion-select placeholder="Listar">
+        <h2>Olá, {{ usuarios.nome }}</h2> 
+        <ion-select placeholder="Seus Recursos" [(ngModel)]="tipo" (ionChange)="atualizarDados()">
           <ion-select-option value="1">Insumos</ion-select-option>
           <ion-select-option value="2">Equipamentos</ion-select-option>
         </ion-select>
@@ -18,7 +18,7 @@
 <ion-content class="ion-padding">
 
   <!-- Lista de Insumos -->
-  <ion-list *ngIf="insumosProprietario.length > 0; else semInsumos">
+  <ion-list *ngIf="insumosProprietario.length > 0 && tipo == '1'; else templateVazioInsumos">
     <ion-item *ngFor="let insumo of insumosProprietario">
       <ion-label>
         <h2>{{ getNomeInsumo(insumo.insumosCadastrados_idinsumosCadastrados) }}</h2>
@@ -29,7 +29,7 @@
       </ion-label>
 
       <ion-buttons slot="end">
-        <ion-button color="primary" (click)="editarInsumo(insumo.id, insumo.quantidade, insumo.valor, insumo.fazendas_idfazendas, insumo.insumosCadastrados_idinsumosCadastrados )">
+        <ion-button color="primary" (click)="editarInsumo(insumo.id, insumo.quantidade, insumo.valor, insumo.fazendas_idfazendas, insumo.insumosCadastrados_idinsumosCadastrados)">
           <ion-icon slot="icon-only" name="create-outline"></ion-icon>
         </ion-button>
         <ion-button color="danger" (click)="confirmarExclusaoInsumo(insumo.id)">
@@ -39,11 +39,41 @@
     </ion-item>
   </ion-list>
 
-  <!-- Caso não haja Insumos -->
-  <ng-template #semInsumos>
-    <div class="empty-state">
+  <!-- Lista de Equipamentos -->
+  <ion-list *ngIf="equipamentosProprietario.length > 0 && tipo == '2'; else templateVazioEquipamentos">
+    <ion-item *ngFor="let equipamento of equipamentosProprietario">
+      <ion-label>
+        <h2>{{ getNomeEquipamento(equipamento.equipamentosCadastrados_idequipamentosCadastrados) }}</h2>
+        <p><strong>Quantidade:</strong> {{ equipamento.quantidade }}</p>
+        <p><strong>Valor Unitário:</strong> R$ {{ equipamento.valor | currency:'BRL' }}</p>
+        <p><strong>Valor Total:</strong> R$ {{ equipamento.quantidade * equipamento.valor | currency:'BRL' }}</p>
+        <p><strong>Fazenda:</strong> {{ getNomeFazenda(equipamento.fazendas_idfazendas) }}</p>
+      </ion-label>
+
+      <ion-buttons slot="end">
+        <ion-button color="primary" (click)="editarEquipamento(equipamento.id, equipamento.quantidade, equipamento.valor, equipamento.fazendas_idfazendas, equipamento.equipamentosCadastrados_idequipamentosCadastrados)">
+          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+        </ion-button>
+        <ion-button color="danger" (click)="confirmarExclusaoEquipamento(equipamento.id)">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+
+  <!-- Template Vazio para Insumos -->
+  <ng-template #templateVazioInsumos>
+    <div class="empty-state" *ngIf="tipo == '1'">
       <ion-icon name="alert-circle-outline" size="large"></ion-icon>
       <p>Nenhum insumo encontrado.</p>
+    </div>
+  </ng-template>
+
+  <!-- Template Vazio para Equipamentos -->
+  <ng-template #templateVazioEquipamentos>
+    <div class="empty-state" *ngIf="tipo == '2'">
+      <ion-icon name="alert-circle-outline" size="large"></ion-icon>
+      <p>Nenhum equipamento encontrado.</p>
     </div>
   </ng-template>
 

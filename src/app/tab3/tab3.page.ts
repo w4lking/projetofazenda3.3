@@ -11,6 +11,9 @@ import { MenuController } from '@ionic/angular';
 })
 export class Tab3Page implements OnInit {
 
+
+  tipo : any = "";
+
   fazendas: any[] = [];
   insumos: any = [];
   equipamentos: any = [];
@@ -47,7 +50,8 @@ export class Tab3Page implements OnInit {
     private alertController: AlertController
   ) {}
 
-  async ngOnInit() {
+  ngOnInit() {
+    this.atualizarDados();
     this.carregarDados();
   }
 
@@ -76,12 +80,19 @@ export class Tab3Page implements OnInit {
     });
     await loading.present();
     this.obterUsuario();
-    this.obterInsumo();
-    this.obterEquipamento();
     this.obterFazendas();
-    this.obterProprietarioInsumos();
-    this.obterProprietarioEquipamentos();
     await loading.dismiss();
+  }
+
+  atualizarDados() {
+    if (this.tipo == "1") {
+      this.obterInsumo();
+      this.obterProprietarioInsumos();
+    }
+    if (this.tipo == "2") {
+      this.obterEquipamento();
+      this.obterProprietarioEquipamentos();
+    }
   }
 
   setInsumoModalOpen(isOpen: boolean) {
@@ -254,19 +265,20 @@ export class Tab3Page implements OnInit {
     }
   }
 
-  async editarEquipamento(id: number, quantidade:number, valor:number, idFazenda: number) {
+  async editarEquipamento(id: number, quantidade:number, valor:number, idFazenda: number,idEquipamento:number) {
     
     this.quantidade = quantidade;
     this.valor = valor;
     this.equipamentoId = id;
     this.idFazenda = idFazenda;
+    this.idEquipamento = idEquipamento;
     this.setEquipamentoModalOpen(true);
   }
 
   async salvarEquipamento() {
     if (this.equipamentoId) {
       try {
-        const res = await this.provider.editarEquipamento(this.quantidade, this.valor,this.idEquipamento, this.equipamentoId, this.idFazenda, this.idUsuario);
+        const res = await this.provider.editarEquipamento(this.quantidade, this.valor,this.equipamentoId, this.idFazenda, this.idUsuario, this.idEquipamento);
         if (res.status === 'success') {
           this.exibirAlerta('Equipamento atualizado com sucesso', 'success');
           this.limpar();
@@ -308,6 +320,8 @@ export class Tab3Page implements OnInit {
       this.exibirAlerta('Erro ao conectar-se ao servidor. Tente novamente!', 'danger');
     }
   }
+
+  
 
   limpar() {
     this.quantidade = 0;
