@@ -55,7 +55,7 @@
         <!-- Campo de Senha aparece apenas ao adicionar -->
         <ion-item *ngIf="!editando">
           <ion-label position="floating">Senha</ion-label>
-          <ion-input [(ngModel)]="senha" maxlength="8" type="password"></ion-input>
+          <ion-input [(ngModel)]="senha" [counter]="true" maxlength="8" type="password"></ion-input>
         </ion-item>
 
         <!-- Select de Fazenda deve aparecer tanto ao adicionar quanto ao editar -->

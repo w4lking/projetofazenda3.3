@@ -470,7 +470,7 @@ export class ApiService {
       const response = await CapacitorHttp.request(options);
       return response.data;
     } catch (error) {
-      console.error('Erro ao obter equipamentos', error);
+      console.error('Erro ao obter equipamento', error);
       throw error;
     }
   }
@@ -507,6 +507,24 @@ export class ApiService {
       return response.data;
     } catch (error) {
       console.error('Erro ao obter insumos do proprietário', error);
+      throw error;
+    }
+  }
+
+  async obterEquipamentosProprietario(idUsuario: number) {
+    const options = {
+      url: this.server + 'equipaments/owner?id=' + idUsuario,
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao obter equipamentos do proprietário', error);
       throw error;
     }
   }
@@ -568,6 +586,25 @@ export class ApiService {
     }
   }
 
+  async editarEquipamento(quantidade: number, valor: number, id:number,  idFazenda:number, idUsuario:number, idEquipamento:number) {
+    const options = {
+      url: this.server + 'farm/equipaments/update',
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify({ quantidade, valor, id ,idFazenda, idUsuario, idEquipamento })
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao editar equipamento', error);
+      throw error;
+    }
+  }
+
   async deletarInsumo(id: number) {
     const options = {
       url: this.server + 'insum/delete?id=' + id,
@@ -582,6 +619,25 @@ export class ApiService {
       return response.data;
     } catch (error) {
       console.error('Erro ao deletar insumo', error);
+      throw error;
+    }
+  }
+
+  async adicionarEquipamentos(quantidade:number, valor:number, idFazenda:number, idUsuario:number, idEquipamento:number) {
+    const options = {
+      url: this.server + 'farm/equipaments/add',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify({ quantidade, valor, idFazenda, idUsuario, idEquipamento })
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao adicionar equipamento', error);
       throw error;
     }
   }
