@@ -6,8 +6,9 @@ import { ExploreContainerComponentModule } from '../explore-container/explore-co
 import { IonicModule } from '@ionic/angular';
 
 import { TabGraficosPageRoutingModule } from './tab-graficos-routing.module';
-
+import { NgApexchartsModule } from 'ng-apexcharts';
 import { TabGraficosPage } from './tab-graficos.page';
+import { ChartRelatorioComponent } from '../components/chart-relatorio/chart-relatorio.component';
 
 @NgModule({
   imports: [
@@ -15,8 +16,9 @@ import { TabGraficosPage } from './tab-graficos.page';
     FormsModule,
     IonicModule,
     ExploreContainerComponentModule,
-    TabGraficosPageRoutingModule
+    TabGraficosPageRoutingModule,
+    NgApexchartsModule,
   ],
-  declarations: [TabGraficosPage]
+  declarations: [TabGraficosPage, ChartRelatorioComponent]
 })
 export class TabGraficosPageModule {}
