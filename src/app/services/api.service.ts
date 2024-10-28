@@ -97,6 +97,24 @@ export class ApiService {
     }
   }
 
+  async obterFuncionariosDesautenticados() {
+    const options = {
+      url: this.server + 'employees/unauthenticated',
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao obter funcionários desautenticados', error);
+      throw error;
+    }
+  }
+
   async obterBloqueado(email: string) {
     const options = {
       url: this.server + 'user/blocked?email=' + email,

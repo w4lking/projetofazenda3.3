@@ -11,7 +11,8 @@ import { ViewWillEnter } from '@ionic/angular';
 })
 export class Tab1Page implements OnInit, ViewWillEnter {
 
-  itens:any[] = [];
+  itens: any[] = [];
+  funcionarios: any[] = [];
 
   constructor(
     private router: Router,
@@ -20,7 +21,7 @@ export class Tab1Page implements OnInit, ViewWillEnter {
     public toastController: ToastController,
     public loadingController: LoadingController,
     public alertController: AlertController
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.obterUsuariosDesautenticados();
@@ -29,23 +30,40 @@ export class Tab1Page implements OnInit, ViewWillEnter {
   ionViewWillEnter() {
     this.obterUsuariosDesautenticados();
   }
-  
+
   async obterUsuariosDesautenticados() {
     const loading = await this.loadingController.create();
     await loading.present();
 
     this.provider.obterUsuariosDesautenticados().then(async (data: any) => {
-        await loading.dismiss();
-        if (data.length > 0) {  // Aqui verificamos se existem usuários retornados
-            this.itens = data; // Atribuímos os dados retornados diretamente
-        } else {
-            // this.Alerta('Nenhuma solicitação de usuário encontrada', 'warning');
-        }
+      await loading.dismiss();
+      if (data.length > 0) {
+        this.itens = data;
+      } else {
+        // this.Alerta('Nenhuma solicitação de autenticação encontrada', 'warning');
+      }
     }).catch(async (error) => {
-        await loading.dismiss();
-        this.Alerta('Erro ao carregar solicitações de autenticação', 'danger');
+      await loading.dismiss();
+      this.Alerta('Erro ao carregar solicitações de autenticação', 'danger');
     });
-}
+  }
+
+  async obterFuncionariosDesautenticados(){
+    const loading = await this.loadingController.create();
+    await loading.present();
+
+    this.provider.obterFuncionariosDesautenticados().then(async (data: any) => {
+      await loading.dismiss();
+      if (data.length > 0) {
+        this.funcionarios = data;
+      } else {
+        // this.Alerta('Nenhuma solicitação de autenticação encontrada', 'warning');
+      }
+    }).catch(async (error) => {
+      await loading.dismiss();
+      this.Alerta('Erro ao carregar solicitações de autenticação', 'danger');
+    });
+  }
 
 
 
@@ -54,7 +72,7 @@ export class Tab1Page implements OnInit, ViewWillEnter {
       message: 'Autenticando usuário...',
     });
     await loading.present();
-  
+
     console.log('Aceitar usuário:', usuario);
     this.provider.autenticarUsuario(usuario.idusuarios).then(
       async (res: any) => {
@@ -73,7 +91,7 @@ export class Tab1Page implements OnInit, ViewWillEnter {
       await loading.dismiss();
       console.log('Erro ao autenticar usuário:', error);
       this.mensagem('Erro ao autenticar usuário', 'danger');
-    });    
+    });
   }
 
   atualizarListaUsuarios() {
@@ -89,7 +107,7 @@ export class Tab1Page implements OnInit, ViewWillEnter {
 
 
   async confirmarUsuario(usuario: any) {
-  
+
     const alert = await this.alertController.create({
       header: 'Confirmação de Usuário',
       message: 'Tem certeza que deseja aceitar este usuário?',
@@ -109,13 +127,13 @@ export class Tab1Page implements OnInit, ViewWillEnter {
         }
       ]
     });
-  
+
     await alert.present();
   }
 
 
   async confirmarExclusaoUsuario(usuario: any) {
-  
+
     const alert = await this.alertController.create({
       header: 'Confirmação de rejeição',
       message: 'Tem certeza que deseja rejeitar este usuário?',
@@ -135,7 +153,7 @@ export class Tab1Page implements OnInit, ViewWillEnter {
         }
       ]
     });
-  
+
     await alert.present();
   }
 
@@ -162,9 +180,9 @@ export class Tab1Page implements OnInit, ViewWillEnter {
       await loading.dismiss();
       console.log('Erro ao autenticar usuário:', error);
       this.mensagem('Erro ao autenticar usuário', 'danger');
-    });    
+    });
   }
-  
+
   sair() {
     this.router.navigate(['/login']);
     sessionStorage.removeItem('token');
