@@ -12,6 +12,12 @@
     font-size: 20px;
     line-height: 26px;
   }
+
+  .content-no-scroll {
+    padding: 0;
+    overflow: hidden;
+  } 
+
   
   #container p {
     font-size: 16px;
@@ -26,7 +32,7 @@
     text-decoration: none;
   }
 
-  .empty-message {
+.empty-message {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -35,4 +41,22 @@
     font-size: 18px;
     color: var(--ion-color-medium);
   }
+
+
+  .empty-state {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80%;
+  color: var(--ion-color-medium);
+}
+
+.empty-state p {
+  font-size: 18px;
+  text-align: center;
+}
+
+
+
   

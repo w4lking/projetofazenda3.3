@@ -13,6 +13,7 @@ export class Tab1Page implements OnInit, ViewWillEnter {
 
   itens: any[] = [];
   funcionarios: any[] = [];
+  tipo : any = "usuarios";
 
   constructor(
     private router: Router,
@@ -24,11 +25,20 @@ export class Tab1Page implements OnInit, ViewWillEnter {
   ) { }
 
   ngOnInit() {
-    this.obterUsuariosDesautenticados();
+    this.atualizarDados();
   }
 
   ionViewWillEnter() {
-    this.obterUsuariosDesautenticados();
+    this.atualizarDados();
+  }
+
+  atualizarDados() {
+    if (this.tipo == "usuarios") {
+      this.obterUsuariosDesautenticados();
+    }
+    if (this.tipo == "funcionarios") {
+      this.obterFuncionariosDesautenticados();
+    }
   }
 
   async obterUsuariosDesautenticados() {
@@ -182,6 +192,7 @@ export class Tab1Page implements OnInit, ViewWillEnter {
       this.mensagem('Erro ao autenticar usuário', 'danger');
     });
   }
+  
 
   sair() {
     this.router.navigate(['/login']);
