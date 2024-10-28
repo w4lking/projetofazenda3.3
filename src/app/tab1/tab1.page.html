@@ -50,8 +50,8 @@
   </ion-segment>
 
   <!-- Exibe a lista de usuários se houver itens -->
-  <ion-list *ngIf="itens.length > 0 && tipo === 'usuarios'; else semUsuarios">
-    <ion-item *ngFor="let item of itens">
+  <ion-list *ngIf="usuarios.length > 0 && tipo === 'usuarios'; else semUsuarios">
+    <ion-item *ngFor="let item of usuarios">
       <ion-label>
         <h2>{{ item.idusuarios }} - {{ item.nome }}</h2>
         <p>CPF: {{ item.cpf }}</p>
@@ -84,6 +84,7 @@
         <h2>{{ item.idfuncionarios }} - {{ item.nome }}</h2>
         <p>CPF: {{ item.cpf }}</p>
         <p>Email: {{ item.email }}</p>
+        <p>ID do PROPRIETÁRIO: {{ item.fazendas_usuarios_idusuarios }}</p>
         <small>{{ item.perfil }}</small>
       </ion-label>
       <ion-buttons slot="end">

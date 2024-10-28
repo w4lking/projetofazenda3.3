@@ -11,9 +11,10 @@ import { ViewWillEnter } from '@ionic/angular';
 })
 export class Tab1Page implements OnInit, ViewWillEnter {
 
-  itens: any[] = [];
+  usuarios: any[] = [];
   funcionarios: any[] = [];
-  tipo : any = "usuarios";
+  tipo: any = "usuarios";
+  prot: any[] = [];
 
   constructor(
     private router: Router,
@@ -32,46 +33,53 @@ export class Tab1Page implements OnInit, ViewWillEnter {
     this.atualizarDados();
   }
 
+  // getNome(idUsuario: number | null): string {
+  //   const user = this.usuarios.find((u: { idusuarios: number }) => Number(u.idusuarios) === Number(idUsuario));
+  //   return user ? user.nome : 'user não encontrada';
+  // }
+
+
+  async carregarDados() {
+    const loading = await this.loadingController.create({
+      message: 'Carregando Dados...',
+    });
+    await loading.present();
+    this.obterUsuariosDesautenticados();
+    this.obterFuncionariosDesautenticados();
+    await loading.dismiss();
+  }
+
+
   atualizarDados() {
     if (this.tipo == "usuarios") {
-      this.obterUsuariosDesautenticados();
+      this.carregarDados();
     }
     if (this.tipo == "funcionarios") {
-      this.obterFuncionariosDesautenticados();
+      this.carregarDados();
     }
   }
 
   async obterUsuariosDesautenticados() {
-    const loading = await this.loadingController.create();
-    await loading.present();
-
     this.provider.obterUsuariosDesautenticados().then(async (data: any) => {
-      await loading.dismiss();
       if (data.length > 0) {
-        this.itens = data;
+        this.usuarios = data;
       } else {
-        // this.Alerta('Nenhuma solicitação de autenticação encontrada', 'warning');
       }
     }).catch(async (error) => {
-      await loading.dismiss();
-      this.Alerta('Erro ao carregar solicitações de autenticação', 'danger');
     });
   }
 
-  async obterFuncionariosDesautenticados(){
-    const loading = await this.loadingController.create();
-    await loading.present();
+
+  async obterFuncionariosDesautenticados() {
 
     this.provider.obterFuncionariosDesautenticados().then(async (data: any) => {
-      await loading.dismiss();
       if (data.length > 0) {
         this.funcionarios = data;
       } else {
         // this.Alerta('Nenhuma solicitação de autenticação encontrada', 'warning');
       }
     }).catch(async (error) => {
-      await loading.dismiss();
-      this.Alerta('Erro ao carregar solicitações de autenticação', 'danger');
+      // this.Alerta('Erro ao carregar solicitações de autenticação', 'danger');
     });
   }
 
@@ -107,7 +115,7 @@ export class Tab1Page implements OnInit, ViewWillEnter {
   atualizarListaUsuarios() {
     this.provider.obterUsuariosDesautenticados().then(
       (usuarios: any) => {
-        this.itens = usuarios;  // Atualiza a lista de usuários
+        this.usuarios = usuarios;  // Atualiza a lista de usuários
       }
     ).catch((error: any) => {
       console.log('Erro ao buscar usuários:', error);
@@ -192,7 +200,7 @@ export class Tab1Page implements OnInit, ViewWillEnter {
       this.mensagem('Erro ao autenticar usuário', 'danger');
     });
   }
-  
+
 
   sair() {
     this.router.navigate(['/login']);
