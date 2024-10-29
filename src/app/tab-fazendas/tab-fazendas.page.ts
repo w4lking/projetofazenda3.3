@@ -61,6 +61,7 @@ export class TabFazendasPage implements OnInit, ViewWillEnter {
   isModalOpen = false;
 
   setOpen(isOpen: boolean) {
+    if (!isOpen) this.limpar();
     this.isModalOpen = isOpen;
   }
 
@@ -161,6 +162,7 @@ export class TabFazendasPage implements OnInit, ViewWillEnter {
   }
 
   limpar() {
+    this.idFazenda = null;
     this.nome = '';
     this.cep = '';
     this.endereco = '';

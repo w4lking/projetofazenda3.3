@@ -88,6 +88,7 @@ export class Tab4Page implements OnInit, ViewWillEnter {
   editando = false;
 
   setOpen(isOpen: boolean) {
+    if (!isOpen) this.limpar();
     this.isModalOpen = isOpen;
   }
 
@@ -293,8 +294,8 @@ export class Tab4Page implements OnInit, ViewWillEnter {
     this.telefone = '';
     this.senha = '';
     this.salario = maskitoTransform('R$ 0,00', salarioMask);
-    this.idfuncionario;
-    this.idFazenda;
+    this.idfuncionario = null;
+    this.idFazenda = null;
   }
 
 

@@ -112,7 +112,7 @@ export class Tab3Page implements OnInit {
       const data = await this.provider.obterInsumos();
       this.insumos = (data.status === 'success' && data.insumos.length > 0) ? data.insumos : [];
     } catch (error) {
-      this.exibirAlerta('Erro ao carregar insumos', 'danger');
+      // this.exibirAlerta('Erro ao carregar insumos', 'danger');
     }
   }
 
@@ -121,7 +121,7 @@ export class Tab3Page implements OnInit {
       const data = await this.provider.obterEquipamentos();
       this.equipamentos = (data.status === 'success' && data.equipamentos.length > 0) ? data.equipamentos : [];
     } catch (error) {
-      this.exibirAlerta('Erro ao carregar equipamentos', 'danger');
+      // this.exibirAlerta('Erro ao carregar equipamentos', 'danger');
     }
   }
 
