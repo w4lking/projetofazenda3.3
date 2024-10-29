@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastController, LoadingController, AlertController } from '@ionic/angular'; // Adicione AlertController
+import { ToastController, LoadingController, AlertController, ModalController } from '@ionic/angular'; // Adicione AlertController
 @Component({
   selector: 'app-tab-graficos',
   templateUrl: './tab-graficos.page.html',
@@ -11,10 +11,15 @@ export class TabGraficosPage implements OnInit {
   constructor(
     public toastController: ToastController,
     public loadingController: LoadingController,
-    private alertController: AlertController // Adicione esta linha
+    private alertController: AlertController,
+    private modalCtrl: ModalController,
   ) { }
 
   ngOnInit() {
+  }
+
+  cancel() {
+    this.modalCtrl.dismiss(null, 'cancel');
   }
 
   async mensagem(mensagem:any){

@@ -9,6 +9,7 @@ import { TabGraficosPageRoutingModule } from './tab-graficos-routing.module';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { TabGraficosPage } from './tab-graficos.page';
 import { ChartRelatorioComponent } from '../components/chart-relatorio/chart-relatorio.component';
+import { ChartGastosComponent } from '../components/chart-gastos/chart-gastos.component';	
 
 @NgModule({
   imports: [
@@ -19,6 +20,6 @@ import { ChartRelatorioComponent } from '../components/chart-relatorio/chart-rel
     TabGraficosPageRoutingModule,
     NgApexchartsModule,
   ],
-  declarations: [TabGraficosPage, ChartRelatorioComponent]
+  declarations: [TabGraficosPage, ChartRelatorioComponent, ChartGastosComponent]
 })
 export class TabGraficosPageModule {}

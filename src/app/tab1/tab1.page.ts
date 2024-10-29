@@ -101,7 +101,7 @@ export class Tab1Page implements OnInit, ViewWillEnter {
           this.mensagem('Usuário autenticado com sucesso!', 'success');
           this.atualizarListaUsuarios();  // Atualizar a lista de usuários após sucesso
         } else {
-          console.log('Falha ao autenticar usuário:', res.mensagem);
+          console.log('Falha ao autenticar usuário:', res);
           this.mensagem('Falha ao autenticar usuário', 'danger');
         }
       }

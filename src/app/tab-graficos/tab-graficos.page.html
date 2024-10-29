@@ -1,19 +1,40 @@
 
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab Gráfico</ion-title>
-      
-    </ion-toolbar>
-    
-  </ion-header>
+<ion-content class="ion-padding">
+  <ion-button id="open-gastos-pizza" expand="block">Gastos - Pizza</ion-button>
+  <ion-button id="open-gastos-barras" expand="block">Gastos - Barras</ion-button>
+  
+  <ion-modal trigger="open-gastos-pizza" >
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cancel()" [strong]="true">Cancelar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+          <app-chart-relatorio></app-chart-relatorio>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+ 
+  
+  <ion-modal trigger="open-gastos-barras" >
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cancel()" [strong]="true">Cancelar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+          <app-chart-gastos></app-chart-gastos>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 
-  <app-chart-relatorio></app-chart-relatorio>
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="exibirAlerta('DEMO, GRÁFICO FICTICIO SOMENTE PARA REPRESENTAÇÃO, SERÁ PREENCHIDO EM BREVE!')">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
 </ion-content>
+
