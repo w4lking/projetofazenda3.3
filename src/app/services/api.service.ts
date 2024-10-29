@@ -660,6 +660,24 @@ export class ApiService {
     }
   }
 
+  async obterGastos(id: any) {
+    const options = {
+      url: this.server + 'expenses?id=' + id,
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao obter gastos', error);
+      throw error;
+    }
+  }
+
   
 
 }

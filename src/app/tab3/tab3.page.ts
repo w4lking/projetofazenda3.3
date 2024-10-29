@@ -80,6 +80,8 @@ export class Tab3Page implements OnInit {
     });
     await loading.present();
     this.obterUsuario();
+    this.obterInsumo();
+    this.obterEquipamento();
     this.obterFazendas();
     await loading.dismiss();
   }

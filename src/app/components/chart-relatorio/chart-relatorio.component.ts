@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-
+import { ApiService } from 'src/app/services/api.service';
 import { ChartComponent, ApexNonAxisChartSeries, ApexResponsive, ApexChart } from "ng-apexcharts";
 
 export type ChartOptions = {
@@ -17,28 +17,42 @@ export type ChartOptions = {
 })
 export class ChartRelatorioComponent  implements OnInit {
 
-  salarioTotal: number = 0; // Variável para armazenar o salário total
-  insumosTotal: number = 0;
-  equipamentosTotal: number = 0;
+  salarioTotal: number = 1; // Variável para armazenar o salário total
+  insumosTotal: number = 1;
+  equipamentosTotal: number = 1;
+  idUsuario = Number(sessionStorage.getItem('id'));
 
 
   @ViewChild('chart') chart: ChartComponent | any;
   public chartOptions: ChartOptions | any;
 
-  constructor() { }
+  constructor(
+    private provider: ApiService,
+  ) { }
 
   ngOnInit() {
-    this.inicializarGrafico();
+    this.provider.obterGastos(this.idUsuario).then(
+      (res: any) => {
+        if (res.status === 'success') {
+          this.salarioTotal = res.salarioTotal;
+          this.insumosTotal = res.insumosTotal;
+          this.equipamentosTotal = res.equipamentosTotal;
+          this.inicializarGrafico();
+        }
+      }
+    ).catch((error) => {
+      console.error('Erro ao obter gastos:', error);
+    });
   }
 
   inicializarGrafico() {
     this.chartOptions = {
-      series: [500, 300, 100],
+      series: [this.salarioTotal, this.insumosTotal, this.equipamentosTotal],
       chart: {
         width: 500,
         type: "pie"
       },
-      labels: ["Funcionários: ", "Insumos", "Equipamentos"],
+      labels: ["Funcionários", "Insumos", "Equipamentos"],
       responsive: [
         {
           breakpoint: 460,
@@ -54,5 +68,4 @@ export class ChartRelatorioComponent  implements OnInit {
       ]
     };
   }
-
 }
