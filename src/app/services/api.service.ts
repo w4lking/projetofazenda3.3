@@ -678,6 +678,25 @@ export class ApiService {
     }
   }
 
+  async obterGastosPorMes(id: any, month: number, year: number) {
+  const options = {
+    url: `${this.server}expenses/month?id=${id}&month=${month}&year=${year}`,
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  try {
+    const response = await CapacitorHttp.request(options);
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao obter gastos por mês', error);
+    throw error;
+  }
+}
+
+
   
 
 }

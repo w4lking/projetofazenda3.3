@@ -1,14 +1,18 @@
-<div id="chart">
+<div *ngIf="loading" class="loading-indicator">
+  Carregando dados...
+</div>
+<div *ngIf="!loading">
   <apx-chart
+    *ngIf="chartOptions"
     [series]="chartOptions.series"
     [chart]="chartOptions.chart"
+    [xaxis]="chartOptions.xaxis"
+    [yaxis]="chartOptions.yaxis"
     [dataLabels]="chartOptions.dataLabels"
     [plotOptions]="chartOptions.plotOptions"
-    [yaxis]="chartOptions.yaxis"
-    [legend]="chartOptions.legend"
     [fill]="chartOptions.fill"
     [stroke]="chartOptions.stroke"
     [tooltip]="chartOptions.tooltip"
-    [xaxis]="chartOptions.xaxis"
-  ></apx-chart>
+    [legend]="chartOptions.legend">
+  </apx-chart>
 </div>

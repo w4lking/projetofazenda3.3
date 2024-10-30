@@ -156,7 +156,7 @@ export class Tab4Page implements OnInit, ViewWillEnter {
         }
       }
     ).catch(async (error) => {
-      this.mensagem('Erro ao carregar funcionários', 'danger');
+      // this.mensagem('Erro ao carregar funcionários', 'danger');
     });
   }
 
