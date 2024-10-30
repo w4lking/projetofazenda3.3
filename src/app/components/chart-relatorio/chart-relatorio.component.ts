@@ -34,7 +34,7 @@ export class ChartRelatorioComponent implements OnInit {
     this.chartOptions = {
       series: [],
       chart: { width: 500, type: "pie" },
-      labels: ["Funcionários", "Insumos", "Equipamentos"],
+      labels: ["Equipamentos", "Insumos",  "Funcionários"],
       responsive: [{ breakpoint: 460, options: { chart: { width: 380 }, legend: { position: "bottom" } } }]
     };
 
@@ -54,12 +54,12 @@ export class ChartRelatorioComponent implements OnInit {
 
   inicializarGrafico() {
     this.chartOptions = {
-      series: [this.salarioTotal, this.insumosTotal, this.equipamentosTotal],
+      series: [ this.equipamentosTotal,this.insumosTotal,this.salarioTotal ],
       chart: {
         width: 500,
         type: "pie"
       },
-      labels: ["Funcionários", "Insumos", "Equipamentos"],
+      labels: ["Equipamentos", "Insumos",  "Funcionários"],
       responsive: [
         {
           breakpoint: 460,

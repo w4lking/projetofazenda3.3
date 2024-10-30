@@ -34,7 +34,6 @@ export type ChartOptions = {
 })
 export class ChartGastosComponent implements OnInit {
   date: any[] = []; // Array para armazenar os meses no formato abreviado
-  salarioTotal: any[] = []; // Array para armazenar os totais de salário por mês
   insumosTotal: any[] = [];
   equipamentosTotal: any[] = [];
   idUsuario = Number(sessionStorage.getItem('id'));
@@ -47,14 +46,17 @@ export class ChartGastosComponent implements OnInit {
 
   ngOnInit() {
     this.chartOptions = {
-    series: [],
-    chart: { type: 'bar', height: 350 },
-    plotOptions: { bar: { horizontal: false, columnWidth: "45%" } },
-    xaxis: { categories: [] },
-    yaxis: {},
-    fill: { opacity: 1 },
-  };
-  this.fetchExpensesData();
+      series: [
+        { name: "Insumos", data: this.insumosTotal },
+        { name: "Equipamentos", data: this.equipamentosTotal },
+      ],
+      chart: { type: 'bar', height: 350 },
+      plotOptions: { bar: { horizontal: false, columnWidth: "45%" } },
+      xaxis: { categories: [] },
+      yaxis: {},
+      fill: { opacity: 1 },
+    };
+    this.fetchExpensesData();
   }
 
   fetchExpensesData() {
@@ -71,15 +73,14 @@ export class ChartGastosComponent implements OnInit {
           this.date.push(months[month - 1]); // Adiciona apenas o nome abreviado do mês
         }
 
-        // Verifica se todas as requisições foram concluídas
         if (completedRequests === 12) {
-          this.loading = false; // Desativa o loading quando todas as requisições terminarem
+          this.loading = false;
           this.updateChart();
         }
       }).catch(() => {
         completedRequests++;
         if (completedRequests === 12) {
-          this.loading = false; // Desativa o loading mesmo em caso de erro
+          this.loading = false;
           this.updateChart();
         }
       });
@@ -96,17 +97,17 @@ export class ChartGastosComponent implements OnInit {
       plotOptions: {
         bar: {
           horizontal: false,
-          columnWidth: "45%", // Reduz a largura das colunas
+          columnWidth: "35%", // Ajuste da largura das colunas
           endingShape: "rounded"
         }
       },
       dataLabels: {
         enabled: false,
-        formatter: (val: number) => val.toFixed(2) // Limita a 2 casas decimais
+        formatter: (val: number) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val) // Formata como moeda
       },
       tooltip: {
         y: {
-          formatter: (val: number) => val.toFixed(2) // Limita a 2 casas decimais no tooltip
+          formatter: (val: number) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val) // Formata como moeda no tooltip
         }
       },
       stroke: { show: true, width: 2, colors: ["transparent"] },
@@ -121,7 +122,7 @@ export class ChartGastosComponent implements OnInit {
       },
       yaxis: {
         labels: {
-          formatter: (val: number) => val.toFixed(2) // Limita a 2 casas decimais no eixo Y
+          formatter: (val: number) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val) // Formata como moeda no eixo Y
         }
       },
       fill: { opacity: 1 },

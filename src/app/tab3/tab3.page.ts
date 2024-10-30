@@ -135,7 +135,7 @@ export class Tab3Page implements OnInit {
           this.email = this.usuarios.email;
           this.telefone = this.usuarios.telefone;
         } else {
-          this.exibirAlerta('Nenhum usuário encontrado', 'warning');
+          // this.exibirAlerta('Nenhum usuário encontrado', 'warning');
         }
       }
     } catch (error) {
