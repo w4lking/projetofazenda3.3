@@ -15,7 +15,7 @@ export type ChartOptions = {
   templateUrl: './chart-relatorio.component.html',
   styleUrls: ['./chart-relatorio.component.scss'],
 })
-export class ChartRelatorioComponent  implements OnInit {
+export class ChartRelatorioComponent implements OnInit {
 
   salarioTotal: number = 1; // Variável para armazenar o salário total
   insumosTotal: number = 1;
@@ -31,12 +31,19 @@ export class ChartRelatorioComponent  implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.chartOptions = {
+      series: [],
+      chart: { width: 500, type: "pie" },
+      labels: ["Funcionários", "Insumos", "Equipamentos"],
+      responsive: [{ breakpoint: 460, options: { chart: { width: 380 }, legend: { position: "bottom" } } }]
+    };
+
     this.provider.obterGastos(this.idUsuario).then(
       (res: any) => {
         if (res.status === 'success') {
-          this.salarioTotal = res.salarioTotal;
-          this.insumosTotal = res.insumosTotal;
-          this.equipamentosTotal = res.equipamentosTotal;
+          this.salarioTotal = res.salarioTotal ?? 0;
+          this.insumosTotal = res.insumosTotal ?? 0;
+          this.equipamentosTotal = res.equipamentosTotal ?? 0;
           this.inicializarGrafico();
         }
       }
