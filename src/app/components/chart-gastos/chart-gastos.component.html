@@ -2,6 +2,7 @@
   Carregando dados...
 </div>
 <div *ngIf="!loading">
+  <h3>Relatório de Gastos - Ano: {{ currentYear }}</h3>
   <apx-chart
     *ngIf="chartOptions"
     [series]="chartOptions.series"

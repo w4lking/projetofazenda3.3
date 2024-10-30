@@ -103,18 +103,18 @@ export class ChartGastosComponent implements OnInit {
       },
       dataLabels: {
         enabled: false,
-        formatter: (val: number) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val) // Formata como moeda
+        formatter: (val: number) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val)
       },
       tooltip: {
         y: {
-          formatter: (val: number) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val) // Formata como moeda no tooltip
+          formatter: (val: number) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val)
         }
       },
       stroke: { show: true, width: 2, colors: ["transparent"] },
       xaxis: {
         categories: this.date,
         labels: {
-          rotate: -45, // Rotaciona os rótulos do eixo X para melhorar a legibilidade
+          rotate: -45,
           style: {
             fontSize: '12px'
           }
@@ -122,14 +122,13 @@ export class ChartGastosComponent implements OnInit {
       },
       yaxis: {
         labels: {
-          formatter: (val: number) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val) // Formata como moeda no eixo Y
+          formatter: (val: number) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val)
         }
       },
       fill: { opacity: 1 },
       legend: {
         show: true,
-        position: 'top',
-        formatter: () => `Ano: ${this.currentYear}`, // Exibe o ano na legenda
+        position: 'bottom'
       }
     };
   }
