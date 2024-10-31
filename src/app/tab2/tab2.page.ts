@@ -10,6 +10,8 @@ import { ViewWillEnter } from '@ionic/angular';
 })
 export class Tab2Page implements OnInit, ViewWillEnter  {
   usuarios: any[] = [];
+  funcionarios: any[] = [];
+  tipo = "usuarios";
 
   constructor(
     private provider: ApiService,
@@ -19,11 +21,12 @@ export class Tab2Page implements OnInit, ViewWillEnter  {
   ) {}
 
   ngOnInit() {
-    this.obterUsuarios();
+    this.carregarDados();
+    this.atualizarDados();
   }
 
   ionViewWillEnter() {
-    this.obterUsuarios();
+    this.carregarDados();
   }
 
   async exibirAlerta(mensagem: string, cor: string) {
@@ -35,22 +38,47 @@ export class Tab2Page implements OnInit, ViewWillEnter  {
     await alert.present();
   }
 
-  async obterUsuarios() {
+  async carregarDados() {
     const loading = await this.loadingController.create({
-      message: 'Carregando usuários...',
+      message: 'Carregando Dados...',
     });
     await loading.present();
+    this.obterUsuarios();
+    this.obterFuncionarios();
+    await loading.dismiss();
+  }
+
+  atualizarDados() {
+    if (this.tipo == "usuarios") {
+      this.obterUsuarios();
+    }
+    if (this.tipo == "funcionarios") {
+      this.obterFuncionarios();
+    }
+  }
+
+  async obterUsuarios() {
 
     this.provider.obterUsuarios().then(async (data: any) => {
-      await loading.dismiss();
       if (data.length > 0) {
         this.usuarios = data;
       } else {
-        await this.exibirAlerta('Nenhum usuário encontrado', 'danger');
+        // await this.exibirAlerta('Nenhum usuário encontrado', 'danger');
       }
     }).catch(async (error) => {
-      await loading.dismiss();
       await this.exibirAlerta('Erro ao carregar usuários', 'danger');
+    });
+  }
+
+  obterFuncionarios() {
+    this.provider.obterFunc().then((data: any) => {
+      if (data.length > 0) {
+        this.funcionarios = data;
+      } else {
+        // this.exibirAlerta('Nenhum funcionário encontrado', 'danger');
+      }
+    }).catch((error) => {
+      this.exibirAlerta('Erro ao carregar funcionários', 'danger');
     });
   }
 

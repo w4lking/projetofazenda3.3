@@ -1,12 +1,20 @@
 
-<ion-header>
-  <ion-toolbar color="medium">
-    <ion-title class="titulo">Administrador</ion-title>
+  <ion-header>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="tipo" (ionChange)="atualizarDados()">
+      <ion-segment-button value="usuarios">
+        <ion-label>Usuários</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="funcionarios">
+        <ion-label>Funcionários</ion-label>
+      </ion-segment-button>
+    </ion-segment>
   </ion-toolbar>
 </ion-header>
 
+
 <ion-content>
-  <ion-list *ngIf="usuarios.length > 0; else semUsuarios">
+  <ion-list *ngIf="usuarios.length > 0 && tipo == 'usuarios'; else semUsuarios">
     <ion-item *ngFor="let usuario of usuarios">
       <ion-label>
         <h2>{{usuario.idusuarios}} - {{ usuario.nome }}</h2>
@@ -37,9 +45,52 @@
     </ion-item>
   </ion-list>
 
+  
+
+  <ion-list *ngIf="funcionarios.length > 0 && tipo == 'funcionarios'; else SemFuncionarios">
+    <ion-item *ngFor="let funcionario of funcionarios">
+      <ion-label>
+        <h2>{{funcionario.idfuncionarios}} - {{ funcionario.nome }}</h2>
+        <p>CPF: {{ funcionario.cpf }}</p>
+        <p>Telefone: {{ funcionario.telefone }}</p>
+        <p>Email: {{ funcionario.email }}</p>
+        <p>Bloqueado: {{ funcionario.bloqueado == 1 ? 'Sim' : 'Não' }}</p>
+        <p>Autenticado: {{ funcionario.autenticado == 1 ? 'Sim' : 'Não' }}</p>
+        <small>{{ funcionario.perfil }}</small>
+      </ion-label>
+
+      <ion-buttons slot="end">
+        <!-- Botão de Edição -->
+        <!-- <ion-button (click)="editarUsuario(usuario)">
+          <ion-icon slot="icon-only" name="pencil-outline"></ion-icon>
+        </ion-button> -->
+
+        <!-- Botão de Bloqueio/Desbloqueio -->
+        <ion-button>
+          <ion-icon  name="lock-open-outline"></ion-icon>
+        </ion-button>
+
+        <!-- Botão de Exclusão -->
+        <ion-button color="danger">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+
   <ng-template #semUsuarios>
-    <ion-item class="empty-message">
+    <ion-item class="empty-message" *ngIf="tipo == 'usuarios'">
       <ion-label>Nenhum usuário encontrado.</ion-label>
     </ion-item>
   </ng-template>
+
+  <ng-template #SemFuncionarios>
+    <div class="empty-state" *ngIf="tipo == 'funcionarios'">
+      <ion-icon name="alert-circle-outline" size="large"></ion-icon>
+      <p>Nenhum Funcionario encontrado.</p>
+    </div>
+  </ng-template>
+
 </ion-content>
+
+

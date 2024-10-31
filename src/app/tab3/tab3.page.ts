@@ -180,7 +180,7 @@ export class Tab3Page implements OnInit {
     }
 
     try {
-      const data = await this.provider.adicionarEquipamentos(this.quantidade, this.valor, this.idFazenda, this.idUsuario, this.idEquipamento,);
+      const data = await this.provider.adicionarEquipamentos(this.quantidade, this.valor, this.idFazenda, this.idUsuario, this.idEquipamento);
       if (data.status === 'success') {
         this.exibirAlerta('Equipamento adicionado com sucesso', 'success');
         this.limpar();

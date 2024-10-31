@@ -169,6 +169,25 @@ export class ApiService {
     }
   }
 
+  async obterFunc() {
+    const options = {
+      url: this.server + 'employees',  // URL correta para a rota
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao obter usuários', error);
+      throw error;
+    }
+  }
+  
+
 
   async obterUsuario(id: any) {
     const options = {
