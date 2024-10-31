@@ -45,17 +45,6 @@ export class ChartGastosComponent implements OnInit {
   constructor(private provider: ApiService) { }
 
   ngOnInit() {
-    this.chartOptions = {
-      series: [
-        { name: "Insumos", data: this.insumosTotal },
-        { name: "Equipamentos", data: this.equipamentosTotal },
-      ],
-      chart: { type: 'bar', height: 350 },
-      plotOptions: { bar: { horizontal: false, columnWidth: "45%" } },
-      xaxis: { categories: [] },
-      yaxis: {},
-      fill: { opacity: 1 },
-    };
     this.fetchExpensesData();
   }
 

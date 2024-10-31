@@ -31,13 +31,6 @@ export class ChartRelatorioComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.chartOptions = {
-      series: [],
-      chart: { width: 500, type: "pie" },
-      labels: ["Equipamentos", "Insumos",  "Funcionários"],
-      responsive: [{ breakpoint: 460, options: { chart: { width: 380 }, legend: { position: "bottom" } } }]
-    };
-
     this.provider.obterGastos(this.idUsuario).then(
       (res: any) => {
         if (res.status === 'success') {
@@ -54,18 +47,18 @@ export class ChartRelatorioComponent implements OnInit {
 
   inicializarGrafico() {
     this.chartOptions = {
-      series: [ this.equipamentosTotal,this.insumosTotal,this.salarioTotal ],
+      series: [ this.insumosTotal, this.equipamentosTotal,this.salarioTotal ],
       chart: {
-        width: 500,
+        width: 350,
         type: "pie"
       },
-      labels: ["Equipamentos", "Insumos",  "Funcionários"],
+      labels: ["Insumos", "Equipamentos" ,  "Funcionários"],
       responsive: [
         {
-          breakpoint: 460,
+          breakpoint: 370,
           options: {
             chart: {
-              width: 380
+              width: 340
             },
             legend: {
               position: "bottom"
