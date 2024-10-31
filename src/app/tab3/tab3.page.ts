@@ -148,7 +148,7 @@ export class Tab3Page implements OnInit {
       const data = await this.provider.obterFazenda(this.idUsuario);
       this.fazendas = (data.status === 'success' && data.fazendas.length > 0) ? data.fazendas : [];
     } catch (error) {
-      this.exibirAlerta('Erro ao carregar fazendas', 'danger');
+      // this.exibirAlerta('Erro ao carregar fazendas', 'danger');
     }
   }
 
