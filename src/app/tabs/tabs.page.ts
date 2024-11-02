@@ -11,6 +11,7 @@ import { ViewWillEnter } from '@ionic/angular';
 export class TabsPage implements OnInit, ViewWillEnter {
 
   isAdmin: boolean = false;
+  isProprietario: boolean = false;
 
   constructor(private api: ApiService, private router: Router) {}
 
@@ -27,6 +28,7 @@ export class TabsPage implements OnInit, ViewWillEnter {
 
       // Verifique se o perfil é ADMINISTRADOR
       this.isAdmin = perfilUsuario === 'ADMINISTRADOR';
+      this.isProprietario = perfilUsuario === 'PROPRIETARIO';
 
       // Se o identificador de sessão não estiver presente, redirecione para o login
       if (!sessionId) {
@@ -50,6 +52,7 @@ export class TabsPage implements OnInit, ViewWillEnter {
 
     // Verifique se o perfil é ADMINISTRADOR
     this.isAdmin = perfilUsuario === 'ADMINISTRADOR';
+    this.isProprietario = perfilUsuario === 'PROPRIETARIO';
 
     // Se o identificador de sessão não estiver presente, redirecione para o login
     if (!sessionId) {
