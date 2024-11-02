@@ -283,6 +283,25 @@ export class ApiService {
     }
   }
 
+  async autenticarfuncionario(id: any) {
+    const options = {
+      url: this.server + 'employees/authenticate',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify({ id: id }),
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao autenticar usuário', error);
+      throw error;
+    }
+  }
+
   async deletarUsuario(id: number) {
     const options = {
       url: this.server + 'user/delete?id=' + id,

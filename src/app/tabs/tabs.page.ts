@@ -13,44 +13,20 @@ export class TabsPage implements OnInit, ViewWillEnter {
   isAdmin: boolean = false;
   isProprietario: boolean = false;
 
-  constructor(private api: ApiService, private router: Router) {}
+  constructor(private api: ApiService, private router: Router) { }
 
   ngOnInit() {
-      const perfilUsuario = sessionStorage.getItem('perfil');
-      const sessionId = sessionStorage.getItem('sessionId');
-      const email = sessionStorage.getItem('email');
-      const id = sessionStorage.getItem('id');
-
-      console.log('Perfil do usuário:', perfilUsuario);
-      console.log('Session ID:', sessionId);
-      console.log('Email:', email);
-      console.log('ID:', id);
-
-      // Verifique se o perfil é ADMINISTRADOR
-      this.isAdmin = perfilUsuario === 'ADMINISTRADOR';
-      this.isProprietario = perfilUsuario === 'PROPRIETARIO';
-
-      // Se o identificador de sessão não estiver presente, redirecione para o login
-      if (!sessionId) {
-          console.log('Sessão inválida. Redirecionando para login...');
-          this.router.navigate(['/login']);
-      }
-
-      console.log('isAdmin:', this.isAdmin);
-  }
-
-  ionViewWillEnter() {
-    // Este método será chamado sempre que a página for exibida
     const perfilUsuario = sessionStorage.getItem('perfil');
     const sessionId = sessionStorage.getItem('sessionId');
+    const email = sessionStorage.getItem('email');
     const id = sessionStorage.getItem('id');
-
 
     console.log('Perfil do usuário:', perfilUsuario);
     console.log('Session ID:', sessionId);
+    console.log('Email:', email);
     console.log('ID:', id);
 
-    // Verifique se o perfil é ADMINISTRADOR
+    // Verifique se o perfil é ADMINISTRADOR ou PROPRIETARIO
     this.isAdmin = perfilUsuario === 'ADMINISTRADOR';
     this.isProprietario = perfilUsuario === 'PROPRIETARIO';
 
@@ -58,6 +34,46 @@ export class TabsPage implements OnInit, ViewWillEnter {
     if (!sessionId) {
       console.log('Sessão inválida. Redirecionando para login...');
       this.router.navigate(['/login']);
+      return;
+    }
+
+    // Se o usuário não for nem admin nem proprietário, redireciona para `tabRegistros`
+    if (!this.isAdmin && !this.isProprietario) {
+      console.log('Usuário não é administrador nem proprietário. Redirecionando para tabRegistros...');
+      this.router.navigate(['/tabs/tabRegistros']);
+    }
+
+    console.log('isAdmin:', this.isAdmin);
+    console.log('isProprietario:', this.isProprietario);
+  }
+
+
+  ionViewWillEnter() {
+    // Este método será chamado sempre que a página for exibida
+    const perfilUsuario = sessionStorage.getItem('perfil');
+    const sessionId = sessionStorage.getItem('sessionId');
+    const id = sessionStorage.getItem('id');
+
+    console.log('Perfil do usuário:', perfilUsuario);
+    console.log('Session ID:', sessionId);
+    console.log('ID:', id);
+
+    // Verifique se o perfil é ADMINISTRADOR ou PROPRIETARIO
+    this.isAdmin = perfilUsuario === 'ADMINISTRADOR';
+    this.isProprietario = perfilUsuario === 'PROPRIETARIO';
+
+    // Se o identificador de sessão não estiver presente, redirecione para o login
+    if (!sessionId) {
+      console.log('Sessão inválida. Redirecionando para login...');
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    // Se o usuário não for nem admin nem proprietário, redireciona para `tabRegistros`
+    if (!this.isAdmin && !this.isProprietario) {
+      console.log('Usuário não é administrador nem proprietário. Redirecionando para tabRegistros...');
+      this.router.navigate(['/tabs/tabRegistros']);
     }
   }
+
 }

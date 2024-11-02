@@ -112,6 +112,33 @@ export class Tab1Page implements OnInit, ViewWillEnter {
     });
   }
 
+  async aceitarFuncionario(funcionario: any) {
+    const loading = await this.loadingController.create({
+      message: 'Autenticando funcionário...',
+    });
+    await loading.present();
+
+    console.log('Aceitar funcionário:', funcionario);
+    this.provider.autenticarfuncionario(funcionario.idfuncionarios).then(
+      async (res: any) => {
+        await loading.dismiss();
+        console.log('Resposta da API:', res);  // Verificar a resposta completa aqui
+        if (res.status == 'success') {
+          console.log('Funcionário autenticado com sucesso:', funcionario);
+          this.mensagem('Funcionário autenticado com sucesso!', 'success');
+          this.atualizarListaUsuarios();  // Atualizar a lista de Funcionarios após sucesso
+        } else {
+          console.log('Falha ao autenticar Funcionário:', res);
+          this.mensagem('Falha ao autenticar Funcionário', 'danger');
+        }
+      }
+    ).catch(async (error) => {
+      await loading.dismiss();
+      console.log('Erro ao autenticar usuário:', error);
+      this.mensagem('Erro ao autenticar usuário', 'danger');
+    });
+  }
+
   atualizarListaUsuarios() {
     this.provider.obterUsuariosDesautenticados().then(
       (usuarios: any) => {
@@ -123,9 +150,19 @@ export class Tab1Page implements OnInit, ViewWillEnter {
     });
   }
 
+  atualizarListaFuncionarios() {
+    this.provider.obterFuncionariosDesautenticados().then(
+      (funcionarios: any) => {
+        this.funcionarios = funcionarios;  // Atualiza a lista de usuários
+      }
+    ).catch((error: any) => {
+      console.log('Erro ao buscar usuários:', error);
+      this.mensagem('Erro ao atualizar a lista de usuários', 'danger');
+    });
+  }
+
 
   async confirmarUsuario(usuario: any) {
-
     const alert = await this.alertController.create({
       header: 'Confirmação de Usuário',
       message: 'Tem certeza que deseja aceitar este usuário?',
@@ -141,6 +178,30 @@ export class Tab1Page implements OnInit, ViewWillEnter {
           text: 'Aceitar',
           handler: () => {
             this.aceitarUsuario(usuario); // Chama a função de exclusão se o usuário confirmar
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  async confirmarFuncionario(funcionario: any) {
+    const alert = await this.alertController.create({
+      header: 'Confirmação de Funcionário',
+      message: 'Tem certeza que deseja aceitar este Funcionário?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            console.log('confirmação cancelada');
+          }
+        },
+        {
+          text: 'Aceitar',
+          handler: () => {
+            this.aceitarFuncionario(funcionario); // Chama a função de exclusão se o usuário confirmar
           }
         }
       ]
