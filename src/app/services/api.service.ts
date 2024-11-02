@@ -59,6 +59,25 @@ export class ApiService {
     }
   }
 
+  async alterarSenha(id: any, senhaAtual: string, senha: string) {
+    const options = {
+      url: this.server + 'user/password',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: { id, senhaAtual, senha }, // Não precisa de `JSON.stringify` com CapacitorHttp
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao alterar senha:', error);
+      throw new Error('Erro ao tentar alterar a senha.');
+    }
+  }
+
 
   async getTipoDeUsuario(email: any) {
     const options = {
@@ -171,7 +190,7 @@ export class ApiService {
 
   async obterFunc() {
     const options = {
-      url: this.server + 'employees',  // URL correta para a rota
+      url: this.server + 'employees/all',  // URL correta para a rota
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -186,7 +205,7 @@ export class ApiService {
       throw error;
     }
   }
-  
+
 
 
   async obterUsuario(id: any) {
@@ -567,7 +586,7 @@ export class ApiService {
   }
 
 
-  async adicionarInsumos(quantidade:number, valor:number, idFazenda:number, idUsuario:number, idInsumo:number) {
+  async adicionarInsumos(quantidade: number, valor: number, idFazenda: number, idUsuario: number, idInsumo: number) {
     const options = {
       url: this.server + 'farm/insum/add',
       method: 'POST',
@@ -604,14 +623,14 @@ export class ApiService {
     }
   }
 
-  async editarInsumo(quantidade: number, valor: number, id:number,  idFazenda:number, idUsuario:number, idInsumo:number) {
+  async editarInsumo(quantidade: number, valor: number, id: number, idFazenda: number, idUsuario: number, idInsumo: number) {
     const options = {
       url: this.server + 'farm/insum/update',
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      data: JSON.stringify({ quantidade, valor, id ,idFazenda, idUsuario, idInsumo })
+      data: JSON.stringify({ quantidade, valor, id, idFazenda, idUsuario, idInsumo })
     };
 
     try {
@@ -623,14 +642,14 @@ export class ApiService {
     }
   }
 
-  async editarEquipamento(quantidade: number, valor: number, id:number,  idFazenda:number, idUsuario:number, idEquipamento:number) {
+  async editarEquipamento(quantidade: number, valor: number, id: number, idFazenda: number, idUsuario: number, idEquipamento: number) {
     const options = {
       url: this.server + 'farm/equipaments/update',
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      data: JSON.stringify({ quantidade, valor, id ,idFazenda, idUsuario, idEquipamento })
+      data: JSON.stringify({ quantidade, valor, id, idFazenda, idUsuario, idEquipamento })
     };
 
     try {
@@ -660,7 +679,7 @@ export class ApiService {
     }
   }
 
-  async adicionarEquipamentos(quantidade:number, valor:number, idFazenda:number, idUsuario:number, idEquipamento:number) {
+  async adicionarEquipamentos(quantidade: number, valor: number, idFazenda: number, idUsuario: number, idEquipamento: number) {
     const options = {
       url: this.server + 'farm/equipaments/add',
       method: 'POST',
@@ -698,24 +717,24 @@ export class ApiService {
   }
 
   async obterGastosPorMes(id: any, month: number, year: number) {
-  const options = {
-    url: `${this.server}expenses/month?id=${id}&month=${month}&year=${year}`,
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
+    const options = {
+      url: `${this.server}expenses/month?id=${id}&month=${month}&year=${year}`,
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
 
-  try {
-    const response = await CapacitorHttp.request(options);
-    return response.data;
-  } catch (error) {
-    console.error('Erro ao obter gastos por mês', error);
-    throw error;
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao obter gastos por mês', error);
+      throw error;
+    }
   }
-}
 
 
-  
+
 
 }
