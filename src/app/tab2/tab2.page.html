@@ -1,7 +1,7 @@
 
-  <ion-header>
+  <!-- <ion-header>
   <ion-toolbar>
-    <ion-segment [(ngModel)]="tipo" (ionChange)="atualizarDados()">
+   <ion-segment [(ngModel)]="tipo" (ionChange)="atualizarDados()">
       <ion-segment-button value="usuarios">
         <ion-label>Usuários</ion-label>
       </ion-segment-button>
@@ -10,7 +10,7 @@
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
-</ion-header>
+</ion-header> -->
 
 
 <ion-content>
@@ -47,7 +47,7 @@
 
   
 
-  <ion-list *ngIf="funcionarios.length > 0 && tipo == 'funcionarios'; else SemFuncionarios">
+  <!-- <ion-list *ngIf="funcionarios.length > 0 && tipo == 'funcionarios'; else SemFuncionarios">
     <ion-item *ngFor="let funcionario of funcionarios">
       <ion-label>
         <h2>{{funcionario.idfuncionarios}} - {{ funcionario.nome }}</h2>
@@ -56,27 +56,28 @@
         <p>Email: {{ funcionario.email }}</p>
         <p>Bloqueado: {{ funcionario.bloqueado == 1 ? 'Sim' : 'Não' }}</p>
         <p>Autenticado: {{ funcionario.autenticado == 1 ? 'Sim' : 'Não' }}</p>
+        <p>ID associado: {{funcionario.fazendas_usuario_idusuarios}}</p>
         <small>{{ funcionario.perfil }}</small>
       </ion-label>
 
       <ion-buttons slot="end">
-        <!-- Botão de Edição -->
-        <!-- <ion-button (click)="editarUsuario(usuario)">
+        Botão de Edição 
+         <ion-button (click)="editarUsuario(usuario)">
           <ion-icon slot="icon-only" name="pencil-outline"></ion-icon>
         </ion-button> -->
 
-        <!-- Botão de Bloqueio/Desbloqueio -->
+        <!-- Botão de Bloqueio/Desbloqueio 
         <ion-button>
           <ion-icon  name="lock-open-outline"></ion-icon>
-        </ion-button>
+        </ion-button> -->
 
-        <!-- Botão de Exclusão -->
+        <!-- Botão de Exclusão
         <ion-button color="danger">
           <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
         </ion-button>
       </ion-buttons>
     </ion-item>
-  </ion-list>
+  </ion-list> -->
 
   <ng-template #semUsuarios>
     <ion-item class="empty-message" *ngIf="tipo == 'usuarios'">
@@ -84,12 +85,12 @@
     </ion-item>
   </ng-template>
 
-  <ng-template #SemFuncionarios>
+  <!-- <ng-template #SemFuncionarios>
     <div class="empty-state" *ngIf="tipo == 'funcionarios'">
       <ion-icon name="alert-circle-outline" size="large"></ion-icon>
       <p>Nenhum Funcionario encontrado.</p>
     </div>
-  </ng-template>
+  </ng-template> -->
 
 </ion-content>
 

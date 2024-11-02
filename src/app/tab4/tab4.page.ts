@@ -405,6 +405,29 @@ export class Tab4Page implements OnInit, ViewWillEnter {
     return emailPattern.test(email);
   }
 
+  async alterarBloqueio(funcionario: any) {
+  if (funcionario.idfuncionarios === 1) {
+      await this.exibirAlerta('O administrador não pode ser bloqueado!', 'danger');
+      return;
+    }
+    funcionario.bloqueado = funcionario.bloqueado == 1 ? 0 : 1;
+
+    this.provider.alterarBloqueioFuncionario(funcionario.idfuncionarios, funcionario.bloqueado).then(
+      async (res: any) => {
+        if (res.status === 'success' || res.ok === true) {
+          console.log('Status de bloqueio alterado com sucesso no banco de dados:', funcionario);
+          await this.exibirAlerta('Bloqueio atualizado com sucesso!', 'success');
+        } else {
+          console.log('Falha ao alterar o status de bloqueio no banco de dados:', res.mensagem);
+          await this.exibirAlerta('Erro ao atualizar o bloqueio. Tente novamente!', 'danger');
+        }
+      }
+    ).catch(async (error) => {
+      console.error('Erro na requisição:', error);
+      await this.exibirAlerta('Erro ao conectar-se ao servidor. Tente novamente!', 'danger');
+    });
+  }
+
   contemNumerosSequenciais(senha: string): boolean {
     const sequencial = '0123456789';
     for (let i = 0; i <= senha.length - 5; i++) {

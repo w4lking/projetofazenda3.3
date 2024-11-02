@@ -22,7 +22,7 @@ export class Tab2Page implements OnInit, ViewWillEnter  {
 
   ngOnInit() {
     this.carregarDados();
-    this.atualizarDados();
+    // this.atualizarDados();
   }
 
   ionViewWillEnter() {
@@ -44,18 +44,18 @@ export class Tab2Page implements OnInit, ViewWillEnter  {
     });
     await loading.present();
     this.obterUsuarios();
-    this.obterFuncionarios();
+    // this.obterFuncionarios();
     await loading.dismiss();
   }
 
-  atualizarDados() {
-    if (this.tipo == "usuarios") {
-      this.obterUsuarios();
-    }
-    if (this.tipo == "funcionarios") {
-      this.obterFuncionarios();
-    }
-  }
+  // atualizarDados() {
+  //   if (this.tipo == "usuarios") {
+  //     this.obterUsuarios();
+  //   }
+  //   if (this.tipo == "funcionarios") {
+  //     this.obterFuncionarios();
+  //   }
+  // }
 
   async obterUsuarios() {
 
@@ -66,21 +66,21 @@ export class Tab2Page implements OnInit, ViewWillEnter  {
         // await this.exibirAlerta('Nenhum usuário encontrado', 'danger');
       }
     }).catch(async (error) => {
-      await this.exibirAlerta('Erro ao carregar usuários', 'danger');
+      // await this.exibirAlerta('Erro ao carregar usuários', 'danger');
     });
   }
 
-  obterFuncionarios() {
-    this.provider.obterFunc().then((data: any) => {
-      if (data.length > 0) {
-        this.funcionarios = data;
-      } else {
-        // this.exibirAlerta('Nenhum funcionário encontrado', 'danger');
-      }
-    }).catch((error) => {
-      this.exibirAlerta('Erro ao carregar funcionários', 'danger');
-    });
-  }
+  // obterFuncionarios() {
+  //   this.provider.obterFunc().then((data: any) => {
+  //     if (data.length > 0) {
+  //       this.funcionarios = data;
+  //     } else {
+  //       // this.exibirAlerta('Nenhum funcionário encontrado', 'danger');
+  //     }
+  //   }).catch((error) => {
+  //     this.exibirAlerta('Erro ao carregar funcionários', 'danger');
+  //   });
+  // }
 
   editarUsuario(usuario: any) {
     console.log('Editar usuário:', usuario);

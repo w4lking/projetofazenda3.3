@@ -264,6 +264,25 @@ export class ApiService {
     }
   }
 
+  async alterarBloqueioFuncionario(id: any, bloqueado: number) {
+    const options = {
+      url: this.server + 'employees/block',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify({ id: id, bloqueado: bloqueado }),
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao alterar bloqueio', error);
+      throw error;
+    }
+  }
+
   async autenticarUsuario(id: any) {
     const options = {
       url: this.server + 'user/authenticate',

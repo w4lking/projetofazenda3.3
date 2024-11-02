@@ -40,14 +40,6 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="content-no-scroll">
-  <ion-segment [(ngModel)]="tipo" (ionChange)="atualizarDados()">
-    <ion-segment-button value="usuarios">
-      <ion-label>Usuários</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="funcionarios">
-      <ion-label>Funcionários</ion-label>
-    </ion-segment-button>
-  </ion-segment>
 
   <!-- Exibe a lista de usuários se houver itens -->
   <ion-list *ngIf="usuarios.length > 0 && tipo === 'usuarios'; else semUsuarios">
@@ -77,32 +69,4 @@
     </div>
   </ng-template>
 
-  <!-- Exibe a lista de funcionários se houver itens -->
-  <ion-list *ngIf="funcionarios.length > 0 && tipo === 'funcionarios'; else semFuncionarios">
-    <ion-item *ngFor="let item of funcionarios">
-      <ion-label>
-        <h2>{{ item.idfuncionarios }} - {{ item.nome }}</h2>
-        <p>CPF: {{ item.cpf }}</p>
-        <p>Email: {{ item.email }}</p>
-        <p>ID do PROPRIETÁRIO: {{ item.fazendas_usuarios_idusuarios }}</p>
-        <small>{{ item.perfil }}</small>
-      </ion-label>
-      <ion-buttons slot="end">
-        <ion-button (click)="confirmarFuncionario(item)">
-          <ion-icon slot="icon-only" name="checkmark" color="success"></ion-icon>
-        </ion-button>
-        <!-- <ion-button color="danger" (click)="confirmarExclusaoUsuario(item)">
-          <ion-icon slot="icon-only" name="close-outline" color="danger"></ion-icon>
-        </ion-button> -->
-      </ion-buttons>
-    </ion-item>
-  </ion-list>
-
-  <!-- Template de mensagem quando não houver funcionários -->
-  <ng-template #semFuncionarios>
-    <div *ngIf="tipo == 'funcionarios'" class="empty-state">
-      <ion-icon name="alert-circle-outline" size="large"></ion-icon>
-      <p>Nenhum Funcionário para ser autenticado encontrado.</p>
-    </div>
-  </ng-template>
 </ion-content>

@@ -73,31 +73,38 @@
     </ng-template>
   </ion-modal>
 
-  <!-- Lista de Funcionários -->
-  <ion-list *ngIf="funcionarios.length > 0; else semFuncionarios">
-    <ion-item *ngFor="let funcionario of funcionarios">
-      <ion-label>
-        <h2>{{ funcionario.nome }}</h2>
-        <p><strong>CPF:</strong> {{ funcionario.cpf }}</p>
-        <p><strong>Telefone:</strong> {{ funcionario.telefone }}</p>
-        <p><strong>E-mail:</strong> {{ funcionario.email }}</p>
-        <p><strong>Salário:</strong> R$ {{ funcionario.salario | currency }}</p>
-        <p><strong>Fazenda:</strong> {{ getNomeFazenda(funcionario.fazendas_idfazendas) }}</p>
-      </ion-label>
-
-      <ion-buttons slot="end">
-        <!-- Botão de Edição -->
-        <ion-button (click)="abrirModalEditar(funcionario.idfuncionarios, funcionario.nome, funcionario.cpf ,funcionario.email, funcionario.telefone, funcionario.salario, funcionario.fazendas_idfazendas)">
-          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
-        </ion-button>
-
-        <!-- Botão de Exclusão -->
-        <ion-button color="danger" (click)="confirmarExclusaofuncionario(funcionario.idfuncionarios)">
-          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+<!-- Lista de Funcionários -->
+<ion-list *ngIf="funcionarios.length > 0; else semFuncionarios">
+  <ion-item *ngFor="let funcionario of funcionarios">
+    <ion-label>
+      <h2>{{ funcionario.nome }}</h2>
+      <p><strong>CPF:</strong> {{ funcionario.cpf }}</p>
+      <p><strong>Telefone:</strong> {{ funcionario.telefone }}</p>
+      <p><strong>E-mail:</strong> {{ funcionario.email }}</p>
+      <p><strong>Salário:</strong> {{ funcionario.salario | currency:'BRL' }}</p>
+      <p><strong>Bloqueado:</strong> {{ funcionario.bloqueado == 1 ? 'Sim' : 'Não' }}</p>
+      <p><strong>Fazenda:</strong> {{ getNomeFazenda(funcionario.fazendas_idfazendas) }}</p>
+      <ion-buttons>
+        <ion-button (click)="alterarBloqueio(funcionario)" class="icone">
+          <ion-icon slot="icon-only" size="small" [name]="funcionario.bloqueado == 1 ? 'lock-closed-outline' : 'lock-open-outline'"></ion-icon>
         </ion-button>
       </ion-buttons>
-    </ion-item>
-  </ion-list>
+    </ion-label>
+
+    <!-- Ações: Bloqueio, Edição e Exclusão -->
+    <ion-buttons slot="end">
+      <!-- Botão de Edição -->
+      <ion-button  (click)="abrirModalEditar(funcionario.idfuncionarios, funcionario.nome, funcionario.cpf, funcionario.email, funcionario.telefone, funcionario.salario, funcionario.fazendas_idfazendas)">
+        <ion-icon slot="icon-only" size="medium" name="create-outline"></ion-icon>
+      </ion-button>
+
+      <!-- Botão de Exclusão -->
+      <ion-button color="danger" (click)="confirmarExclusaofuncionario(funcionario.idfuncionarios)">
+        <ion-icon slot="icon-only" size="medium" name="trash-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-item>
+</ion-list>
 
   <!-- Caso não haja Funcionários -->
   <ng-template #semFuncionarios>
