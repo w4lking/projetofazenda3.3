@@ -1,20 +1,193 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>tab5</ion-title>
-    <ion-buttons slot="end">
-      <ion-menu-button id="main-content" auto-hide="false"></ion-menu-button>
-    </ion-buttons>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-item lines="none" class="header-item" detail="false">
+      <ion-label>
+        <h2>Olá, {{ funcionarios.nome }}</h2> 
+        <ion-select placeholder="Seus Recursos" [(ngModel)]="tipo" (ionChange)="atualizarDados()">
+          <ion-select-option value="1">Solicitações de Insumos</ion-select-option>
+          <ion-select-option value="2">Solicitações de Equipamentos</ion-select-option>
+        </ion-select>
+      </ion-label>
+      <ion-buttons slot="end">
+        <ion-menu-button id="main-content" auto-hide="false"></ion-menu-button>
+      </ion-buttons>
+    </ion-item>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">tab5</ion-title>
-    </ion-toolbar>
+<ion-content class="ion-padding">
 
-  </ion-header>
+  <!-- Lista de Insumos -->
+  <ion-list *ngIf="insumosProprietario.length > 0 && tipo == '1'; else templateVazioInsumos">
+    <ion-item *ngFor="let insumo of insumosProprietario">
+      <ion-label>
+        <h2>{{ insumo.insumosCadastrados_idinsumosCadastrados }}</h2>
+        <p><strong>Quantidade:</strong> {{ insumo.quantidade }}</p>
+        <p><strong>Valor Unitário:</strong> R$ {{ insumo.valor | currency:'BRL' }}</p>
+        <p><strong>Valor Total:</strong> R$ {{ insumo.quantidade * insumo.valor | currency:'BRL' }}</p>
+        <p><strong>Fazenda:</strong> {{ insumo.fazendas_idfazendas}}</p>
+      </ion-label>
+
+      <ion-buttons slot="end">
+        <ion-button color="primary" (click)="editarInsumo(insumo.id, insumo.quantidade, insumo.valor, insumo.fazendas_idfazendas, insumo.insumosCadastrados_idinsumosCadastrados)">
+          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+        </ion-button>
+        <ion-button color="danger" (click)="confirmarExclusaoInsumo(insumo.id)">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+
+  <!-- Lista de Equipamentos -->
+  <ion-list *ngIf="equipamentosProprietario.length > 0 && tipo == '2'; else templateVazioEquipamentos">
+    <ion-item *ngFor="let equipamento of equipamentosProprietario">
+      <ion-label>
+        <h2>{{ equipamento.equipamentosCadastrados_idequipamentosCadastrados }}</h2>
+        <p><strong>Quantidade:</strong> {{ equipamento.quantidade }}</p>
+        <p><strong>Valor Unitário:</strong> R$ {{ equipamento.valor | currency:'BRL' }}</p>
+        <p><strong>Valor Total:</strong> R$ {{ equipamento.quantidade * equipamento.valor | currency:'BRL' }}</p>
+        <p><strong>Fazenda:</strong> {{ equipamento.fazendas_idfazendas }}</p>
+      </ion-label>
+
+      <ion-buttons slot="end">
+        <ion-button color="primary" (click)="editarEquipamento(equipamento.id, equipamento.quantidade, equipamento.valor, equipamento.fazendas_idfazendas, equipamento.equipamentosCadastrados_idequipamentosCadastrados)">
+          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+        </ion-button>
+        <ion-button color="danger" (click)="confirmarExclusaoEquipamento(equipamento.id)">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+
+  <!-- Template Vazio para Insumos -->
+  <ng-template #templateVazioInsumos>
+    <div class="empty-state" *ngIf="tipo == '1'">
+      <ion-icon name="alert-circle-outline" size="large"></ion-icon>
+      <p>Nenhuma solicitação de insumo encontrada.</p>
+    </div>
+  </ng-template>
+
+  <!-- Template Vazio para Equipamentos -->
+  <ng-template #templateVazioEquipamentos>
+    <div class="empty-state" *ngIf="tipo == '2'">
+      <ion-icon name="alert-circle-outline" size="large"></ion-icon>
+      <p>Nenhuma solicitação de equipamento encontrada.</p>
+    </div>
+  </ng-template>
+
+  <!-- Modal para Adicionar/Editar Insumo -->
+  <ion-modal [isOpen]="isSolicInsumoModalOpen">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title *ngIf="insumoId">Editar Insumo</ion-title>
+          <ion-title *ngIf="!insumoId">Adicionar Insumo</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="setInsumoModalOpen(false)">
+              <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-label position="floating">Insumo</ion-label>
+          <ion-select [(ngModel)]="idInsumo">
+            <ion-select-option *ngFor="let insumo of insumos" [value]="insumo.idinsumosCadastrados">
+              {{ insumo.nome }} - {{ insumo.unidade }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Quantidade</ion-label>
+          <ion-input type="number" [(ngModel)]="quantidade"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Valor Unitário</ion-label>
+          <ion-input type="number" [(ngModel)]="valor"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input readonly [value]="(quantidade * valor) | currency:'BRL'"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Fazenda</ion-label>
+          <ion-select [(ngModel)]="idFazenda">
+            <ion-select-option *ngFor="let fazenda of fazendas" [value]="fazenda.idfazendas">
+              {{ fazenda.nome }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-button expand="block" color="success" (click)="salvarInsumo()">Salvar Alterações</ion-button>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Modal para Adicionar/Editar Equipamento -->
+  <ion-modal [isOpen]="isSolicEquipamentoModalOpen">
+   <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title *ngIf="equipamentoId">Editar equipamento</ion-title>
+          <ion-title *ngIf="!equipamentoId">Adicionar equipamento</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="setEquipamentoModalOpen(false)">
+              <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-label position="floating">Equipamento</ion-label>
+          <ion-select [(ngModel)]="idEquipamento">
+            <ion-select-option *ngFor="let equipamento of equipamentos" [value]="equipamento.idequipamentosCadastrados">
+              {{ equipamento.nome }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Quantidade</ion-label>
+          <ion-input type="number" [(ngModel)]="quantidade"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Valor Unitário</ion-label>
+          <ion-input type="number" [(ngModel)]="valor"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input readonly [value]="(quantidade * valor) | currency:'BRL'"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Fazenda</ion-label>
+          <ion-select [(ngModel)]="idFazenda">
+            <ion-select-option *ngFor="let fazenda of fazendas" [value]="fazenda.idfazendas">
+              {{ fazenda.nome }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-button expand="block" color="success" (click)="salvarEquipamento()">Salvar Alterações</ion-button>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Botão flutuante para adicionar -->
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="start">
+      <ion-fab-button (click)="setInsumoModalOpen(true)">
+        <ion-icon name="cube-outline"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button (click)="setEquipamentoModalOpen(true)">
+        <ion-icon name="construct-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+
 </ion-content>
+
 
 <!-- Menu lateral -->
 <ion-menu side="end" content-id="main-content">
@@ -43,18 +216,6 @@
       <ion-item button (click)="goProfile()">
         <ion-icon name="people-outline" slot="start"></ion-icon>
         <ion-label>Perfil</ion-label>
-      </ion-item>
-      <ion-item button>
-        <ion-icon name="map-outline" slot="start"></ion-icon>
-        <ion-label>Mapas</ion-label>
-      </ion-item>
-      <ion-item button>
-        <ion-icon name="cloud-outline" slot="start"></ion-icon>
-        <ion-label>Clima</ion-label>
-      </ion-item>
-      <ion-item button>
-        <ion-icon name="planet-outline" slot="start"></ion-icon>
-        <ion-label>Universo UFLA</ion-label>
       </ion-item>
       <ion-item button>
         <ion-icon name="settings-outline" slot="start"></ion-icon>
