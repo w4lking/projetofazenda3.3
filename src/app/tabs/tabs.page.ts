@@ -12,6 +12,7 @@ export class TabsPage implements OnInit, ViewWillEnter {
 
   isAdmin: boolean = false;
   isProprietario: boolean = false;
+  isFuncionario: boolean = false;
 
   constructor(private api: ApiService, private router: Router) { }
 
@@ -29,18 +30,13 @@ export class TabsPage implements OnInit, ViewWillEnter {
     // Verifique se o perfil é ADMINISTRADOR ou PROPRIETARIO
     this.isAdmin = perfilUsuario === 'ADMINISTRADOR';
     this.isProprietario = perfilUsuario === 'PROPRIETARIO';
+    this.isFuncionario = perfilUsuario === 'FUNCIONARIO';
 
     // Se o identificador de sessão não estiver presente, redirecione para o login
     if (!sessionId) {
       console.log('Sessão inválida. Redirecionando para login...');
       this.router.navigate(['/login']);
       return;
-    }
-
-    // Se o usuário não for nem admin nem proprietário, redireciona para `tabRegistros`
-    if (!this.isAdmin && !this.isProprietario) {
-      console.log('Usuário não é administrador nem proprietário. Redirecionando para tabRegistros...');
-      this.router.navigate(['/tabs/tabRegistros']);
     }
 
     console.log('isAdmin:', this.isAdmin);
@@ -61,6 +57,7 @@ export class TabsPage implements OnInit, ViewWillEnter {
     // Verifique se o perfil é ADMINISTRADOR ou PROPRIETARIO
     this.isAdmin = perfilUsuario === 'ADMINISTRADOR';
     this.isProprietario = perfilUsuario === 'PROPRIETARIO';
+    this.isFuncionario = perfilUsuario === 'FUNCIONARIO';
 
     // Se o identificador de sessão não estiver presente, redirecione para o login
     if (!sessionId) {
@@ -69,11 +66,6 @@ export class TabsPage implements OnInit, ViewWillEnter {
       return;
     }
 
-    // Se o usuário não for nem admin nem proprietário, redireciona para `tabRegistros`
-    if (!this.isAdmin && !this.isProprietario) {
-      console.log('Usuário não é administrador nem proprietário. Redirecionando para tabRegistros...');
-      this.router.navigate(['/tabs/tabRegistros']);
-    }
   }
 
 }

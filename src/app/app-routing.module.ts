@@ -46,6 +46,10 @@ const routes: Routes = [
   {
     path: 'tab-unidades',
     loadChildren: () => import('./tab-unidades/tab-unidades.module').then( m => m.TabUnidadesPageModule)
+  },
+  {
+    path: 'tab5',
+    loadChildren: () => import('./tab5/tab5.module').then( m => m.Tab5PageModule)
   }
 ];
 @NgModule({

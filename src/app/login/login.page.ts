@@ -14,7 +14,7 @@ export class LoginPage implements OnInit {
   email: string = "";
   senha: string = "";
   perfil: string = "";
-  id: string = "";
+  id: any;
   autenticado: string = "";
   bloqueado: string = "";
   emailReset: string = "";
@@ -114,15 +114,28 @@ export class LoginPage implements OnInit {
         this.exibirAlerta('Por favor, preencha o e-mail e a senha', 'danger');
         return;
     }
-
-    try {
+    else if (this.senha.length >= 10){
         const id = await this.provider.obterUsuarioWithEmail(this.email);
         const perfil = await this.provider.getTipoDeUsuario(this.email);
-
-        const dados = {
+        this.id = id;
+        console.log('id:', id);
+        this.perfil = perfil;
+        console.log('perfil:', perfil);
+    }
+    else{
+        console.log('Senha de Funcionário');
+        const idFunc = await this.provider.obterFuncionarioWithEmail(this.email);
+        const perfilFunc = await this.provider.getTipoDeFuncionario(this.email);
+        this.id = idFunc;
+        console.log('id da consulta:', idFunc);
+        this.perfil = perfilFunc;
+        console.log('perfil:', perfilFunc);
+      }
+    try {
+       const dados = {
             email: this.email,
             senha: this.senha,
-            perfil,
+            perfil: this.perfil,
             sessionId: this.generateUniqueId(),
         };
 
@@ -136,8 +149,8 @@ export class LoginPage implements OnInit {
             console.log('Login realizado com sucesso!');
             console.log(response.perfil);
 
-            this.handleLoginSuccess(dados, response.perfil, id);
-            sessionStorage.setItem('id', id);
+            this.handleLoginSuccess(dados, response.perfil, this.id);
+            sessionStorage.setItem('id', this.id);
             sessionStorage.setItem('token', response.token);
             console.log('token:', response.token);
         } else {
@@ -169,6 +182,9 @@ export class LoginPage implements OnInit {
     } else if (perfil === "PROPRIETARIO") {
       console.log('Redirecionando para a página do proprietário...');
       this.router.navigate(['tabs/tab3']);
+    }else if (perfil === "FUNCIONARIO") {
+      console.log('Redirecionando para a página do funcionário...');
+      this.router.navigate(['tabs/tab5']);
     }
   }
 

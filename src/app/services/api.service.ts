@@ -97,6 +97,25 @@ export class ApiService {
     }
   }
 
+  async getTipoDeFuncionario(email: any) {
+    const options = {
+      url: this.server + 'employees/type?email=' + email,
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao obter o tipo de usuário:', error);
+      throw new Error('Erro ao tentar obter o tipo de usuário.');
+    }
+  }
+  
+
 
   async obterUsuariosDesautenticados() {
     const options = {
@@ -241,6 +260,24 @@ export class ApiService {
       return response.data;
     } catch (error) {
       console.error('Erro ao obter usuário pelo email', error);
+      throw error;
+    }
+  }
+
+  async obterFuncionarioWithEmail(email: any) {
+    const options = {
+      url: this.server + 'employees/email?email=' + email,
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao obter funcionario pelo email', error);
       throw error;
     }
   }
