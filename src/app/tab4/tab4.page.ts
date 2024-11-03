@@ -175,8 +175,7 @@ export class Tab4Page implements OnInit, ViewWillEnter {
 
   async salvarFuncionario() {
     if (this.editando) {
-
-      console.log('Dados enviados:', this.nome, this.cpf, this.email, this.telefone, this.salario, this.senha, this.idFazenda, this.idUsuario);
+      // Validações de CPF e e-mail
       if (!this.validarCPF(this.cpf)) {
         this.exibirAlerta('CPF inválido. Preencha corretamente!', 'danger');
         return;
@@ -186,27 +185,34 @@ export class Tab4Page implements OnInit, ViewWillEnter {
         return;
       }
 
-      this.provider.editarFuncionarios(
-        this.idfuncionario,
-        this.nome,
-        this.cpf,
-        this.email,
-        this.telefone,
-        this.salario,
-        this.idFazenda // Certifique-se de que está correto
-      ).then(async (res: any) => {
+      // Chamada à API para editar o funcionário
+      try {
+        const res: any = await this.provider.editarFuncionarios(
+          this.idfuncionario,
+          this.nome,
+          this.cpf,
+          this.email,
+          this.telefone,
+          this.salario,
+          this.idFazenda // Certifique-se de que está correto
+        );
+
         if (res.status === 'success') {
           this.exibirAlerta('Funcionário atualizado com sucesso', 'success');
           this.limpar();
-          this.obterfuncionarios();
+          this.obterfuncionarios(); // Atualiza a lista de funcionários
         } else {
-          this.exibirAlerta('Erro ao atualizar funcionário, alguns não foram preenchidos...', 'danger');
+          // Exibe a mensagem de erro específica retornada pela API
+          this.exibirAlerta(res.message || 'Erro ao atualizar funcionário, alguns campos não foram preenchidos...', 'danger');
         }
         this.setOpen(false);
-      }).catch((error) => {
+
+      } catch (error) {
+        // Erro de conexão ou servidor
         console.error('Erro ao editar funcionário:', error);
         this.mensagem('Erro ao conectar-se ao servidor. Tente novamente!', 'danger');
-      });
+      }
+
     } else {
       this.adicionarFuncionario();
     }
@@ -214,9 +220,9 @@ export class Tab4Page implements OnInit, ViewWillEnter {
 
 
 
-
   async adicionarFuncionario() {
-    console.log('Dados enviados:', this.nome, this.cpf, this.email, this.telefone, this.salario, this.senha, this.idFazenda, this.idUsuario);
+
+    // Validações de CPF, email e senha
     if (!this.validarCPF(this.cpf)) {
       this.exibirAlerta('CPF inválido. Preencha corretamente!', 'danger');
       return;
@@ -225,56 +231,62 @@ export class Tab4Page implements OnInit, ViewWillEnter {
       this.exibirAlerta('E-mail inválido. Preencha corretamente!', 'danger');
       return;
     }
-
-    if (this.senha.length < 8 || this.senha.length > 8) {
+    if (this.senha.length !== 8) {
       await this.exibirAlerta('A senha deve ter 8 caracteres', 'danger');
       return;
     }
-
-    // Verifica se a senha contém números sequenciais simples
     if (this.contemNumerosSequenciais(this.senha)) {
       await this.exibirAlerta(`A senha não deve conter números sequenciais simples como ${this.senha}.`, 'danger');
       return;
     }
-
-    // Verifica se a senha contém caracteres repetidos
     if (this.contemCaracteresRepetidos(this.senha)) {
       await this.exibirAlerta(`A senha não deve conter todos os caracteres iguais, como ${this.senha}.`, 'danger');
       return;
     }
-
 
     const loading = await this.loadingController.create({
       message: 'Adicionando funcionário...',
     });
     await loading.present();
 
-    this.provider.addFuncionarios(
-      this.nome,
-      this.cpf,
-      this.email,
-      this.telefone,
-      this.salario,
-      this.senha,
-      this.idFazenda,
-      Number(this.idUsuario)  // Aqui garantir que idUsuario é um número
-    ).then(async (res: any) => {
+    try {
+      const res: any = await this.provider.addFuncionarios(
+        this.nome,
+        this.cpf,
+        this.email,
+        this.telefone,
+        this.salario,
+        this.senha,
+        this.idFazenda,
+        Number(this.idUsuario)  // Garante que idUsuario é um número
+      );
+
       await loading.dismiss();
+
       if (res.status === 'success') {
-        this.exibirAlerta('Funcionario adicionado com sucesso!', 'success');
+        this.exibirAlerta('Funcionário adicionado com sucesso!', 'success');
         this.limpar();
-        this.obterfuncionarios(); // Atualiza a lista
+        this.obterfuncionarios(); // Atualiza a lista de funcionários
       } else {
-        this.mensagem('Erro ao adicionar funcionario. Tente novamente!', 'danger');
+        this.exibirAlerta(res.message || 'Erro ao adicionar funcionário.', 'danger');
+      }
+    } catch (error) {
+      await loading.dismiss();
+
+      // Exibe uma mensagem de erro mais detalhada com base no retorno do erro da API
+      if ((error as any).status === 400) {
+        const errorMessage = (error as any).error?.message || 'Dados inválidos. Verifique as informações e tente novamente.';
+        this.exibirAlerta(errorMessage, 'danger');
+      } else if ((error as any).status === 500) {
+        this.exibirAlerta('Erro no servidor. Tente novamente mais tarde.', 'danger');
+      } else {
+        this.exibirAlerta('Erro ao conectar-se ao servidor. Tente novamente!', 'danger');
       }
     }
-    ).catch(async (error) => {
-      await loading.dismiss();
-      this.mensagem('Erro ao conectar-se ao servidor. Tente novamente!', 'danger');
-    });
 
     this.setOpen(false);
   }
+
 
 
 
@@ -406,7 +418,7 @@ export class Tab4Page implements OnInit, ViewWillEnter {
   }
 
   async alterarBloqueio(funcionario: any) {
-  if (funcionario.idfuncionarios === 1) {
+    if (funcionario.idfuncionarios === 1) {
       await this.exibirAlerta('O administrador não pode ser bloqueado!', 'danger');
       return;
     }
