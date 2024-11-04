@@ -38,6 +38,10 @@ export class Tab1Page implements OnInit, ViewWillEnter {
   //   return user ? user.nome : 'user não encontrada';
   // }
 
+  goProfile() {
+    this.router.navigate(['/profile']);
+  }
+
 
   async carregarDados() {
     const loading = await this.loadingController.create({

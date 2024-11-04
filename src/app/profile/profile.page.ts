@@ -37,7 +37,7 @@ export class ProfilePage implements OnInit {
   }
 
   ionViewWillEnter() {
-    if (this.perfil == "PROPRIETARIO") {
+    if (this.perfil == "PROPRIETARIO" || this.perfil == "ADMINISTRADOR") {
       this.obterUsuario();
     }
     else if (this.perfil == "FUNCIONARIO") {
@@ -49,7 +49,15 @@ export class ProfilePage implements OnInit {
 
 
   back() {
-    this.router.navigate(['/tabs/tab5']);
+    if (this.perfil == "PROPRIETARIO"){
+      this.router.navigate(['/tabs/tab3']);
+    }
+    else if (this.perfil == "FUNCIONARIO"){
+      this.router.navigate(['/tabs/tab5']);
+    }
+    else if (this.perfil == "ADMINISTRADOR"){
+      this.router.navigate(['/tabs/tab1']);
+    }
   }
 
   async alterarSenha() {
