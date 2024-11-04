@@ -10,8 +10,9 @@ import { Router } from '@angular/router';
 })
 export class Tab5Page implements OnInit {
 
-  tipo : any = "";
+  tipo: any = "";
   idUsuario = Number(sessionStorage.getItem('id'));
+  idFarm: any;
   fazendas: any[] = [];
   insumos: any = [];
   equipamentos: any = [];
@@ -24,6 +25,7 @@ export class Tab5Page implements OnInit {
   email: string = "";
   telefone: string = "";
   idFazenda: any;
+  nomeFazenda: string = "";
 
   // id do insumo/equipamento selecionado na lista
   idInsumo: any;
@@ -57,11 +59,11 @@ export class Tab5Page implements OnInit {
 
 
   async carregarDados() {
+    this.obterUsuario();
     const loading = await this.loadingController.create({
       message: 'Carregando Dados...',
     });
     await loading.present();
-    this.obterUsuario();
     this.obterInsumo();
     this.obterEquipamento();
     this.obterFazendas();
@@ -79,59 +81,70 @@ export class Tab5Page implements OnInit {
     }
   }
 
-  setInsumoModalOpen(isOpen: boolean) {
+  setSolicInsumoModalOpen(isOpen: boolean) {
     this.isSolicInsumoModalOpen = isOpen;
     if (!isOpen) this.limpar(); // Limpa campos ao fechar o modal
   }
 
-  setEquipamentoModalOpen(isOpen: boolean) {
+  setSolicEquipamentoModalOpen(isOpen: boolean) {
     this.isSolicEquipamentoModalOpen = isOpen;
     if (!isOpen) this.limpar(); // Limpa campos ao fechar o modal
   }
 
   async obterInsumo() {
-    // try {
-    //   const data = await this.provider.obterInsumos();
-    //   this.insumos = (data.status === 'success' && data.insumos.length > 0) ? data.insumos : [];
-    // } catch (error) {
-    //   // this.exibirAlerta('Erro ao carregar insumos', 'danger');
-    // }
+    try {
+      const data = await this.provider.obterInsumos();
+      this.insumos = (data.status === 'success' && data.insumos.length > 0) ? data.insumos : [];
+    } catch (error) {
+      // this.exibirAlerta('Erro ao carregar insumos', 'danger');
+    }
   }
 
   async obterEquipamento() {
-  //   try {
-  //     const data = await this.provider.obterEquipamentos();
-  //     this.equipamentos = (data.status === 'success' && data.equipamentos.length > 0) ? data.equipamentos : [];
-  //   } catch (error) {
-  //     // this.exibirAlerta('Erro ao carregar equipamentos', 'danger');
-  //   }
-   }
-
-  async obterUsuario() {
-    // try {
-    //   if (this.idUsuario) {
-    //     const data = await this.provider.obterUsuario(this.idUsuario);
-    //     if (data.status === 'success') {
-    //       this.usuarios = data.usuario;
-    //       this.nome = this.usuarios.nome;
-    //       this.email = this.usuarios.email;
-    //       this.telefone = this.usuarios.telefone;
-    //     } else {
-    //       // this.exibirAlerta('Nenhum usuário encontrado', 'warning');
-    //     }
-    //   }
-    // } catch (error) {
-    //   // this.exibirAlerta('Erro ao carregar autenticação', 'danger');
-    // }
+    try {
+      const data = await this.provider.obterEquipamentos();
+      this.equipamentos = (data.status === 'success' && data.equipamentos.length > 0) ? data.equipamentos : [];
+    } catch (error) {
+      // this.exibirAlerta('Erro ao carregar equipamentos', 'danger');
+    }
   }
 
+  async obterUsuario() {
+    try {
+      if (this.idUsuario) {
+        const data = await this.provider.obterFuncionario(this.idUsuario);
+        if (data.status === 'success') {
+          this.funcionarios = data.usuario;
+          this.idFarm = this.funcionarios.fazendas_idfazendas;  // Atribuindo a fazenda
+          console.log('ID da fazenda:', this.idFarm); // Para verificar no console
+          this.nome = this.funcionarios.nome;
+          this.email = this.funcionarios.email;
+          this.telefone = this.funcionarios.telefone;
+        } else {
+          // Exibir alerta caso não encontre o usuário
+          this.exibirAlerta('Nenhum usuário encontrado', 'warning');
+        }
+      }
+    } catch (error) {
+      // Exibir alerta em caso de erro
+      this.exibirAlerta('Erro ao carregar autenticação', 'danger');
+    }
+  }
+
+
   async obterFazendas() {
-    // try {
-    //   const data = await this.provider.obterFazenda(this.idUsuario);
-    //   this.fazendas = (data.status === 'success' && data.fazendas.length > 0) ? data.fazendas : [];
-    // } catch (error) {
-    //   // this.exibirAlerta('Erro ao carregar fazendas', 'danger');
-    // }
+    try {
+      const data = await this.provider.obterFazendaFuncionario(this.idFarm);
+      this.fazendas = (data.status === 'success' && data.fazendas.length > 0) ? data.fazendas : [];
+
+      // Defina o nome da fazenda para o primeiro item da lista ou conforme a lógica desejada
+      if (this.fazendas.length > 0) {
+        this.nomeFazenda = this.fazendas[0].nome;
+      }
+      console.log('Fazendas:', this.fazendas);
+    } catch (error) {
+      this.exibirAlerta('Erro ao carregar fazendas', 'danger');
+    }
   }
 
   async adicionarInsumos() {
@@ -194,7 +207,7 @@ export class Tab5Page implements OnInit {
     // }
   }
 
-  async editarInsumo(id: number, quantidade: number, valor:number, idFazenda:number, idInsumo:number) {
+  async editarInsumo(id: number, quantidade: number, valor: number, idFazenda: number, idInsumo: number) {
     // this.quantidade = quantidade;
     // this.valor = valor;
     // this.idFazenda = idFazenda;
@@ -240,7 +253,7 @@ export class Tab5Page implements OnInit {
       const data = await this.provider.deletarInsumo(idInsumo);
       if (data.status === 'success') {
         this.exibirAlerta('Insumo excluído com sucesso', 'success');
-        this.obterProprietarioInsumos(); 
+        this.obterProprietarioInsumos();
       } else {
         this.exibirAlerta('Erro ao excluir insumo', 'danger');
       }
@@ -249,14 +262,14 @@ export class Tab5Page implements OnInit {
     }
   }
 
-  async editarEquipamento(id: number, quantidade:number, valor:number, idFazenda: number,idEquipamento:number) {
-    
+  async editarEquipamento(id: number, quantidade: number, valor: number, idFazenda: number, idEquipamento: number) {
+
     this.quantidade = quantidade;
     this.valor = valor;
     // this.equipamentoId = id;
     // this.idFazenda = idFazenda;
     // this.idEquipamento = idEquipamento;
-    this.setEquipamentoModalOpen(true);
+    this.setSolicEquipamentoModalOpen(true);
   }
 
   async salvarEquipamento() {
@@ -296,7 +309,7 @@ export class Tab5Page implements OnInit {
       const data = await this.provider.deletarEquipamento(idEquipamento);
       if (data.status === 'success') {
         this.exibirAlerta('Equipamento excluído com sucesso', 'success');
-        this.obterProprietarioEquipamentos(); 
+        this.obterProprietarioEquipamentos();
       } else {
         this.exibirAlerta('Erro ao excluir equipamento', 'danger');
       }
@@ -305,7 +318,7 @@ export class Tab5Page implements OnInit {
     }
   }
 
-  
+
 
   limpar() {
     this.quantidade = 0;
@@ -324,7 +337,6 @@ export class Tab5Page implements OnInit {
     });
     await alert.present();
   }
-
 
   fecharMenu() {
     this.menu.close();

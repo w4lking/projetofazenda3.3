@@ -439,6 +439,24 @@ export class ApiService {
     }
   }
 
+  async obterFazendaFuncionario(idFarm: number) {
+    const options = {
+      url: this.server + 'employer/farm?id=' + idFarm,
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao obter fazenda', error);
+      throw error;
+    }
+  }
+
 
   async addFazenda(nome: any, cep: any, endereco: any, valor: any, id: any) {
     const options = {
