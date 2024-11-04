@@ -78,6 +78,25 @@ export class ApiService {
     }
   }
 
+  async alterarSenhaFunc(id: any, senhaAtual: string, senha: string) {
+    const options = {
+      url: this.server + 'employer/password',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: { id, senhaAtual, senha }, // Não precisa de `JSON.stringify` com CapacitorHttp
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao alterar senha:', error);
+      throw new Error('Erro ao tentar alterar a senha.');
+    }
+  }
+
 
   async getTipoDeUsuario(email: any) {
     const options = {
@@ -230,6 +249,24 @@ export class ApiService {
   async obterUsuario(id: any) {
     const options = {
       url: this.server + 'user?id=' + id, // Ajuste o caminho para corresponder ao backend
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao obter usuário', error);
+      throw error;
+    }
+  }
+
+  async obterFuncionario(id: any) {
+    const options = {
+      url: this.server + 'employer?id=' + id, // Ajuste o caminho para corresponder ao backend
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
