@@ -37,7 +37,7 @@ export class Tab5Page implements OnInit {
   idInsumo: any;
   idEquipamento: any;
   // id do insumo/equipamento gerado auto incremento
-  insumoId: any;
+  solicitacaoId: any;
   equipamentoId: any;
 
   quantidade = 0;
@@ -232,16 +232,26 @@ export class Tab5Page implements OnInit {
     // this.setInsumoModalOpen(true);
   }
 
+  async editarSolicitacaoInsumo(quantidade: number, valor: number, idFazenda: number, idFuncionario:number ,idInsumo: number, idSolicitacao: number) {
+    this.quantidade = quantidade;
+    this.valor = valor;
+    this.idFazenda = idFazenda;
+    this.idFuncionario = idFuncionario;
+    this.idInsumo = idInsumo;
+    this.solicitacaoId = idSolicitacao;
+    this.setSolicInsumoModalOpen(true);
+  }
+
   async salvarInsumo() {
-    if (this.insumoId) {
+    if (this.solicitacaoId) {
       try {
-        const res = await this.provider.editarInsumo(this.quantidade, this.valor, this.insumoId, this.idFazenda, this.idFuncionario, this.idInsumo);
+        const res = await this.provider.editarSolicitacaoInsumo(this.quantidade, this.valor, this.idFazenda, this.idFuncionario, this.idInsumo, this.solicitacaoId);
         if (res.status === 'success') {
-          this.exibirAlerta('Insumo atualizado com sucesso', 'success');
+          this.exibirAlerta('Solicitação atualizada com sucesso', 'success');
           this.limpar();
-          this.obterProprietarioInsumos(); 
+          this.listarSolicInsumos()
         } else {
-          this.exibirAlerta('Erro ao atualizar insumo', 'danger');
+          this.exibirAlerta('Erro ao atualizar solicitação', 'danger');
         }
         this.setSolicInsumoModalOpen(false);
       } catch (error) {
@@ -342,7 +352,7 @@ export class Tab5Page implements OnInit {
     this.idFazenda = null;
     this.idInsumo = null;
     this.idEquipamento = null;
-    this.insumoId = null;
+    this.solicitacaoId = null;
     this.equipamentoId = null;
   }
 

@@ -791,6 +791,26 @@ export class ApiService {
     }
   }
 
+
+  async editarSolicitacaoInsumo( quantidade: number, valor: number, idFazenda: number, idFuncionario: number, idInsumo: number, idSolicitacao:number,) {
+    const options = {
+      url: this.server + 'solicit/insum/update',
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify({ quantidade, valor, idFazenda, idFuncionario, idInsumo, idSolicitacao })
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao editar Solicitação de insumo', error);
+      throw error;
+    }
+  }
+
   async editarEquipamento(quantidade: number, valor: number, id: number, idFazenda: number, idUsuario: number, idEquipamento: number) {
     const options = {
       url: this.server + 'farm/equipaments/update',

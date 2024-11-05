@@ -41,16 +41,18 @@
           currency:'BRL' }}
         </p>
         <p><strong>Fazenda:</strong> {{ solicitacao.funcionarios_fazendas_idfazendas}}</p>
+
+        <p>id insumo: {{solicitacao.idInsumoOrEquipamento}}</p>
       </ion-label>
 
       <ion-buttons slot="end">
         <ion-button
           color="primary"
-          (click)="editarInsumo(solicitacao.id, solicitacao.quantidade, solicitacao.valor, solicitacao.fazendas_idfazendas, solicitacao.insumosCadastrados_idinsumosCadastrados)"
+          (click)="editarSolicitacaoInsumo(solicitacao.quantidade, solicitacao.valor, solicitacao.funcionarios_fazendas_idfazendas, solicitacao.funcionarios_idfuncionarios, solicitacao.idInsumoOrEquipamento, solicitacao.idsolicitacoes)"
         >
           <ion-icon slot="icon-only" name="create-outline"></ion-icon>
         </ion-button>
-        <ion-button color="danger" (click)="confirmarExclusaoInsumo(solicitacao.id)">
+        <ion-button color="danger" (click)="confirmarExclusaoInsumo(solicitacao.idsolicitacoes)">
           <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
         </ion-button>
       </ion-buttons>
@@ -116,8 +118,8 @@
     <ng-template>
       <ion-header>
         <ion-toolbar>
-          <ion-title *ngIf="insumoId">Editar Solicitação de Insumo</ion-title>
-          <ion-title *ngIf="!insumoId"
+          <ion-title *ngIf="solicitacaoId">Editar Solicitação de Insumo</ion-title>
+          <ion-title *ngIf="!solicitacaoId"
             >Solicitar Insumo</ion-title
           >
           <ion-buttons slot="end">
