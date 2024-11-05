@@ -262,26 +262,26 @@ export class Tab5Page implements OnInit {
     }
   }
 
-  async confirmarExclusaoInsumo(idInsumo: number) {
+  async confirmarExclusaoSolicInsumo(idSolicitacao: number) {
     const alert = await this.alertController.create({
-      header: 'Excluir Insumo',
-      message: 'Deseja realmente excluir este insumo?',
+      header: 'Excluir Solicitação de Insumo',
+      message: 'Deseja realmente excluir esta solicitação??',
       buttons: [
         { text: 'Cancelar', role: 'cancel', cssClass: 'secondary' },
-        { text: 'Excluir', handler: () => this.excluirInsumo(idInsumo) }
+        { text: 'Excluir', handler: () => this.excluirInsumo(idSolicitacao) }
       ]
     });
     await alert.present();
   }
 
-  async excluirInsumo(idInsumo: number) {
+  async excluirInsumo(idSolicitacao: number) {
     try {
-      const data = await this.provider.deletarInsumo(idInsumo);
+      const data = await this.provider.excluirSolicitacaoInsumo(idSolicitacao);
       if (data.status === 'success') {
-        this.exibirAlerta('Insumo excluído com sucesso', 'success');
-        this.obterProprietarioInsumos();
+        this.exibirAlerta('Solicitação excluída com sucesso', 'success');
+        this.listarSolicInsumos();
       } else {
-        this.exibirAlerta('Erro ao excluir insumo', 'danger');
+        this.exibirAlerta('Erro ao excluir solicitação', 'danger');
       }
     } catch (error) {
       this.exibirAlerta('Erro ao conectar-se ao servidor. Tente novamente!', 'danger');
