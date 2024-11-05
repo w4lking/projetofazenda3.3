@@ -70,7 +70,7 @@ export class Tab5Page implements OnInit {
   }
 
   formatarData(data: string): string {
-    return formatDate(data, 'dd/MM/yyyy HH:mm', 'pt-BR');
+    return formatDate(data, 'dd/MM/yyyy HH:mm:ss', 'pt-BR');
   }
 
   getNomeFazenda(idFazenda: number | null): string {

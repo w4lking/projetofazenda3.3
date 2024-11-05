@@ -42,7 +42,7 @@
         </p>
         <p><strong>Fazenda:</strong> {{getNomeFazenda(solicitacao.funcionarios_fazendas_idfazendas)}}</p>
 
-        <p>Data: {{ solicitacao.data }}</p>
+        <p>Data: {{ formatarData(solicitacao.data) }}</p>
       </ion-label>
 
       <ion-buttons slot="end">
@@ -79,7 +79,7 @@
         </p>
         <p><strong>Fazenda:</strong> {{getNomeFazenda( equipamento.funcionarios_fazendas_idfazendas) }}</p>
 
-        <p>Data: {{equipamento.data}}</p>
+        <p>Data: {{ formatarData(equipamento.data) }}</p>
       </ion-label>
 
       <ion-buttons slot="end">
