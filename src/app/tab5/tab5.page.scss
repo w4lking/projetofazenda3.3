@@ -23,3 +23,13 @@
   font-size: 18px;
   text-align: center;
 }
+
+.success {
+  --background: #d4edda;
+  --color: #155724;
+}
+
+.danger {
+  --background: #f8d7da;
+  --color: #721c24;
+}

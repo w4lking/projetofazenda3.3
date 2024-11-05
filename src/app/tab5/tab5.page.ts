@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController, LoadingController, MenuController, ToastController } from '@ionic/angular';
 import { ApiService } from '../services/api.service';
 import { Router } from '@angular/router';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-tab5',
@@ -15,6 +16,8 @@ export class Tab5Page implements OnInit {
   equipType = "equipamentos"
   idFuncionario = Number(sessionStorage.getItem('id'));
   idFarm: any;
+
+  //arrays para pegar os dados das fazendas, insumos e equipamentos
   fazendas: any[] = [];
   insumos: any = [];
   equipamentos: any = [];
@@ -66,6 +69,25 @@ export class Tab5Page implements OnInit {
     this.carregarDados();
   }
 
+  formatarData(data: string): string {
+    return formatDate(data, 'dd/MM/yyyy HH:mm', 'pt-BR');
+  }
+
+  getNomeFazenda(idFazenda: number | null): string {
+    const fazenda = this.fazendas.find((f: { idfazendas: number | null }) => f.idfazendas == idFazenda);
+    return fazenda ? fazenda.nome : 'Fazenda não encontrada';
+  }
+
+  getNomeInsumo(idInsumo: number | null): string {
+    const insumo = this.insumos.find((i: { idinsumosCadastrados: number | null }) => i.idinsumosCadastrados == idInsumo);
+    return insumo ? insumo.nome : 'Insumo não encontrado';
+  }
+
+  getNomeEquipamento(idEquipamento: number | null): string {
+    const equipamento = this.equipamentos.find((e: { idequipamentosCadastrados: number | null }) => e.idequipamentosCadastrados == idEquipamento);
+    return equipamento ? equipamento.nome : 'Equipamento não encontrado';
+  }
+
 
   async carregarDados() {
     this.obterUsuario();
@@ -92,7 +114,7 @@ export class Tab5Page implements OnInit {
 
   setSolicInsumoModalOpen(isOpen: boolean) {
     this.isSolicInsumoModalOpen = isOpen;
-    if (!isOpen) this.limpar(); 
+    if (!isOpen) this.limpar();
   }
 
   setSolicEquipamentoModalOpen(isOpen: boolean) {
@@ -124,7 +146,7 @@ export class Tab5Page implements OnInit {
         const data = await this.provider.obterFuncionario(this.idFuncionario);
         if (data.status === 'success') {
           this.funcionarios = data.usuario;
-          this.idFarm = this.funcionarios.fazendas_idfazendas; 
+          this.idFarm = this.funcionarios.fazendas_idfazendas;
           this.nome = this.funcionarios.nome;
           this.email = this.funcionarios.email;
           this.telefone = this.funcionarios.telefone;
@@ -153,7 +175,7 @@ export class Tab5Page implements OnInit {
     }
   }
 
- // tudo enviando certinho, Fazer funcionar amanhã
+  // tudo enviando certinho, Fazer funcionar amanhã
   async solicitarInsumos() {
     console.log(this.quantidade, this.valor, this.idFuncionario, this.idFazenda, this.funcionarios.fazendas_usuarios_idusuarios, this.insumType, this.idInsumo);
     if (!this.idFazenda || !this.idInsumo || this.quantidade <= 0 || this.valor <= 0) {
@@ -188,7 +210,7 @@ export class Tab5Page implements OnInit {
       if (data.status === 'success') {
         this.exibirAlerta('Solicitação adicionada com sucesso', 'success');
         this.limpar();
-        this.setSolicInsumoModalOpen(false);
+        this.setSolicEquipamentoModalOpen(false);
       } else {
         this.exibirAlerta(data.console.error(), 'danger');
       }
@@ -198,7 +220,6 @@ export class Tab5Page implements OnInit {
   }
 
   async listarSolicInsumos() {
-    console.log(this.fazendas.length > 0 ? this.fazendas[0].idfazendas : 'No fazendas available');
     try {
       const data = await this.provider.listarSolicitacoesInsumo(this.fazendas[0].idfazendas);
       this.solicitacoesInsumos = (data.status === 'success' && data.solicitacoes.length > 0) ? data.solicitacoes : [];
@@ -208,7 +229,6 @@ export class Tab5Page implements OnInit {
   }
 
   async listarSolicEquipamentos() {
-    console.log(this.fazendas.length > 0 ? this.fazendas[0].idfazendas : 'No fazendas available');
     try {
       const data = await this.provider.listarSolicitacoesEquipamento(this.fazendas[0].idfazendas);
       this.solicitacoesEquipamentos = (data.status === 'success' && data.solicitacoes.length > 0) ? data.solicitacoes : [];
@@ -217,26 +237,6 @@ export class Tab5Page implements OnInit {
     }
   }
 
-  async adicionarEquipamentos() {
-    // if (!this.idEquipamento || !this.idFazenda) {
-    //   this.exibirAlerta('Preencha todos os campos obrigatórios!', 'warning');
-    //   return;
-    // }
-
-    // try {
-    //   const data = await this.provider.adicionarEquipamentos(this.quantidade, this.valor, this.idFazenda, this.idUsuario, this.idEquipamento);
-    //   if (data.status === 'success') {
-    //     this.exibirAlerta('Equipamento adicionado com sucesso', 'success');
-    //     this.limpar();
-    //     this.obterProprietarioEquipamentos();
-    //     this.setEquipamentoModalOpen(false);
-    //   } else {
-    //     this.exibirAlerta('Erro ao adicionar equipamento', 'danger');
-    //   }
-    // } catch (error) {
-    //   this.exibirAlerta('Erro ao adicionar equipamento', 'danger');
-    // }
-  }
 
   async obterProprietarioInsumos() {
     // try {
@@ -256,16 +256,8 @@ export class Tab5Page implements OnInit {
     // }
   }
 
-  async editarInsumo(id: number, quantidade: number, valor: number, idFazenda: number, idInsumo: number) {
-    // this.quantidade = quantidade;
-    // this.valor = valor;
-    // this.idFazenda = idFazenda;
-    // this.idInsumo = idInsumo;
-    // this.insumoId = id;
-    // this.setInsumoModalOpen(true);
-  }
 
-  async editarSolicitacaoInsumo(quantidade: number, valor: number, idFazenda: number, idFuncionario:number ,idInsumo: number, idSolicitacao: number) {
+  async editarSolicitacaoInsumo(quantidade: number, valor: number, idFazenda: number, idFuncionario: number, idInsumo: number, idSolicitacao: number) {
     this.quantidade = quantidade;
     this.valor = valor;
     this.idFazenda = idFazenda;
@@ -322,13 +314,13 @@ export class Tab5Page implements OnInit {
     }
   }
 
-    async editarSolicitacaoEquipamento(quantidade: number, valor: number, idFazenda: number, idFuncionario:number ,idEquipamento: number, idSolicitacao: number) {
+  async editarSolicitacaoEquipamento(quantidade: number, valor: number, idFazenda: number, idFuncionario: number, idEquipamento: number, idSolicitacao: number) {
     this.quantidade = quantidade;
     this.valor = valor;
     this.idFazenda = idFazenda;
     this.idFuncionario = idFuncionario;
-    this.idEquipamento = idEquipamento;
     this.solicitacaoId = idSolicitacao;
+    this.idEquipamento = idEquipamento;
     this.setSolicEquipamentoModalOpen(true);
   }
 
@@ -397,13 +389,21 @@ export class Tab5Page implements OnInit {
     this.equipamentoId = null;
   }
 
-  async exibirAlerta(mensagem: string, cor: string) {
+
+  async exibirAlerta(mensagem: string, cor: string, segundos: number = 3, titulo: string = '') {
     const alert = await this.alertController.create({
-      header: cor === 'danger' ? 'Erro' : 'Sucesso',
+      header: titulo || (cor === 'danger' ? 'Erro' : 'Sucesso'),
       message: mensagem,
-      buttons: ['OK']
+      cssClass: cor,
+      backdropDismiss: false, // Impede que o usuário feche o alerta clicando fora dele
     });
+
     await alert.present();
+
+    // Fechar automaticamente após o tempo especificado (em milissegundos)
+    setTimeout(() => {
+      alert.dismiss();
+    }, 1000);
   }
 
   fecharMenu() {

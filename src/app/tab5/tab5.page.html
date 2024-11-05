@@ -30,7 +30,7 @@
   >
     <ion-item *ngFor="let solicitacao of solicitacoesInsumos">
       <ion-label>
-        <h2>{{ solicitacao.idsolicitacoes }}</h2>
+        <h2>{{getNomeInsumo(solicitacao.idInsumoOrEquipamento) }}</h2>
         <p><strong>Quantidade:</strong> {{ solicitacao.quantidade }}</p>
         <p>
           <strong>Valor Unitário:</strong> R$ {{ solicitacao.valor | currency:'BRL'
@@ -40,9 +40,9 @@
           <strong>Valor Total:</strong> R$ {{ solicitacao.quantidade * solicitacao.valor |
           currency:'BRL' }}
         </p>
-        <p><strong>Fazenda:</strong> {{ solicitacao.funcionarios_fazendas_idfazendas}}</p>
+        <p><strong>Fazenda:</strong> {{getNomeFazenda(solicitacao.funcionarios_fazendas_idfazendas)}}</p>
 
-        <p>id insumo: {{solicitacao.idInsumoOrEquipamento}}</p>
+        <p>Data: {{ solicitacao.data }}</p>
       </ion-label>
 
       <ion-buttons slot="end">
@@ -66,7 +66,7 @@
     <ion-item *ngFor="let equipamento of solicitacoesEquipamentos">
       <ion-label>
         <h2>
-          {{ equipamento.idsolicitacoes }}
+          {{getNomeEquipamento( equipamento.idInsumoOrEquipamento) }}
         </h2>
         <p><strong>Quantidade:</strong> {{ equipamento.quantidade }}</p>
         <p>
@@ -77,9 +77,9 @@
           <strong>Valor Total:</strong> R$ {{ equipamento.quantidade *
           equipamento.valor | currency:'BRL' }}
         </p>
-        <p><strong>Fazenda:</strong> {{ equipamento.funcionarios_fazendas_idfazendas }}</p>
+        <p><strong>Fazenda:</strong> {{getNomeFazenda( equipamento.funcionarios_fazendas_idfazendas) }}</p>
 
-        <p>id equipamento: {{equipamento.idInsumoOrEquipamento}}</p>
+        <p>Data: {{equipamento.data}}</p>
       </ion-label>
 
       <ion-buttons slot="end">
