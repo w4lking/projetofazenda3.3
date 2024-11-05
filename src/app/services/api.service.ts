@@ -1000,9 +1000,9 @@ export class ApiService {
     }
   }
 
-  async obterGastosPorMes(id: any, month: number, year: number) {
+  async obterGastosMensais(id: any, year: number) {
     const options = {
-      url: `${this.server}expenses/month?id=${id}&month=${month}&year=${year}`,
+      url: `${this.server}expenses/monthly?id=${id}&year=${year}`,
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -1013,10 +1013,11 @@ export class ApiService {
       const response = await CapacitorHttp.request(options);
       return response.data;
     } catch (error) {
-      console.error('Erro ao obter gastos por mês', error);
+      console.error('Erro ao obter gastos mensais', error);
       throw error;
     }
   }
+
 
 
 

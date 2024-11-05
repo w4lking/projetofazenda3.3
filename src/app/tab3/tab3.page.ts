@@ -163,6 +163,7 @@ export class Tab3Page implements OnInit {
       if (data.status === 'success') {
         this.exibirAlerta('Insumo adicionado com sucesso', 'success');
         this.limpar();
+        this.obterProprietarioInsumos();
         this.setInsumoModalOpen(false);
       } else {
         this.exibirAlerta('Erro ao adicionar insumo', 'danger');
@@ -183,6 +184,7 @@ export class Tab3Page implements OnInit {
       if (data.status === 'success') {
         this.exibirAlerta('Equipamento adicionado com sucesso', 'success');
         this.limpar();
+        this.obterProprietarioEquipamentos();
         this.setEquipamentoModalOpen(false);
       } else {
         this.exibirAlerta('Erro ao adicionar equipamento', 'danger');

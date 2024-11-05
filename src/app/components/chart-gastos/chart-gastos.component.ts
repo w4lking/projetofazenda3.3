@@ -49,32 +49,27 @@ export class ChartGastosComponent implements OnInit {
   }
 
   fetchExpensesData() {
-    const months = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
-    let completedRequests = 0;
-
-    for (let month = 1; month <= 12; month++) {
-      this.provider.obterGastosPorMes(this.idUsuario, month, this.currentYear).then((res: any) => {
-        completedRequests++;
-
-        if (res.status === "success" && (res.insumosTotal > 0 || res.equipamentosTotal > 0)) {
-          this.insumosTotal.push(res.insumosTotal);
-          this.equipamentosTotal.push(res.equipamentosTotal);
-          this.date.push(months[month - 1]); // Adiciona apenas o nome abreviado do mês
-        }
-
-        if (completedRequests === 12) {
-          this.loading = false;
-          this.updateChart();
-        }
-      }).catch(() => {
-        completedRequests++;
-        if (completedRequests === 12) {
-          this.loading = false;
-          this.updateChart();
-        }
-      });
-    }
+    this.provider.obterGastosMensais(this.idUsuario, this.currentYear).then((res: any) => {
+      if (res.status === "success") {
+        res.data.forEach((item: any) => {
+          // Verifica se o mês tem despesas para insumos ou equipamentos
+          if (item.totalInsumos > 0 || item.totalEquipamentos > 0) {
+            this.insumosTotal.push(item.totalInsumos);
+            this.equipamentosTotal.push(item.totalEquipamentos);
+            this.date.push(
+              new Intl.DateTimeFormat('pt-BR', { month: 'short' }).format(new Date(this.currentYear, item.month - 1))
+            );
+          }
+        });
+        this.loading = false;
+        this.updateChart();
+      }
+    }).catch((error) => {
+      console.error("Erro ao obter gastos mensais:", error);
+      this.loading = false;
+    });
   }
+
 
   updateChart() {
     this.chartOptions = {
