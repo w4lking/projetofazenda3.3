@@ -885,6 +885,24 @@ export class ApiService {
     }
   }
 
+  async listarSolicitacoesEquipamento(idFazenda: any) {
+    const options = {
+      url: this.server + 'solicit/equipament?id=' + idFazenda,
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao listar solicitações', error);
+      throw error;
+    }
+  }
+
   //fazer rota
   async solicitarInsumo(quantidade: number, valor: number, idFuncionario: number, idFazenda: number, idUsuario: number, insumType: string, idInsumo: number) {
     const options = {

@@ -85,14 +85,14 @@ export class Tab5Page implements OnInit {
       // this.obterProprietarioInsumos();
     }
     if (this.tipo == "2") {
-      this.obterEquipamento();
+      this.listarSolicEquipamentos();
       // this.obterProprietarioEquipamentos();
     }
   }
 
   setSolicInsumoModalOpen(isOpen: boolean) {
     this.isSolicInsumoModalOpen = isOpen;
-    if (!isOpen) this.limpar(); // Limpa campos ao fechar o modal
+    if (!isOpen) this.limpar(); 
   }
 
   setSolicEquipamentoModalOpen(isOpen: boolean) {
@@ -202,6 +202,16 @@ export class Tab5Page implements OnInit {
     try {
       const data = await this.provider.listarSolicitacoesInsumo(this.fazendas[0].idfazendas);
       this.solicitacoesInsumos = (data.status === 'success' && data.solicitacoes.length > 0) ? data.solicitacoes : [];
+    } catch (error) {
+      this.exibirAlerta('Erro ao carregar insumos', 'danger');
+    }
+  }
+
+  async listarSolicEquipamentos() {
+    console.log(this.fazendas.length > 0 ? this.fazendas[0].idfazendas : 'No fazendas available');
+    try {
+      const data = await this.provider.listarSolicitacoesEquipamento(this.fazendas[0].idfazendas);
+      this.solicitacoesEquipamentos = (data.status === 'success' && data.solicitacoes.length > 0) ? data.solicitacoes : [];
     } catch (error) {
       this.exibirAlerta('Erro ao carregar insumos', 'danger');
     }
