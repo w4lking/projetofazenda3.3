@@ -905,14 +905,14 @@ export class ApiService {
     }
   }
 
-  async solicitarEquipamentos(quantidade: number, valor: number, idFuncionario: number, idFazenda: number, idUsuario: number, tipo: string, idEquipamento: number) {
+  async solicitarEquipamentos(quantidade: number, valor: number, idFuncionario: number, idFazenda: number, idUsuario: number, equipType: string, idEquipamento: number) {
     const options = {
       url: this.server + 'solicit/equipaments/add',
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      data: JSON.stringify({ quantidade, valor, idFuncionario, idFazenda, idUsuario, tipo, idEquipamento })
+      data: JSON.stringify({ quantidade, valor, idFuncionario, idFazenda, idUsuario, equipType, idEquipamento })
     };
 
     try {
@@ -920,6 +920,25 @@ export class ApiService {
       return response.data;
     } catch (error) {
       console.error('Erro ao adicionar equipamento', error);
+      throw error;
+    }
+  }
+
+  async editarSolicitacaoEquipamento( quantidade: number, valor: number, idFazenda: number, idFuncionario: number, idEquipamento: number, idSolicitacao:number) {
+    const options = {
+      url: this.server + 'solicit/equipament/update',
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify({ quantidade, valor, idFazenda, idFuncionario, idEquipamento, idSolicitacao })
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao editar Solicitação de insumo', error);
       throw error;
     }
   }

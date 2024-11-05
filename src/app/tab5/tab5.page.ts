@@ -12,6 +12,7 @@ export class Tab5Page implements OnInit {
 
   tipo: any = "";
   insumType = "insumos"
+  equipType = "equipamentos"
   idFuncionario = Number(sessionStorage.getItem('id'));
   idFarm: any;
   fazendas: any[] = [];
@@ -24,6 +25,7 @@ export class Tab5Page implements OnInit {
 
   //arrays de solicitações 
   solicitacoesInsumos: any = [];
+  solicitacoesEquipamentos: any = [];
 
   //
   funcionarios: any = {};
@@ -164,7 +166,28 @@ export class Tab5Page implements OnInit {
       if (data.status === 'success') {
         this.exibirAlerta('Solicitação adicionada com sucesso', 'success');
         this.limpar();
-        this.obterProprietarioInsumos();
+        this.listarSolicInsumos();
+        this.setSolicInsumoModalOpen(false);
+      } else {
+        this.exibirAlerta(data.console.error(), 'danger');
+      }
+    } catch (error) {
+      this.exibirAlerta(String(error), 'danger');
+    }
+  }
+
+  async solicitarEquipamentos() {
+    console.log(this.quantidade, this.valor, this.idFuncionario, this.idFazenda, this.funcionarios.fazendas_usuarios_idusuarios, this.equipType, this.idEquipamento);
+    if (!this.idFazenda || !this.idEquipamento || this.quantidade <= 0 || this.valor <= 0) {
+      this.exibirAlerta('Preencha todos os campos obrigatórios!', 'warning');
+      return;
+    }
+
+    try {
+      const data = await this.provider.solicitarEquipamentos(this.quantidade, this.valor, this.idFuncionario, this.idFazenda, this.funcionarios.fazendas_usuarios_idusuarios, this.equipType, this.idEquipamento);
+      if (data.status === 'success') {
+        this.exibirAlerta('Solicitação adicionada com sucesso', 'success');
+        this.limpar();
         this.setSolicInsumoModalOpen(false);
       } else {
         this.exibirAlerta(data.console.error(), 'danger');
@@ -242,6 +265,16 @@ export class Tab5Page implements OnInit {
     this.setSolicInsumoModalOpen(true);
   }
 
+  async editarSolicitacaoEquipamento(quantidade: number, valor: number, idFazenda: number, idFuncionario:number ,idEquipamento: number, idSolicitacao: number) {
+    this.quantidade = quantidade;
+    this.valor = valor;
+    this.idFazenda = idFazenda;
+    this.idFuncionario = idFuncionario;
+    this.idEquipamento = idEquipamento;
+    this.solicitacaoId = idSolicitacao;
+    this.setSolicEquipamentoModalOpen(true);
+  }
+
   async salvarInsumo() {
     if (this.solicitacaoId) {
       try {
@@ -288,34 +321,31 @@ export class Tab5Page implements OnInit {
     }
   }
 
-  async editarEquipamento(id: number, quantidade: number, valor: number, idFazenda: number, idEquipamento: number) {
-
-    this.quantidade = quantidade;
-    this.valor = valor;
-    // this.equipamentoId = id;
-    // this.idFazenda = idFazenda;
-    // this.idEquipamento = idEquipamento;
-    this.setSolicEquipamentoModalOpen(true);
-  }
-
   async salvarEquipamento() {
-    // if (this.equipamentoId) {
-    //   try {
-    //     const res = await this.provider.editarEquipamento();
-    //     if (res.status === 'success') {
-    //       this.exibirAlerta('Equipamento atualizado com sucesso', 'success');
-    //       this.limpar();
-    //       this.obterProprietarioEquipamentos(); 
-    //     } else {
-    //       this.exibirAlerta('Erro ao atualizar equipamento', 'danger');
-    //     }
-    //     this.setEquipamentoModalOpen(false);
-    //   } catch (error) {
-    //     this.exibirAlerta('Erro ao conectar-se ao servidor. Tente novamente!', 'danger');
-    //   }
-    // } else {
-    //   this.adicionarEquipamentos();
-    // }
+    if (this.equipamentoId) {
+      try {
+        const res = await this.provider.editarSolicitacaoEquipamento(
+          this.quantidade,
+          this.valor,
+          this.idFazenda,
+          this.idFuncionario,
+          this.idEquipamento,
+          this.equipamentoId
+        );
+        if (res.status === 'success') {
+          this.exibirAlerta('Equipamento atualizado com sucesso', 'success');
+          this.limpar();
+          this.obterProprietarioEquipamentos(); 
+        } else {
+          this.exibirAlerta('Erro ao atualizar equipamento', 'danger');
+        }
+        this.setSolicEquipamentoModalOpen(false);
+      } catch (error) {
+        this.exibirAlerta('Erro ao conectar-se ao servidor. Tente novamente!', 'danger');
+      }
+    } else {
+      this.solicitarEquipamentos();
+    }
   }
 
   async confirmarExclusaoEquipamento(idEquipamento: number) {
