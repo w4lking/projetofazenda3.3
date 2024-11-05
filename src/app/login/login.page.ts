@@ -118,18 +118,13 @@ export class LoginPage implements OnInit {
         const id = await this.provider.obterUsuarioWithEmail(this.email);
         const perfil = await this.provider.getTipoDeUsuario(this.email);
         this.id = id;
-        console.log('id:', id);
         this.perfil = perfil;
-        console.log('perfil:', perfil);
     }
     else{
-        console.log('Senha de Funcionário');
         const idFunc = await this.provider.obterFuncionarioWithEmail(this.email);
         const perfilFunc = await this.provider.getTipoDeFuncionario(this.email);
         this.id = idFunc;
-        console.log('id da consulta:', idFunc);
         this.perfil = perfilFunc;
-        console.log('perfil:', perfilFunc);
       }
     try {
        const dados = {
@@ -141,18 +136,12 @@ export class LoginPage implements OnInit {
 
         const response = await this.provider.dadosApi(dados, 'user/login');
 
-        // Log da resposta da API
-        console.log('Resposta da API:', response);
-
-        // Verificação se a resposta é ok
         if (response && response.ok) {
             console.log('Login realizado com sucesso!');
-            console.log(response.perfil);
 
             this.handleLoginSuccess(dados, response.perfil, this.id);
             sessionStorage.setItem('id', this.id);
             sessionStorage.setItem('token', response.token);
-            console.log('token:', response.token);
         } else {
             const message = response.message || 'Erro no login';
             console.warn('Falha no login:', message);
@@ -173,7 +162,6 @@ export class LoginPage implements OnInit {
     this.provider.armazenarUsuario(dados.email);
     sessionStorage.setItem('sessionId', dados.sessionId);
     sessionStorage.setItem('perfil', perfil);
-    console.log('sessionId', dados.sessionId);
     
     
     if (perfil === "ADMINISTRADOR") {
