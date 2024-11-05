@@ -22,10 +22,6 @@ export class TabsPage implements OnInit, ViewWillEnter {
     const email = sessionStorage.getItem('email');
     const id = sessionStorage.getItem('id');
 
-    console.log('Perfil do usuário:', perfilUsuario);
-    console.log('Session ID:', sessionId);
-    console.log('Email:', email);
-    console.log('ID:', id);
 
     // Verifique se o perfil é ADMINISTRADOR ou PROPRIETARIO
     this.isAdmin = perfilUsuario === 'ADMINISTRADOR';
@@ -39,8 +35,6 @@ export class TabsPage implements OnInit, ViewWillEnter {
       return;
     }
 
-    console.log('isAdmin:', this.isAdmin);
-    console.log('isProprietario:', this.isProprietario);
   }
 
 
@@ -49,10 +43,6 @@ export class TabsPage implements OnInit, ViewWillEnter {
     const perfilUsuario = sessionStorage.getItem('perfil');
     const sessionId = sessionStorage.getItem('sessionId');
     const id = sessionStorage.getItem('id');
-
-    console.log('Perfil do usuário:', perfilUsuario);
-    console.log('Session ID:', sessionId);
-    console.log('ID:', id);
 
     // Verifique se o perfil é ADMINISTRADOR ou PROPRIETARIO
     this.isAdmin = perfilUsuario === 'ADMINISTRADOR';
