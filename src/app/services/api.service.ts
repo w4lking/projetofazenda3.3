@@ -8,9 +8,9 @@ import { Observable } from 'rxjs';
 })
 export class ApiService {
 
-  // server: string = 'https://jsonserver-jet.vercel.app/api/'; // URL do servidor Node.js local
+  server: string = 'https://jsonserver-jet.vercel.app/api/'; // URL do servidor Node.js local
 
-  server: string = 'http://localhost:5000/api/'; // URL do servidor Node.js local para testes
+  // server: string = 'http://localhost:5000/api/'; // URL do servidor Node.js local para testes
 
   constructor(private http: HttpClient) { }
 
@@ -133,7 +133,7 @@ export class ApiService {
       throw new Error('Erro ao tentar obter o tipo de usuário.');
     }
   }
-  
+
 
 
   async obterUsuariosDesautenticados() {
@@ -715,6 +715,25 @@ export class ApiService {
     }
   }
 
+  async adicionarEquipamentos(quantidade: number, valor: number, idFazenda: number, idUsuario: number, idEquipamento: number) {
+    const options = {
+      url: this.server + 'farm/equipaments/add',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify({ quantidade, valor, idFazenda, idUsuario, idEquipamento })
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao adicionar equipamento', error);
+      throw error;
+    }
+  }
+
 
   async adicionarInsumos(quantidade: number, valor: number, idFazenda: number, idUsuario: number, idInsumo: number) {
     const options = {
@@ -809,14 +828,52 @@ export class ApiService {
     }
   }
 
-  async adicionarEquipamentos(quantidade: number, valor: number, idFazenda: number, idUsuario: number, idEquipamento: number) {
+  async listarSolicitacoesInsumo(idFazenda: any) {
     const options = {
-      url: this.server + 'farm/equipaments/add',
+      url: this.server + 'solicit/insum?id=' + idFazenda,
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao listar solicitações', error);
+      throw error;
+    }
+  }
+
+  //fazer rota
+  async solicitarInsumo(quantidade: number, valor: number, idFuncionario: number, idFazenda: number, idUsuario: number, insumType: string, idInsumo: number) {
+    const options = {
+      url: this.server + 'solicit/insum/add',
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      data: JSON.stringify({ quantidade, valor, idFazenda, idUsuario, idEquipamento })
+      data: JSON.stringify({ quantidade, valor, idFuncionario, idFazenda, idUsuario, insumType, idInsumo })
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao adicionar insumo', error);
+      throw error;
+    }
+  }
+
+  async solicitarEquipamentos(quantidade: number, valor: number, idFuncionario: number, idFazenda: number, idUsuario: number, tipo: string, idEquipamento: number) {
+    const options = {
+      url: this.server + 'solicit/equipaments/add',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify({ quantidade, valor, idFuncionario, idFazenda, idUsuario, tipo, idEquipamento })
     };
 
     try {
@@ -827,6 +884,8 @@ export class ApiService {
       throw error;
     }
   }
+
+
 
   async obterGastos(id: any) {
     const options = {

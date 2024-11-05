@@ -26,31 +26,31 @@
 <ion-content class="ion-padding">
   <!-- Lista de Insumos -->
   <ion-list
-    *ngIf="insumosProprietario.length > 0 && tipo == '1'; else templateVazioInsumos"
+    *ngIf="solicitacoesInsumos.length > 0 && tipo == '1'; else templateVazioInsumos"
   >
-    <ion-item *ngFor="let insumo of insumosProprietario">
+    <ion-item *ngFor="let solicitacao of solicitacoesInsumos">
       <ion-label>
-        <h2>{{ insumo.insumosCadastrados_idinsumosCadastrados }}</h2>
-        <p><strong>Quantidade:</strong> {{ insumo.quantidade }}</p>
+        <h2>{{ solicitacao.idsolicitacoes }}</h2>
+        <p><strong>Quantidade:</strong> {{ solicitacao.quantidade }}</p>
         <p>
-          <strong>Valor Unitário:</strong> R$ {{ insumo.valor | currency:'BRL'
+          <strong>Valor Unitário:</strong> R$ {{ solicitacao.valor | currency:'BRL'
           }}
         </p>
         <p>
-          <strong>Valor Total:</strong> R$ {{ insumo.quantidade * insumo.valor |
+          <strong>Valor Total:</strong> R$ {{ solicitacao.quantidade * solicitacao.valor |
           currency:'BRL' }}
         </p>
-        <p><strong>Fazenda:</strong> {{ insumo.fazendas_idfazendas}}</p>
+        <p><strong>Fazenda:</strong> {{ solicitacao.funcionarios_fazendas_idfazendas}}</p>
       </ion-label>
 
       <ion-buttons slot="end">
         <ion-button
           color="primary"
-          (click)="editarInsumo(insumo.id, insumo.quantidade, insumo.valor, insumo.fazendas_idfazendas, insumo.insumosCadastrados_idinsumosCadastrados)"
+          (click)="editarInsumo(solicitacao.id, solicitacao.quantidade, solicitacao.valor, solicitacao.fazendas_idfazendas, solicitacao.insumosCadastrados_idinsumosCadastrados)"
         >
           <ion-icon slot="icon-only" name="create-outline"></ion-icon>
         </ion-button>
-        <ion-button color="danger" (click)="confirmarExclusaoInsumo(insumo.id)">
+        <ion-button color="danger" (click)="confirmarExclusaoInsumo(solicitacao.id)">
           <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
         </ion-button>
       </ion-buttons>
@@ -118,7 +118,7 @@
         <ion-toolbar>
           <ion-title *ngIf="insumoId">Editar Solicitação de Insumo</ion-title>
           <ion-title *ngIf="!insumoId"
-            >Adicionar Solicitação de Insumo</ion-title
+            >Solicitar Insumo</ion-title
           >
           <ion-buttons slot="end">
             <ion-button (click)="setSolicInsumoModalOpen(false)">
@@ -155,7 +155,11 @@
         </ion-item>
         <ion-item>
           <ion-label position="floating">Fazenda</ion-label>
-          <ion-input [(ngModel)]="nomeFazenda" disabled></ion-input>
+          <ion-select [(ngModel)]="idFazenda">
+            <ion-select-option *ngFor="let fazenda of fazendas" [value]="fazenda.idfazendas">
+              {{ fazenda.nome }}
+            </ion-select-option>
+          </ion-select>
         </ion-item>
 
         <ion-button expand="block" color="success" (click)="salvarInsumo()"
@@ -174,7 +178,7 @@
             >Editar Solicitação equipamento</ion-title
           >
           <ion-title *ngIf="!equipamentoId"
-            >Adicionar Solicitação equipamento</ion-title
+            >Solicitar equipamento</ion-title
           >
           <ion-buttons slot="end">
             <ion-button (click)="setSolicEquipamentoModalOpen(false)">
