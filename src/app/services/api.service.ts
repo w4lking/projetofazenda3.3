@@ -961,6 +961,25 @@ export class ApiService {
     }
   }
 
+  async excluirSolicitacaoEquipamento(idSolicitacao:number) {
+    const options = {
+      url: this.server + 'solicit/equipament/delete?id=' + idSolicitacao,
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify({ idSolicitacao })
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao editar Solicitação de equipamento', error);
+      throw error;
+    }
+  }
+
 
 
   async obterGastos(id: any) {

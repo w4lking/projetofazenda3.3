@@ -78,6 +78,8 @@
           equipamento.valor | currency:'BRL' }}
         </p>
         <p><strong>Fazenda:</strong> {{ equipamento.funcionarios_fazendas_idfazendas }}</p>
+
+        <p>id equipamento: {{equipamento.idInsumoOrEquipamento}}</p>
       </ion-label>
 
       <ion-buttons slot="end">
@@ -89,7 +91,7 @@
         </ion-button>
         <ion-button
           color="danger"
-          (click)="confirmarExclusaoEquipamento(equipamento.id)"
+          (click)="confirmarExclusaoEquipamento(equipamento.idsolicitacoes)"
         >
           <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
         </ion-button>

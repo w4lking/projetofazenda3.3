@@ -275,15 +275,6 @@ export class Tab5Page implements OnInit {
     this.setSolicInsumoModalOpen(true);
   }
 
-  async editarSolicitacaoEquipamento(quantidade: number, valor: number, idFazenda: number, idFuncionario:number ,idEquipamento: number, idSolicitacao: number) {
-    this.quantidade = quantidade;
-    this.valor = valor;
-    this.idFazenda = idFazenda;
-    this.idFuncionario = idFuncionario;
-    this.idEquipamento = idEquipamento;
-    this.solicitacaoId = idSolicitacao;
-    this.setSolicEquipamentoModalOpen(true);
-  }
 
   async salvarInsumo() {
     if (this.solicitacaoId) {
@@ -331,8 +322,18 @@ export class Tab5Page implements OnInit {
     }
   }
 
+    async editarSolicitacaoEquipamento(quantidade: number, valor: number, idFazenda: number, idFuncionario:number ,idEquipamento: number, idSolicitacao: number) {
+    this.quantidade = quantidade;
+    this.valor = valor;
+    this.idFazenda = idFazenda;
+    this.idFuncionario = idFuncionario;
+    this.idEquipamento = idEquipamento;
+    this.solicitacaoId = idSolicitacao;
+    this.setSolicEquipamentoModalOpen(true);
+  }
+
   async salvarEquipamento() {
-    if (this.equipamentoId) {
+    if (this.solicitacaoId) {
       try {
         const res = await this.provider.editarSolicitacaoEquipamento(
           this.quantidade,
@@ -340,12 +341,12 @@ export class Tab5Page implements OnInit {
           this.idFazenda,
           this.idFuncionario,
           this.idEquipamento,
-          this.equipamentoId
+          this.solicitacaoId
         );
         if (res.status === 'success') {
           this.exibirAlerta('Equipamento atualizado com sucesso', 'success');
           this.limpar();
-          this.obterProprietarioEquipamentos(); 
+          this.listarSolicEquipamentos();
         } else {
           this.exibirAlerta('Erro ao atualizar equipamento', 'danger');
         }
@@ -358,24 +359,24 @@ export class Tab5Page implements OnInit {
     }
   }
 
-  async confirmarExclusaoEquipamento(idEquipamento: number) {
+  async confirmarExclusaoEquipamento(idSolicitacao: number) {
     const alert = await this.alertController.create({
-      header: 'Excluir Equipamento',
-      message: 'Deseja realmente excluir este equipamento?',
+      header: 'Excluir Solicitação de Equipamento',
+      message: 'Deseja realmente excluir esta solicitação?',
       buttons: [
         { text: 'Cancelar', role: 'cancel', cssClass: 'secondary' },
-        { text: 'Excluir', handler: () => this.excluirEquipamento(idEquipamento) }
+        { text: 'Excluir', handler: () => this.excluirEquipamento(idSolicitacao) }
       ]
     });
     await alert.present();
   }
 
-  async excluirEquipamento(idEquipamento: number) {
+  async excluirEquipamento(idSolicitacao: number) {
     try {
-      const data = await this.provider.deletarEquipamento(idEquipamento);
+      const data = await this.provider.excluirSolicitacaoEquipamento(idSolicitacao);
       if (data.status === 'success') {
         this.exibirAlerta('Equipamento excluído com sucesso', 'success');
-        this.obterProprietarioEquipamentos();
+        this.listarSolicEquipamentos();
       } else {
         this.exibirAlerta('Erro ao excluir equipamento', 'danger');
       }
