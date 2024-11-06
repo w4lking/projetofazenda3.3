@@ -78,10 +78,10 @@
       </ion-label>
 
       <ion-buttons slot="end">
-        <ion-button color="primary">
+        <ion-button color="primary" (click)="confirmarSolicitacao(solicitacaoInsumo.idsolicitacoes, solicitacaoInsumo.quantidade, solicitacaoInsumo.valor, solicitacaoInsumo.funcionarios_fazendas_idfazendas, solicitacaoInsumo.funcionarios_fazendas_usuarios_idusuarios, solicitacaoInsumo.idInsumoOrEquipamento, this.insumType)">
           <ion-icon slot="icon-only" name="checkmark-outline"></ion-icon>
         </ion-button>
-        <ion-button color="danger" (click)="confirmarExclusaoInsumo(solicitacaoInsumo.idsolicitacoes)">
+        <ion-button color="danger" (click)="confirmarRecusoDeSolicitacao(solicitacaoInsumo.idsolicitacoes, insumType)">
           <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
         </ion-button>
       </ion-buttons>
@@ -102,10 +102,10 @@
       </ion-label>
 
       <ion-buttons slot="end">
-        <ion-button color="primary">
+        <ion-button color="primary" (click)="confirmarSolicitacao(solicitacaoEquipamento.idsolicitacoes, solicitacaoEquipamento.quantidade, solicitacaoEquipamento.valor, solicitacaoEquipamento.funcionarios_fazendas_idfazendas, solicitacaoEquipamento.funcionarios_fazendas_usuarios_idusuarios, solicitacaoEquipamento.idInsumoOrEquipamento, this.equipType)">
           <ion-icon slot="icon-only" name="checkmark-outline"></ion-icon>
         </ion-button>
-        <ion-button color="danger" (click)="confirmarExclusaoInsumo(solicitacaoEquipamento.idsolicitacoes)">
+        <ion-button color="danger" (click)="confirmarRecusoDeSolicitacao(solicitacaoEquipamento.idsolicitacoes, equipType)">
           <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
         </ion-button>
       </ion-buttons>

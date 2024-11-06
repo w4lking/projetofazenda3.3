@@ -8,9 +8,9 @@ import { Observable } from 'rxjs';
 })
 export class ApiService {
 
-  server: string = 'https://jsonserver-jet.vercel.app/api/'; // URL do servidor Node.js local
+  // server: string = 'https://jsonserver-jet.vercel.app/api/'; // URL do servidor Node.js local
 
-  // server: string = 'http://localhost:5000/api/'; // URL do servidor Node.js local para testes
+  server: string = 'http://localhost:5000/api/'; // URL do servidor Node.js local para testes
 
   constructor(private http: HttpClient) { }
 
@@ -792,7 +792,7 @@ export class ApiService {
   }
 
 
-  async editarSolicitacaoInsumo( quantidade: number, valor: number, idFazenda: number, idFuncionario: number, idInsumo: number, idSolicitacao:number) {
+  async editarSolicitacaoInsumo(quantidade: number, valor: number, idFazenda: number, idFuncionario: number, idInsumo: number, idSolicitacao: number) {
     const options = {
       url: this.server + 'solicit/insum/update',
       method: 'PUT',
@@ -811,7 +811,7 @@ export class ApiService {
     }
   }
 
-   async excluirSolicitacaoInsumo(idSolicitacao:number) {
+  async excluirSolicitacaoInsumo(idSolicitacao: number) {
     const options = {
       url: this.server + 'solicit/insum/delete?id=' + idSolicitacao,
       method: 'DELETE',
@@ -942,7 +942,7 @@ export class ApiService {
     }
   }
 
-  async editarSolicitacaoEquipamento( quantidade: number, valor: number, idFazenda: number, idFuncionario: number, idEquipamento: number, idSolicitacao:number) {
+  async editarSolicitacaoEquipamento(quantidade: number, valor: number, idFazenda: number, idFuncionario: number, idEquipamento: number, idSolicitacao: number) {
     const options = {
       url: this.server + 'solicit/equipament/update',
       method: 'PUT',
@@ -961,7 +961,7 @@ export class ApiService {
     }
   }
 
-  async excluirSolicitacaoEquipamento(idSolicitacao:number) {
+  async excluirSolicitacaoEquipamento(idSolicitacao: number) {
     const options = {
       url: this.server + 'solicit/equipament/delete?id=' + idSolicitacao,
       method: 'DELETE',
@@ -979,6 +979,45 @@ export class ApiService {
       throw error;
     }
   }
+
+  async aceitarSolicitacao(idSolicitacao: number, quantidade: number, valor: any, idFazenda: number, idUsuario: number, idEquipamentoOrInsumo: number, tipo: string) {
+    const options = {
+      url: this.server + 'solicit/accept',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify({ idSolicitacao, quantidade, valor, idFazenda, idUsuario, idEquipamentoOrInsumo, tipo })
+    }
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao aceitar esta solicitação', error);
+      throw error;
+    }
+  }
+
+  async recusarSolicitacao(idSolicitacao: number) {
+    const options = {
+      url: this.server + 'solicit/refuse',
+      method: 'put',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify({ id: idSolicitacao }) // Usando a chave "id" para corresponder ao back-end
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao recusar solicitação', error);
+      throw error;
+    }
+  }
+
+
 
 
 

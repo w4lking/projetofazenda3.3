@@ -23,8 +23,8 @@ export class Tab5Page implements OnInit {
   equipamentos: any = [];
 
   //
-  insumosProprietario: any = [];
-  equipamentosProprietario: any = [];
+  insumosfazendas: any = [];
+  equipamentosfazendas: any = [];
 
   //arrays de solicitações 
   solicitacoesInsumos: any = [];
@@ -109,11 +109,15 @@ export class Tab5Page implements OnInit {
   atualizarDados() {
     if (this.tipo == "1") {
       this.listarSolicInsumos();
-      // this.obterProprietarioInsumos();
     }
     if (this.tipo == "2") {
       this.listarSolicEquipamentos();
-      // this.obterProprietarioEquipamentos();
+    }
+    if (this.tipo == "3") {
+      this.obterInsumosFazenda();
+    }
+    if (this.tipo == "4") {
+      this.obterEquipamentosFazenda();
     }
   }
 
@@ -215,6 +219,7 @@ export class Tab5Page implements OnInit {
       if (data.status === 'success') {
         this.exibirAlerta('Solicitação adicionada com sucesso', 'success');
         this.limpar();
+        this.listarSolicEquipamentos();
         this.setSolicEquipamentoModalOpen(false);
       } else {
         this.exibirAlerta(data.console.error(), 'danger');
@@ -243,22 +248,22 @@ export class Tab5Page implements OnInit {
   }
 
 
-  async obterProprietarioInsumos() {
-    // try {
-    //   const data = await this.provider.obterInsumosProprietario(this.idUsuario);
-    //   this.insumosProprietario = (data.status === 'success' && data.insumos.length > 0) ? data.insumos : [];
-    // } catch (error) {
-    //   // this.exibirAlerta('Erro ao carregar insumos', 'danger');
-    // }
+  async obterInsumosFazenda() {
+    try {
+      const data = await this.provider.obterInsumosProprietario(this.funcionarios.fazendas_usuarios_idusuarios);
+      this.insumosfazendas = (data.status === 'success' && data.insumos.length > 0) ? data.insumos : [];
+    } catch (error) {
+      // this.exibirAlerta('Erro ao carregar insumos', 'danger');
+    }
   }
 
-  async obterProprietarioEquipamentos() {
-    // try {
-    //   const data = await this.provider.obterEquipamentosProprietario(this.idUsuario);
-    //   this.equipamentosProprietario = (data.status === 'success' && data.equipamentos.length > 0) ? data.equipamentos : [];
-    // } catch (error) {
-    //   // this.exibirAlerta('Erro ao carregar equipamentos', 'danger');
-    // }
+  async obterEquipamentosFazenda() {
+    try {
+      const data = await this.provider.obterEquipamentosProprietario(this.funcionarios.fazendas_usuarios_idusuarios);
+      this.equipamentosfazendas = (data.status === 'success' && data.equipamentos.length > 0) ? data.equipamentos : [];
+    } catch (error) {
+      // this.exibirAlerta('Erro ao carregar equipamentos', 'danger');
+    }
   }
 
 

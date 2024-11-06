@@ -46,8 +46,6 @@ export class ProfilePage implements OnInit {
   }
 
 
-
-
   back() {
     if (this.perfil == "PROPRIETARIO"){
       this.router.navigate(['/tabs/tab3']);

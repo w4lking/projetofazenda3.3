@@ -14,6 +14,8 @@ export class Tab3Page implements OnInit {
 
 
   tipo : any = "";
+  insumType = "insumos";
+  equipType = "equipamentos";
 
   fazendas: any[] = [];
   insumos: any = [];
@@ -367,6 +369,79 @@ export class Tab3Page implements OnInit {
       if (data.status === 'success') {
         this.exibirAlerta('Equipamento excluído com sucesso', 'success');
         this.obterProprietarioEquipamentos(); 
+      } else {
+        this.exibirAlerta('Erro ao excluir equipamento', 'danger');
+      }
+    } catch (error) {
+      this.exibirAlerta('Erro ao conectar-se ao servidor. Tente novamente!', 'danger');
+    }
+  }
+
+  async confirmarSolicitacao(idSolicitacao: number, quantidade: number, valor: number, idFazenda: number, idusuario: number, idInsumoOuEquipamento: number, tipo: string) {
+
+    console.log(idSolicitacao, quantidade, valor, idFazenda, idusuario, idInsumoOuEquipamento, tipo);
+
+    const alert = await this.alertController.create({
+      header: 'Aceitar Solicitação',
+      message: 'Deseja realmente aceitar esta solicitação?',
+      buttons: [
+        { text: 'Cancelar', role: 'cancel', cssClass: 'secondary' },
+        { text: 'Aceitar', handler: () => this.aceitarSolicitacao( 
+          idSolicitacao, quantidade, valor, idFazenda, idusuario, idInsumoOuEquipamento, tipo
+         ) }
+      ]
+    });
+    await alert.present();
+  }
+
+  async aceitarSolicitacao(idSolicitacao: number, quantidade: number, valor: number, idFazenda: number, idusuario: number, idInsumoOuEquipamento: number, tipo: string) {
+  console.log(idSolicitacao, quantidade, valor, idFazenda, idusuario, idInsumoOuEquipamento);
+  
+  try {
+    const data = await this.provider.aceitarSolicitacao(idSolicitacao, quantidade, valor, idFazenda, idusuario, idInsumoOuEquipamento, tipo);
+
+    if (data.status === 'success') {
+      this.exibirAlerta('Solicitação aceita com sucesso', 'success');
+      if (tipo === 'insumo') {
+        this.listarSolicInsumos();
+      } else {
+        this.listarSolicEquipamentos();
+      }
+    } else {
+      this.exibirAlerta(data.message || 'Erro ao aceitar solicitação', 'danger');
+    }
+
+  } catch (error: any) {
+    // Verifique se há uma resposta do backend e exiba a mensagem de erro
+    const errorMessage = error?.response?.data?.message || 'Erro ao conectar-se ao servidor. Tente novamente!';
+    this.exibirAlerta(errorMessage, 'danger');
+  }
+}
+
+
+  async confirmarRecusoDeSolicitacao(idInsumoOuEquipamento: number, tipo: string) {
+    const alert = await this.alertController.create({
+      header: 'Recusar Solicitação',
+      message: 'Deseja realmente recusar esta solicitação?',
+      buttons: [
+        { text: 'Cancelar', role: 'cancel', cssClass: 'secondary' },
+        { text: 'Excluir', handler: () => this.recusarSolicitacao(idInsumoOuEquipamento, tipo) }
+      ]
+    });
+    await alert.present();
+  }
+
+  async recusarSolicitacao(idInsumoOuEquipamento: number, tipo: string) {
+    try {
+      const data = await this.provider.recusarSolicitacao(idInsumoOuEquipamento);
+      if (data.status === 'success') {
+        this.exibirAlerta('Solicitação recusada com sucesso', 'success');
+        if(tipo === 'insumo') {
+          this.listarSolicInsumos();
+        }
+        else {
+          this.listarSolicEquipamentos();
+        }
       } else {
         this.exibirAlerta('Erro ao excluir equipamento', 'danger');
       }

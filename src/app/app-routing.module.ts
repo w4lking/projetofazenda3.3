@@ -50,6 +50,10 @@ const routes: Routes = [
   {
     path: 'tab5',
     loadChildren: () => import('./tab5/tab5.module').then( m => m.Tab5PageModule)
+  },
+  {
+    path: 'tab-vizualizar',
+    loadChildren: () => import('./tab-vizualizar/tab-vizualizar.module').then( m => m.TabVizualizarPageModule)
   }
 ];
 @NgModule({

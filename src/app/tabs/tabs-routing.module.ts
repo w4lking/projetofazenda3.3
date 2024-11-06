@@ -41,6 +41,10 @@ const routes: Routes = [
         loadChildren: () => import('../tab5/tab5.module').then(m => m.Tab5PageModule),
       },
       {
+        path:'tabVizualizar',
+        loadChildren: () => import('../tab-vizualizar/tab-vizualizar.module').then( m => m.TabVizualizarPageModule),
+      },
+      {
         path: '',
         redirectTo: '/tabs/tab1',
         pathMatch: 'full'

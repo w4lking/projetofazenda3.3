@@ -8,12 +8,11 @@
           [(ngModel)]="tipo"
           (ionChange)="atualizarDados()"
         >
-          <ion-select-option value="1"
-            >Solicitações de Insumos</ion-select-option
-          >
-          <ion-select-option value="2"
-            >Solicitações de Equipamentos</ion-select-option
-          >
+          <ion-select-option value="3">Insumos</ion-select-option>
+          <ion-select-option value="4">Equipamentos</ion-select-option>
+          <ion-select-option value="1">Solicitações de Insumos</ion-select-option>
+          <ion-select-option value="2">Solicitações de Equipamentos</ion-select-option>
+
         </ion-select>
       </ion-label>
       <ion-buttons slot="end">
@@ -24,7 +23,7 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <!-- Lista de Insumos -->
+  <!-- Lista de solicitação de Insumos -->
   <ion-list
     *ngIf="solicitacoesInsumos.length > 0 && tipo == '1'; else templateVazioInsumos"
   >
@@ -60,14 +59,89 @@
     </ion-item>
   </ion-list>
 
-  <!-- Lista de Equipamentos -->
+
+  <!-- Lista de Solicitação de Equipamentos -->
   <ion-list
     *ngIf="solicitacoesEquipamentos.length > 0 && tipo == '2'; else templateVazioEquipamentos"
   >
-    <ion-item *ngFor="let equipamento of solicitacoesEquipamentos">
+    <ion-item *ngFor="let Solicitarequipamento of solicitacoesEquipamentos">
       <ion-label>
         <h2>
-          {{getNomeEquipamento( equipamento.idInsumoOrEquipamento) }}
+          {{getNomeEquipamento( Solicitarequipamento.idInsumoOrEquipamento) }}
+        </h2>
+        <p><strong>Quantidade:</strong> {{ Solicitarequipamento.quantidade }}</p>
+        <p>
+          <strong>Valor Unitário:</strong> R$ {{ Solicitarequipamento.valor |
+          currency:'BRL' }}
+        </p>
+        <p>
+          <strong>Valor Total:</strong> R$ {{ Solicitarequipamento.quantidade *
+          Solicitarequipamento.valor | currency:'BRL' }}
+        </p>
+
+
+        <p><strong>Fazenda:</strong> {{getNomeFazenda( Solicitarequipamento.funcionarios_fazendas_idfazendas) }}</p>
+
+        <p>Data: {{ formatarData(Solicitarequipamento.data) }}</p>
+      </ion-label>
+
+      <ion-buttons slot="end">
+        <ion-button
+          color="primary"
+          (click)="editarSolicitacaoEquipamento(Solicitarequipamento.quantidade, Solicitarequipamento.valor, Solicitarequipamento.funcionarios_fazendas_idfazendas, Solicitarequipamento.funcionarios_idfuncionarios, Solicitarequipamento.idInsumoOrEquipamento, Solicitarequipamento.idsolicitacoes)"
+        >
+          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+        </ion-button>
+        <ion-button
+          color="danger"
+          (click)="confirmarExclusaoEquipamento(Solicitarequipamento.idsolicitacoes)"
+        >
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+
+
+   <!-- Lista de Insumos -->
+  <ion-list
+    *ngIf="insumosfazendas.length > 0 && tipo == '3'; else templateInsumo"
+  >
+    <ion-item *ngFor="let insumo of insumosfazendas">
+      <ion-label>
+        <h2>{{getNomeInsumo(insumo.insumosCadastrados_idinsumosCadastrados) }}</h2>
+        <p><strong>Quantidade:</strong> {{ insumo.quantidade }}</p>
+        <p>
+          <strong>Valor Unitário:</strong> R$ {{ insumo.valor | currency:'BRL'
+          }}
+        </p>
+        <p>
+          <strong>Valor Total:</strong> R$ {{ insumo.quantidade * insumo.valor |
+          currency:'BRL' }}
+        </p>
+        <p><strong>Fazenda:</strong> {{getNomeFazenda(insumo.fazendas_idfazendas)}}</p>
+        
+
+        <p>Data: {{ formatarData(insumo.data) }}</p>
+      </ion-label>
+
+      <ion-buttons slot="end">
+        <ion-button color="primary">
+          <ion-icon slot="icon-only" name="Cash-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+
+
+  <!-- Lista de Equipamentos -->
+  <ion-list
+    *ngIf="equipamentosfazendas.length > 0 && tipo == '4'; else templateEquipamento"
+  >
+    <ion-item *ngFor="let equipamento of equipamentosfazendas">
+      <ion-label>
+        <h2>
+          {{getNomeEquipamento( equipamento.equipamentosCadastrados_idequipamentosCadastrados) }}
         </h2>
         <p><strong>Quantidade:</strong> {{ equipamento.quantidade }}</p>
         <p>
@@ -80,23 +154,14 @@
         </p>
 
 
-        <p><strong>Fazenda:</strong> {{getNomeFazenda( equipamento.funcionarios_fazendas_idfazendas) }}</p>
+        <p><strong>Fazenda:</strong> {{getNomeFazenda( equipamento.fazendas_idfazendas) }}</p>
 
         <p>Data: {{ formatarData(equipamento.data) }}</p>
       </ion-label>
 
       <ion-buttons slot="end">
-        <ion-button
-          color="primary"
-          (click)="editarSolicitacaoEquipamento(equipamento.quantidade, equipamento.valor, equipamento.funcionarios_fazendas_idfazendas, equipamento.funcionarios_idfuncionarios, equipamento.idInsumoOrEquipamento, equipamento.idsolicitacoes)"
-        >
-          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
-        </ion-button>
-        <ion-button
-          color="danger"
-          (click)="confirmarExclusaoEquipamento(equipamento.idsolicitacoes)"
-        >
-          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        <ion-button color="primary">
+          <ion-icon slot="icon-only" name="Cash-outline"></ion-icon>
         </ion-button>
       </ion-buttons>
     </ion-item>
@@ -115,6 +180,20 @@
     <div class="empty-state" *ngIf="tipo == '2'">
       <ion-icon name="alert-circle-outline" size="large"></ion-icon>
       <p>Nenhuma solicitação de equipamento encontrada.</p>
+    </div>
+  </ng-template>
+
+  <ng-template #templateInsumo>
+    <div class="empty-state" *ngIf="tipo == '3'">
+      <ion-icon name="alert-circle-outline" size="large"></ion-icon>
+      <p>Nenhum insumo encontrado nesta fazenda.</p>
+    </div>
+  </ng-template>
+
+  <ng-template #templateEquipamento>
+    <div class="empty-state" *ngIf="tipo == '4'">
+      <ion-icon name="alert-circle-outline" size="large"></ion-icon>
+      <p>Nenhuma equipamento encontrado nesta fazenda.</p>
     </div>
   </ng-template>
 
@@ -237,9 +316,9 @@
   </ion-modal>
 
   <!-- Botão flutuante para adicionar -->
-  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+  <ion-fab slot="fixed"  vertical="bottom" horizontal="end">
     <ion-fab-button>
-      <ion-icon name="add"></ion-icon>
+      <ion-icon  name="add"></ion-icon>
     </ion-fab-button>
     <ion-fab-list side="start">
       <ion-fab-button (click)="setSolicInsumoModalOpen(true)">
@@ -252,7 +331,7 @@
   </ion-fab>
 </ion-content>
 
-<!-- Menu lateral -->
+
 <!-- Menu lateral -->
 <ion-menu side="end" content-id="main-content">
   <ion-header>
