@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ApiService } from '../services/api.service';
 import { ToastController, LoadingController, AlertController } from '@ionic/angular';
 import { MenuController } from '@ionic/angular';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-tab3',
@@ -17,10 +18,15 @@ export class Tab3Page implements OnInit {
   fazendas: any[] = [];
   insumos: any = [];
   equipamentos: any = [];
+  funcionarios : any = [];
 
   // listar insumos/equipamentos do proprietário
   insumosProprietario: any = [];
   equipamentosProprietario: any = [];
+  // listar solicitações de insumos/equipamentos
+  solicitacoesInsumos: any = [];
+  solicitacoesEquipamentos: any = [];
+
 
   idUsuario = Number(sessionStorage.getItem('id'));
   usuarios: any = {};
@@ -59,9 +65,19 @@ export class Tab3Page implements OnInit {
     this.carregarDados();
   }
 
+    
+  formatarData(data: string): string {
+    return formatDate(data, 'dd/MM/yyyy HH:mm:ss', 'pt-BR');
+  }
+
   getNomeFazenda(idFazenda: number | null): string {
     const fazenda = this.fazendas.find((f: { idfazendas: number | null }) => f.idfazendas == idFazenda);
     return fazenda ? fazenda.nome : 'Fazenda não encontrada';
+  }
+
+  getNomeFuncionario(idFuncionario: number | null): string {
+    const funcionario = this.funcionarios.find((u: { idfuncionarios: number | null }) => u.idfuncionarios == idFuncionario);
+    return funcionario ? funcionario.nome : 'Funcionário não encontrado';
   }
 
   getNomeInsumo(idInsumo: number | null): string {
@@ -83,6 +99,7 @@ export class Tab3Page implements OnInit {
     this.obterInsumo();
     this.obterEquipamento();
     this.obterFazendas();
+    this.obterFuncionarios();
     await loading.dismiss();
   }
 
@@ -94,6 +111,14 @@ export class Tab3Page implements OnInit {
     if (this.tipo == "2") {
       this.obterEquipamento();
       this.obterProprietarioEquipamentos();
+    }
+    if (this.tipo == "3") {
+      this.obterFazendas();
+      this.listarSolicInsumos();
+    }
+    if (this.tipo == "4") {
+      this.obterFazendas();
+      this.listarSolicEquipamentos();
     }
   }
 
@@ -209,6 +234,33 @@ export class Tab3Page implements OnInit {
       this.equipamentosProprietario = (data.status === 'success' && data.equipamentos.length > 0) ? data.equipamentos : [];
     } catch (error) {
       // this.exibirAlerta('Erro ao carregar equipamentos', 'danger');
+    }
+  }
+
+   async listarSolicInsumos() {
+    try {
+      const data = await this.provider.listarSolicitacoesInsumo(this.fazendas[0].idfazendas);
+      this.solicitacoesInsumos = (data.status === 'success' && data.solicitacoes.length > 0) ? data.solicitacoes : [];
+    } catch (error) {
+      this.exibirAlerta('Erro ao carregar insumos', 'danger');
+    }
+  }
+
+  async obterFuncionarios() {
+    try {
+      const data = await this.provider.obterFuncionarios(this.idUsuario);
+      this.funcionarios = (data.status === 'success' && data.funcionarios.length > 0) ? data.funcionarios : [];
+    } catch (error) {
+      this.exibirAlerta('Erro ao carregar funcionários', 'danger');
+    }
+  }
+
+  async listarSolicEquipamentos() {
+    try {
+      const data = await this.provider.listarSolicitacoesEquipamento(this.fazendas[0].idfazendas);
+      this.solicitacoesEquipamentos = (data.status === 'success' && data.solicitacoes.length > 0) ? data.solicitacoes : [];
+    } catch (error) {
+      this.exibirAlerta('Erro ao carregar insumos', 'danger');
     }
   }
 

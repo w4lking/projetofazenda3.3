@@ -6,6 +6,8 @@
         <ion-select placeholder="Seus Recursos" [(ngModel)]="tipo" (ionChange)="atualizarDados()">
           <ion-select-option value="1">Insumos</ion-select-option>
           <ion-select-option value="2">Equipamentos</ion-select-option>
+          <ion-select-option value="3">Solicitações de Insumos</ion-select-option>
+          <ion-select-option value="4">Solicitações de Equipamentos</ion-select-option>
         </ion-select>
       </ion-label>
       <ion-buttons slot="end">
@@ -61,6 +63,55 @@
     </ion-item>
   </ion-list>
 
+  <!-- Lista de Solicitações de Insumos -->
+  <ion-list *ngIf="solicitacoesInsumos.length > 0 && tipo == '3'; else templateVazioSolicitacaoInsumos">
+    <ion-item *ngFor="let solicitacaoInsumo of solicitacoesInsumos">
+      <ion-label>
+        <h2>{{ getNomeInsumo(solicitacaoInsumo.idInsumoOrEquipamento) }}</h2>
+        <p><strong>Quantidade:</strong> {{ solicitacaoInsumo.quantidade }}</p>
+        <p><strong>Valor Unitário:</strong> R$ {{ solicitacaoInsumo.valor | currency:'BRL' }}</p>
+        <p><strong>Valor Total:</strong> R$ {{ solicitacaoInsumo.quantidade * solicitacaoInsumo.valor | currency:'BRL' }}</p>
+        <p><strong>Solicitador:</strong> {{ getNomeFuncionario( solicitacaoInsumo.funcionarios_idfuncionarios)}}</p>
+        <p><strong>Fazenda:</strong> {{ getNomeFazenda(solicitacaoInsumo.funcionarios_fazendas_idfazendas) }}</p>
+        <p>Data: {{formatarData(solicitacaoInsumo.data)}}</p>
+
+      </ion-label>
+
+      <ion-buttons slot="end">
+        <ion-button color="primary">
+          <ion-icon slot="icon-only" name="checkmark-outline"></ion-icon>
+        </ion-button>
+        <ion-button color="danger" (click)="confirmarExclusaoInsumo(solicitacaoInsumo.idsolicitacoes)">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+
+   <!-- Lista de Solicitações de equipamentos -->
+  <ion-list *ngIf="solicitacoesEquipamentos.length > 0 && tipo == '4'; else templateVazioSolicitacaoEquipamentos">
+    <ion-item *ngFor="let solicitacaoEquipamento of solicitacoesEquipamentos">
+      <ion-label>
+        <h2>{{ getNomeEquipamento(solicitacaoEquipamento.idInsumoOrEquipamento) }}</h2>
+        <p><strong>Quantidade:</strong> {{ solicitacaoEquipamento.quantidade }}</p>
+        <p><strong>Valor Unitário:</strong> R$ {{ solicitacaoEquipamento.valor | currency:'BRL' }}</p>
+        <p><strong>Valor Total:</strong> R$ {{ solicitacaoEquipamento.quantidade * solicitacaoEquipamento.valor | currency:'BRL' }}</p>
+        <p><strong>Solicitador:</strong> {{ getNomeFuncionario( solicitacaoEquipamento.funcionarios_idfuncionarios)}}</p>
+        <p><strong>Fazenda:</strong> {{ getNomeFazenda(solicitacaoEquipamento.funcionarios_fazendas_idfazendas) }}</p>
+        <p>Data: {{formatarData(solicitacaoEquipamento.data)}}</p>
+      </ion-label>
+
+      <ion-buttons slot="end">
+        <ion-button color="primary">
+          <ion-icon slot="icon-only" name="checkmark-outline"></ion-icon>
+        </ion-button>
+        <ion-button color="danger" (click)="confirmarExclusaoInsumo(solicitacaoEquipamento.idsolicitacoes)">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+
   <!-- Template Vazio para Insumos -->
   <ng-template #templateVazioInsumos>
     <div class="empty-state" *ngIf="tipo == '1'">
@@ -74,6 +125,22 @@
     <div class="empty-state" *ngIf="tipo == '2'">
       <ion-icon name="alert-circle-outline" size="large"></ion-icon>
       <p>Nenhum equipamento encontrado.</p>
+    </div>
+  </ng-template>
+
+  <!-- Template Vazio para Solicitações de insumos-->
+  <ng-template #templateVazioSolicitacaoInsumos>
+    <div class="empty-state" *ngIf="tipo == '3'">
+      <ion-icon name="alert-circle-outline" size="large"></ion-icon>
+      <p>Nenhuma solicitação de insumo encontrada.</p>
+    </div>
+  </ng-template>
+
+  <!-- Template Vazio para Solicitações de equipamentos -->
+  <ng-template #templateVazioSolicitacaoEquipamentos>
+    <div class="empty-state" *ngIf="tipo == '4'">
+      <ion-icon name="alert-circle-outline" size="large"></ion-icon>
+      <p>Nenhuma solicitação de equipamento encontrada.</p>
     </div>
   </ng-template>
 

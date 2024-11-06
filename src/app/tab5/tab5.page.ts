@@ -78,6 +78,11 @@ export class Tab5Page implements OnInit {
     return fazenda ? fazenda.nome : 'Fazenda não encontrada';
   }
 
+  // getNomeFuncionario(idFuncionario: number | null): string {
+  //   const funcionario = this.funcionarios.find((f: { idfuncionarios: number | null }) => f.idfuncionarios == idFuncionario);
+  //   return funcionario ? funcionario.nome : 'Funcionário não encontrado';
+  // }
+
   getNomeInsumo(idInsumo: number | null): string {
     const insumo = this.insumos.find((i: { idinsumosCadastrados: number | null }) => i.idinsumosCadastrados == idInsumo);
     return insumo ? insumo.nome : 'Insumo não encontrado';

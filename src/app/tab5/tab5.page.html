@@ -41,6 +41,7 @@
           currency:'BRL' }}
         </p>
         <p><strong>Fazenda:</strong> {{getNomeFazenda(solicitacao.funcionarios_fazendas_idfazendas)}}</p>
+        
 
         <p>Data: {{ formatarData(solicitacao.data) }}</p>
       </ion-label>
@@ -77,6 +78,8 @@
           <strong>Valor Total:</strong> R$ {{ equipamento.quantidade *
           equipamento.valor | currency:'BRL' }}
         </p>
+
+
         <p><strong>Fazenda:</strong> {{getNomeFazenda( equipamento.funcionarios_fazendas_idfazendas) }}</p>
 
         <p>Data: {{ formatarData(equipamento.data) }}</p>
