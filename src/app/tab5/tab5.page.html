@@ -127,7 +127,7 @@
 
       <ion-buttons slot="end">
         <ion-button color="primary">
-          <ion-icon slot="icon-only" name="Cash-outline"></ion-icon>
+          <ion-icon slot="icon-only" name="cash-outline"></ion-icon>
         </ion-button>
       </ion-buttons>
     </ion-item>
@@ -160,8 +160,9 @@
       </ion-label>
 
       <ion-buttons slot="end">
-        <ion-button color="primary">
-          <ion-icon slot="icon-only" name="Cash-outline"></ion-icon>
+        <!-- Modal para Consumir -->
+        <ion-button color="primary" (click)="setModalConsumo(true, equipamento.quantidade, equipamento.valor, equipamento.fazendas_idfazendas, equipamento.fazendas_usuarios_idusuarios, equipamento.equipamentosCadastrados_idequipamentosCadastrados )">
+            <ion-icon slot="icon-only" name="cash-outline"></ion-icon>
         </ion-button>
       </ion-buttons>
     </ion-item>
@@ -310,6 +311,53 @@
 
         <ion-button expand="block" color="success" (click)="salvarEquipamento()"
           >Salvar Alterações</ion-button
+        >
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+
+  <ion-modal [isOpen]="ModalConsumo">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Consumir</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="setModalConsumoOpen(false)">
+              <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item [(ngModel)]="quantidade">
+            <ion-label position="floating"></ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Quantidade</ion-label>
+          <ion-input type="number" [(ngModel)]="quantidade"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Valor Unitário</ion-label>
+          <ion-input type="number" [(ngModel)]="valor"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            readonly
+            [value]="(quantidade * valor) | currency:'BRL'"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Fazenda</ion-label>
+          <ion-select [(ngModel)]="idFazenda">
+            <ion-select-option *ngFor="let fazenda of fazendas" [value]="fazenda.idfazendas">
+              {{ fazenda.nome }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-button expand="block" color="success" (click)="consumir()"
+          >Consumir</ion-button
         >
       </ion-content>
     </ng-template>

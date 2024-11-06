@@ -38,6 +38,13 @@ export class Tab5Page implements OnInit {
   idFazenda: any;
   nomeFazenda: string = "";
 
+  //
+  idUsuario: any;
+  quantidadeConsumida: any;
+  valorConsumo: any;
+  idFazendaConsumo: any;
+  idInsumoOrEquipamentoConsumo: any;
+
   // id do insumo/equipamento selecionado na lista
   idInsumo: any;
   idEquipamento: any;
@@ -49,6 +56,9 @@ export class Tab5Page implements OnInit {
   valor = 0.0;
   isSolicInsumoModalOpen = false;
   isSolicEquipamentoModalOpen = false;
+
+  ModalConsumo = false;
+
 
   constructor(
     private router: Router,
@@ -124,6 +134,11 @@ export class Tab5Page implements OnInit {
   setSolicInsumoModalOpen(isOpen: boolean) {
     this.isSolicInsumoModalOpen = isOpen;
     if (!isOpen) this.limpar();
+  }
+
+
+  setModalConsumoOpen(isOpen: boolean) {
+    this.ModalConsumo = isOpen;
   }
 
   setSolicEquipamentoModalOpen(isOpen: boolean) {
@@ -277,6 +292,16 @@ export class Tab5Page implements OnInit {
     this.setSolicInsumoModalOpen(true);
   }
 
+  setModalConsumo(isOpen: boolean, quantidade: number, valor: number, idFazenda: number,  idUsuario: number, idInsumoOrEquipamento: number) {
+    this.quantidade = quantidade;
+    this.valor = valor;
+    this.idFazenda = idFazenda;
+    this.idUsuario = idUsuario;
+    this.idEquipamento = idInsumoOrEquipamento;
+    this.ModalConsumo = isOpen;
+    console.log(this.quantidadeConsumida, this.valorConsumo, this.idFazendaConsumo, this.idUsuario, this.idInsumoOrEquipamentoConsumo);
+  }
+
 
   async salvarInsumo() {
     if (this.solicitacaoId) {
@@ -387,7 +412,9 @@ export class Tab5Page implements OnInit {
     }
   }
 
+  consumir() {
 
+  }
 
   limpar() {
     this.quantidade = 0;
