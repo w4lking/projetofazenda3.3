@@ -8,13 +8,17 @@ import { TabVizualizarPageRoutingModule } from './tab-vizualizar-routing.module'
 
 import { TabVizualizarPage } from './tab-vizualizar.page';
 
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { ChartSolicitacoesComponent } from '../components/chart-solicitacoes/chart-solicitacoes.component';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    TabVizualizarPageRoutingModule
+    TabVizualizarPageRoutingModule,
+    NgApexchartsModule,
   ],
-  declarations: [TabVizualizarPage]
+  declarations: [TabVizualizarPage, ChartSolicitacoesComponent]
 })
 export class TabVizualizarPageModule {}

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastController, LoadingController, AlertController, ModalController } from '@ionic/angular'; // Adicione AlertControllerimport { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-tab-vizualizar',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TabVizualizarPage implements OnInit {
 
-  constructor() { }
+  constructor(
+    public toastController: ToastController,
+    public loadingController: LoadingController,
+    private alertController: AlertController,
+    private modalCtrl: ModalController,
+  ) { }
 
   ngOnInit() {
+  }
+
+  cancel() {
+    this.modalCtrl.dismiss(null, 'cancel');
   }
 
 }
