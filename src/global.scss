@@ -26,6 +26,20 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
+Substitua as cores primary pelas de success
+:root {
+    // src/theme/variables.scss
+
+// Defina um verde personalizado
+--ion-color-primary: #4CAF50; // Cor principal personalizada
+--ion-color-primary-rgb: 76, 175, 80; // Cor em formato RGB
+--ion-color-primary-contrast: #ffffff; // Contraste para texto e ícones sobre o fundo
+--ion-color-primary-contrast-rgb: 255, 255, 255; 
+--ion-color-primary-shade: #43a047; // Cor um pouco mais escura
+--ion-color-primary-tint: #66bb6a; // Cor um pouco mais clara
+
+}
+
 
 .azulclaro{
     background-color: #beebfa;

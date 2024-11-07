@@ -140,6 +140,7 @@ export class TabFazendasPage implements OnInit, ViewWillEnter {
             if (res.status === 'success' || res.ok) {
                 this.exibirAlerta('Fazenda adicionada com sucesso!', 'success');
                 this.limpar();
+                this.setOpen(false);
                 this.obterFazendas(); // Atualiza a lista
             } else {
                 this.mensagem('Erro ao adicionar fazenda. Tente novamente!', 'danger');

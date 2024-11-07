@@ -17,6 +17,11 @@ export class Tab5Page implements OnInit {
   idFuncionario = Number(sessionStorage.getItem('id'));
   idFarm: any;
 
+  nomeInsumo: string = '';
+  nomeEquipamento: string = '';
+  type: string = '';
+
+
   //arrays para pegar os dados das fazendas, insumos e equipamentos
   fazendas: any[] = [];
   insumos: any = [];
@@ -249,7 +254,7 @@ export class Tab5Page implements OnInit {
       const data = await this.provider.listarSolicitacoesInsumo(this.fazendas[0].idfazendas);
       this.solicitacoesInsumos = (data.status === 'success' && data.solicitacoes.length > 0) ? data.solicitacoes : [];
     } catch (error) {
-      this.exibirAlerta('Erro ao carregar insumos', 'danger');
+      // this.exibirAlerta('Erro ao carregar insumos', 'danger');
     }
   }
 
@@ -258,7 +263,7 @@ export class Tab5Page implements OnInit {
       const data = await this.provider.listarSolicitacoesEquipamento(this.fazendas[0].idfazendas);
       this.solicitacoesEquipamentos = (data.status === 'success' && data.solicitacoes.length > 0) ? data.solicitacoes : [];
     } catch (error) {
-      this.exibirAlerta('Erro ao carregar insumos', 'danger');
+      // this.exibirAlerta('Erro ao carregar insumos', 'danger');
     }
   }
 
@@ -292,14 +297,41 @@ export class Tab5Page implements OnInit {
     this.setSolicInsumoModalOpen(true);
   }
 
-  setModalConsumo(isOpen: boolean, quantidade: number, valor: number, idFazenda: number,  idUsuario: number, idInsumoOrEquipamento: number) {
-    this.quantidade = quantidade;
-    this.valor = valor;
-    this.idFazenda = idFazenda;
-    this.idUsuario = idUsuario;
-    this.idEquipamento = idInsumoOrEquipamento;
+  setModalConsumo(isOpen: boolean, quantidade: number = 0, valor: number = 0, idFazenda: number = 0, idUsuario: number = 0, idInsumoOrEquipamento: number = 0, type: string = '') {
     this.ModalConsumo = isOpen;
-    console.log(this.quantidadeConsumida, this.valorConsumo, this.idFazendaConsumo, this.idUsuario, this.idInsumoOrEquipamentoConsumo);
+
+    if (isOpen) {
+        this.quantidade = quantidade;
+        this.valor = valor;
+        this.idFazenda = idFazenda;
+        this.idUsuario = idUsuario;
+        this.idInsumoOrEquipamentoConsumo = idInsumoOrEquipamento;
+        this.type = type;
+
+        if (type === 'equipamentos') {
+            this.nomeEquipamento = this.getNomeEquipamento(idInsumoOrEquipamento);
+            this.nomeInsumo = ''; // Limpar o nome do insumo
+        } else if (type === 'insumos') {
+            this.nomeInsumo = this.getNomeInsumo(idInsumoOrEquipamento);
+            this.nomeEquipamento = ''; // Limpar o nome do equipamento
+        }
+    }
+}
+
+  async salvarConsumo() {
+    try {
+      console.log(this.quantidadeConsumida, this.valor, this.idFazenda, this.idUsuario, this.idInsumoOrEquipamentoConsumo);
+      const res = await this.provider.salvarConsumo(this.quantidadeConsumida, this.valor, this.idFazenda, this.idFuncionario ,this.idUsuario, this.idInsumoOrEquipamentoConsumo);
+      if (res.status === 'success') {
+        this.exibirAlerta('Consumo registrado com sucesso', 'success');
+        this.atualizarDados();
+      } else {
+        this.exibirAlerta('Erro ao registrar consumo', 'danger');
+      }
+      this.setModalConsumo(false);  // Fecha o modal após salvar
+    } catch (error) {
+      this.exibirAlerta('Erro ao conectar-se ao servidor. Tente novamente!', 'danger');
+    }
   }
 
 
@@ -412,9 +444,7 @@ export class Tab5Page implements OnInit {
     }
   }
 
-  consumir() {
 
-  }
 
   limpar() {
     this.quantidade = 0;

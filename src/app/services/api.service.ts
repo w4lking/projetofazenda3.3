@@ -8,9 +8,9 @@ import { Observable } from 'rxjs';
 })
 export class ApiService {
 
-  server: string = 'https://jsonserver-jet.vercel.app/api/'; // URL do servidor Node.js local
+  // server: string = 'https://jsonserver-jet.vercel.app/api/'; // URL do servidor Node.js local
 
-  // server: string = 'http://localhost:5000/api/'; // URL do servidor Node.js local para testes
+  server: string = 'http://localhost:5000/api/'; // URL do servidor Node.js local para testes
 
   constructor(private http: HttpClient) { }
 
@@ -1017,7 +1017,24 @@ export class ApiService {
     }
   }
 
+  async salvarConsumo( quantidade: number, valor: number, idFazenda: number, idFuncionario:number , idUsuario: number, idInsumoOrEquipamento: number) {
+    const options = {
+      url: this.server + 'farm/consumption/add',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify({quantidade, valor, idFazenda, idFuncionario ,idUsuario, idInsumoOrEquipamento})
+    };
 
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao salvar consumo', error);
+      throw error;
+    }
+  }
 
 
 
