@@ -28,9 +28,9 @@ export class LoginPage implements OnInit {
     private modalCtrl: ModalController,
     public loadingController: LoadingController,
     private alertController: AlertController
-  ) {}
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   async mensagem(mensagem: any, cor: string) {
     const toast = await this.toastController.create({
@@ -110,67 +110,70 @@ export class LoginPage implements OnInit {
   }
 
   async login() {
+     const loading = await this.loadingController.create({
+        message: 'Carregando...',});
     if (!this.email || !this.senha) {
-        this.exibirAlerta('Por favor, preencha o e-mail e a senha', 'danger');
-        return;
+      this.exibirAlerta('Por favor, preencha o e-mail e a senha', 'danger');
+      return;
     }
-    else if (this.senha.length >= 10){
-        const id = await this.provider.obterUsuarioWithEmail(this.email);
-        const perfil = await this.provider.getTipoDeUsuario(this.email);
-        this.id = id;
-        this.perfil = perfil;
+   
+    else if (this.senha.length >= 10) {
+      const id = await this.provider.obterUsuarioWithEmail(this.email);
+      const perfil = await this.provider.getTipoDeUsuario(this.email);
+      this.id = id;
+      this.perfil = perfil;
     }
-    else{
-        const idFunc = await this.provider.obterFuncionarioWithEmail(this.email);
-        const perfilFunc = await this.provider.getTipoDeFuncionario(this.email);
-        this.id = idFunc;
-        this.perfil = perfilFunc;
-      }
+    else {
+      const idFunc = await this.provider.obterFuncionarioWithEmail(this.email);
+      const perfilFunc = await this.provider.getTipoDeFuncionario(this.email);
+      this.id = idFunc;
+      this.perfil = perfilFunc;
+    }
     try {
-       const dados = {
-            email: this.email,
-            senha: this.senha,
-            perfil: this.perfil,
-            sessionId: this.generateUniqueId(),
-        };
+      const dados = {
+        email: this.email,
+        senha: this.senha,
+        perfil: this.perfil,
+        sessionId: this.generateUniqueId(),
+      };
 
-        const response = await this.provider.dadosApi(dados, 'user/login');
-
-        if (response && response.ok) {
-            console.log('Login realizado com sucesso!');
-
-            this.handleLoginSuccess(dados, response.perfil, this.id);
-            sessionStorage.setItem('id', this.id);
-            sessionStorage.setItem('token', response.token);
-        } else {
-            const message = response.message || 'Erro no login';
-            console.warn('Falha no login:', message);
-            this.exibirAlerta(message, 'danger');
-        }
+      
+      const response = await this.provider.dadosApi(dados, 'user/login');
+      await loading.dismiss();
+      if (response && response.ok) {
+        console.log('Login realizado com sucesso!');
+        this.handleLoginSuccess(dados, response.perfil, this.id);
+        sessionStorage.setItem('id', this.id);
+        sessionStorage.setItem('token', response.token);
+      } else {
+        const message = response.message || 'Erro no login';
+        console.warn('Falha no login:', message);
+        this.exibirAlerta(message, 'danger');
+      }
     } catch (error) {
-        console.error('Erro ao tentar realizar o login:', error);
-        this.exibirAlerta('Erro ao tentar realizar o login. Tente novamente mais tarde.', 'danger');
+      console.error('Erro ao tentar realizar o login:', error);
+      this.exibirAlerta('Erro ao tentar realizar o login. Tente novamente mais tarde.', 'danger');
     }
-}
+  }
 
 
 
 
-// Método separado para tratar sucesso no login
-  private handleLoginSuccess(dados: any, perfil: string, id : number) {
+  // Método separado para tratar sucesso no login
+  private handleLoginSuccess(dados: any, perfil: string, id: number) {
     this.Alerta(dados.mensagem, 'primary');
     this.provider.armazenarUsuario(dados.email);
     sessionStorage.setItem('sessionId', dados.sessionId);
     sessionStorage.setItem('perfil', perfil);
-    
-    
+
+
     if (perfil === "ADMINISTRADOR") {
       console.log('Redirecionando para a página do administrador...');
       this.router.navigate(['tabs']);
     } else if (perfil === "PROPRIETARIO") {
       console.log('Redirecionando para a página do proprietário...');
       this.router.navigate(['tabs/tab3']);
-    }else if (perfil === "FUNCIONARIO") {
+    } else if (perfil === "FUNCIONARIO") {
       console.log('Redirecionando para a página do funcionário...');
       this.router.navigate(['tabs/tab5']);
     }
