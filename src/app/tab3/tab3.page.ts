@@ -484,8 +484,6 @@ export class Tab3Page implements OnInit {
 
   sair() {
     this.router.navigate(['/login']);
-    sessionStorage.removeItem('token');
-    sessionStorage.removeItem('perfil');
     sessionStorage.clear();
     console.log('Sessão encerrada PROPRIETÁRIO');
   }

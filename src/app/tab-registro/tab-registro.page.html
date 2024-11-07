@@ -1,9 +1,72 @@
 <ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <div class="header-title">
+      <ion-icon name="receipt-outline" slot="start"></ion-icon>
+      <h3>Registro de Consumo</h3>
+    </div>
+  </ion-toolbar>
   <ion-toolbar>
-    <ion-title>tabRegistro</ion-title>
+    <ion-segment [(ngModel)]="tipo" color="secondary">
+      <ion-segment-button value="insumos">
+        <ion-label>Insumos</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="equipamentos">
+        <ion-label>Equipamentos</ion-label>
+      </ion-segment-button>
+    </ion-segment>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
 
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-list *ngIf="consumosFiltrados.length > 0; else (tipo === 'insumos' ? templateVazioInsumos : templateVazioEquipamentos)">
+    <ion-item *ngFor="let consumo of consumosFiltrados" class="consumo-item">
+      <ion-avatar slot="start" *ngIf="tipo === 'insumos'">
+        <ion-icon name="leaf-outline" color="success" style="font-size: 2rem;"></ion-icon>
+      </ion-avatar>
+      <ion-avatar slot="start" *ngIf="tipo === 'equipamentos'">
+        <ion-icon name="construct-outline" color="tertiary" style="font-size: 2rem;"></ion-icon>
+      </ion-avatar>
+      <ion-label>
+        <h2>{{ tipo === 'insumos' ? getNomeInsumo(consumo.idInsumoOuEquipamento) : getNomeEquipamento(consumo.idInsumoOuEquipamento) }}</h2>
+        <ion-chip color="light">
+          <ion-label><strong>Quantidade:</strong> {{ consumo.quantidade }}</ion-label>
+        </ion-chip>
+        <p>
+          <ion-text color="medium"><strong>Valor Unitário:</strong> {{ consumo.valor | currency:'BRL' }}</ion-text>
+        </p>
+        <p>
+          <ion-text color="medium"><strong>Valor Total:</strong> {{ consumo.quantidade * consumo.valor | currency:'BRL' }}</ion-text>
+        </p>
+        <p>
+          <strong>Fazenda:</strong> {{getNomeFazenda(consumo.funcionarios_fazendas_idfazendas)}}
+        </p>
+        <p>
+          <strong>Funcionário:</strong> {{getNomeFuncionario(consumo.funcionarios_idfuncionarios)}}
+        </p>
+        <p>
+          <strong>Tipo:</strong> {{consumo.tipo}}
+        </p>
+        <p>
+          <ion-text color="primary">Data: {{ formatarData(consumo.data) }}</ion-text>
+        </p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!-- Template Vazio para Insumos -->
+  <ng-template #templateVazioInsumos>
+    <div class="empty-state">
+      <ion-icon name="alert-circle-outline" size="large" color="medium"></ion-icon>
+      <p>Nenhum consumo de insumos encontrado.</p>
+    </div>
+  </ng-template>
+
+  <!-- Template Vazio para Equipamentos -->
+  <ng-template #templateVazioEquipamentos>
+    <div class="empty-state">
+      <ion-icon name="alert-circle-outline" size="large" color="medium"></ion-icon>
+      <p>Nenhum consumo de equipamentos encontrado.</p>
+    </div>
+  </ng-template>
 </ion-content>

@@ -262,8 +262,6 @@ export class Tab1Page implements OnInit, ViewWillEnter {
 
   sair() {
     this.router.navigate(['/login']);
-    sessionStorage.removeItem('token');
-    sessionStorage.removeItem('perfil');
     sessionStorage.clear();
     console.log('Sessão encerrada ADMINISTRADOR');
   }

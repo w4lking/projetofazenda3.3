@@ -439,6 +439,24 @@ export class ApiService {
     }
   }
 
+  // async getFazendaFuncionario(idFuncionario: any) {
+  //   const options = {
+  //     url: this.server + 'farm/employer?id=' + idFuncionario,
+  //     method: 'GET',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //   };
+
+  //   try {
+  //     const response = await CapacitorHttp.request(options);
+  //     return response.data;
+  //   } catch (error) {
+  //     console.error('Erro ao obter fazenda', error);
+  //     throw error;
+  //   }
+  // }
+
   async obterFazendaFuncionario(idFarm: number) {
     const options = {
       url: this.server + 'employer/farm?id=' + idFarm,
@@ -1032,6 +1050,25 @@ export class ApiService {
       return response.data;
     } catch (error) {
       console.error('Erro ao salvar consumo', error);
+      throw error;
+    }
+  }
+
+  async obterConsumo(idfazendas: any) {
+    const options = {
+      url: this.server + 'farm/consumption?id=' + idfazendas,
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    }
+    catch (error) {
+      console.error('Erro ao obter consumo', error);
       throw error;
     }
   }

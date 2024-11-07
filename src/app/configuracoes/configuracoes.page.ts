@@ -73,8 +73,6 @@ export class ConfiguracoesPage implements OnInit {
         buttons: ['OK']
       });
       await alert.present();
-      sessionStorage.removeItem('token');
-      sessionStorage.removeItem('perfil');
       sessionStorage.clear();
       this.router.navigate(['/login']);
     });
