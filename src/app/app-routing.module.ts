@@ -54,6 +54,10 @@ const routes: Routes = [
   {
     path: 'tab-vizualizar',
     loadChildren: () => import('./tab-vizualizar/tab-vizualizar.module').then( m => m.TabVizualizarPageModule)
+  },
+  {
+    path: 'configuracoes',
+    loadChildren: () => import('./configuracoes/configuracoes.module').then( m => m.ConfiguracoesPageModule)
   }
 ];
 @NgModule({

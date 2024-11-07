@@ -517,6 +517,10 @@ export class Tab5Page implements OnInit {
     this.router.navigate(['/profile']);
   }
 
+  goConfiguration() {
+    this.router.navigate(['/configuracoes']);
+  }
+
   sair() {
     this.router.navigate(['/login']);
     sessionStorage.clear();

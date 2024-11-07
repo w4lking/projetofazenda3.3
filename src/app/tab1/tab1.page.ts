@@ -42,6 +42,10 @@ export class Tab1Page implements OnInit, ViewWillEnter {
     this.router.navigate(['/profile']);
   }
 
+  goConfiguration() {
+    this.router.navigate(['/configuracoes']);
+  }
+
 
   async carregarDados() {
     const loading = await this.loadingController.create({

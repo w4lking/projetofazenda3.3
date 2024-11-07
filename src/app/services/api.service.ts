@@ -1017,14 +1017,14 @@ export class ApiService {
     }
   }
 
-  async salvarConsumo( id:number, quantidadeConsumida: number, valor: number, quantidadeAtual:number, custoTotal: any, idFazenda: number, idFuncionario:number , idUsuario: number, idInsumoOrEquipamento: number, tipo: string) {
+  async salvarConsumo(id: number, quantidadeConsumida: number, valor: number, quantidadeAtual: number, custoTotal: any, idFazenda: number, idFuncionario: number, idUsuario: number, idInsumoOrEquipamento: number, tipo: string) {
     const options = {
       url: this.server + 'farm/consumption/add',
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      data: JSON.stringify({id, quantidadeConsumida, valor, quantidadeAtual, custoTotal, idFazenda, idFuncionario ,idUsuario, idInsumoOrEquipamento, tipo})
+      data: JSON.stringify({ id, quantidadeConsumida, valor, quantidadeAtual, custoTotal, idFazenda, idFuncionario, idUsuario, idInsumoOrEquipamento, tipo })
     };
 
     try {
@@ -1074,6 +1074,40 @@ export class ApiService {
     }
   }
 
+  async obterSolicitacaoConsumoEstoque(id: any, year: number) {
+    const options = {
+      url: `${this.server}solicit/consumption?id=${id}&year=${year}`,
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao obter solicitações de consumo', error);
+      throw error;
+    }
+  }
+
+  async excluirConta(id: any, perfil: any) {
+    const options = {
+        url: this.server + 'conta/delete?id=' + id + '&perfil=' + perfil,
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    };
+    try {
+        const response = await CapacitorHttp.request(options);
+        return response.data;
+    } catch (error) {
+        console.error('Erro ao deletar conta', error);
+        throw error;
+    }
+}
 
 
 

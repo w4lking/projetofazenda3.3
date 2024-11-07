@@ -478,8 +478,14 @@ export class Tab3Page implements OnInit {
     this.router.navigate(['/profile']);
   }
 
+  goConfiguration() {
+    this.router.navigate(['/configuracoes']);
+  }
+
   sair() {
     this.router.navigate(['/login']);
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('perfil');
     sessionStorage.clear();
     console.log('Sessão encerrada PROPRIETÁRIO');
   }
