@@ -35,11 +35,11 @@
         <h2>{{getNomeInsumo(solicitacao.idInsumoOrEquipamento) }}</h2>
         <p><strong>Quantidade:</strong> {{ solicitacao.quantidade }}</p>
         <p>
-          <strong>Valor Unitário:</strong> R$ {{ solicitacao.valor |
+          <strong>Valor Unitário:</strong> {{ solicitacao.valor |
           currency:'BRL' }}
         </p>
         <p>
-          <strong>Valor Total:</strong> R$ {{ solicitacao.quantidade *
+          <strong>Valor Total:</strong> {{ solicitacao.quantidade *
           solicitacao.valor | currency:'BRL' }}
         </p>
         <p>
@@ -80,11 +80,11 @@
           <strong>Quantidade:</strong> {{ Solicitarequipamento.quantidade }}
         </p>
         <p>
-          <strong>Valor Unitário:</strong> R$ {{ Solicitarequipamento.valor |
+          <strong>Valor Unitário:</strong>{{ Solicitarequipamento.valor |
           currency:'BRL' }}
         </p>
         <p>
-          <strong>Valor Total:</strong> R$ {{ Solicitarequipamento.quantidade *
+          <strong>Valor Total:</strong>{{ Solicitarequipamento.quantidade *
           Solicitarequipamento.valor | currency:'BRL' }}
         </p>
 
@@ -142,7 +142,7 @@
       <ion-buttons slot="end">
         <ion-button
           color="primary"
-          (click)="setModalConsumo(true, insumo.quantidade, insumo.valor, insumo.fazendas_idfazendas, insumo.fazendas_usuarios_idusuarios, insumo.insumosCadastrados_idinsumosCadastrados, insumType)"
+          (click)="setModalConsumo(true, insumo.id, insumo.quantidade, insumo.valor, insumo.fazendas_idfazendas, insumo.fazendas_usuarios_idusuarios, insumo.insumosCadastrados_idinsumosCadastrados, insumType)"
         >
           <ion-icon slot="icon-only" name="cash-outline"></ion-icon>
         </ion-button>
@@ -182,7 +182,7 @@
         <!-- Modal para Consumir -->
         <ion-button
           color="primary"
-          (click)="setModalConsumo(true, equipamento.quantidade, equipamento.valor, equipamento.fazendas_idfazendas, equipamento.fazendas_usuarios_idusuarios, equipamento.equipamentosCadastrados_idequipamentosCadastrados, equipType )"
+          (click)="setModalConsumo(true, equipamento.id, equipamento.quantidade, equipamento.valor, equipamento.fazendas_idfazendas, equipamento.fazendas_usuarios_idusuarios, equipamento.equipamentosCadastrados_idequipamentosCadastrados, equipType )"
         >
           <ion-icon slot="icon-only" name="cash-outline"></ion-icon>
         </ion-button>
@@ -383,6 +383,15 @@
           <ion-input
             type="number"
             [(ngModel)]="valor"
+            disabled="true"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Valor Total</ion-label>
+          <ion-input
+            readonly
+            [value]="(quantidade * valor) | currency:'BRL'"
             disabled="true"
           ></ion-input>
         </ion-item>

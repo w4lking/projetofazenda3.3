@@ -1017,14 +1017,14 @@ export class ApiService {
     }
   }
 
-  async salvarConsumo( quantidade: number, valor: number, idFazenda: number, idFuncionario:number , idUsuario: number, idInsumoOrEquipamento: number) {
+  async salvarConsumo( id:number, quantidadeConsumida: number, valor: number, quantidadeAtual:number, custoTotal: any, idFazenda: number, idFuncionario:number , idUsuario: number, idInsumoOrEquipamento: number, tipo: string) {
     const options = {
       url: this.server + 'farm/consumption/add',
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      data: JSON.stringify({quantidade, valor, idFazenda, idFuncionario ,idUsuario, idInsumoOrEquipamento})
+      data: JSON.stringify({id, quantidadeConsumida, valor, quantidadeAtual, custoTotal, idFazenda, idFuncionario ,idUsuario, idInsumoOrEquipamento, tipo})
     };
 
     try {

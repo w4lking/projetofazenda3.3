@@ -27,6 +27,8 @@ export class Tab5Page implements OnInit {
   insumos: any = [];
   equipamentos: any = [];
 
+  idTab:any;
+
   //
   insumosfazendas: any = [];
   equipamentosfazendas: any = [];
@@ -49,6 +51,7 @@ export class Tab5Page implements OnInit {
   valorConsumo: any;
   idFazendaConsumo: any;
   idInsumoOrEquipamentoConsumo: any;
+  custo : any = 0.0;
 
   // id do insumo/equipamento selecionado na lista
   idInsumo: any;
@@ -297,10 +300,11 @@ export class Tab5Page implements OnInit {
     this.setSolicInsumoModalOpen(true);
   }
 
-  setModalConsumo(isOpen: boolean, quantidade: number = 0, valor: number = 0, idFazenda: number = 0, idUsuario: number = 0, idInsumoOrEquipamento: number = 0, type: string = '') {
+  setModalConsumo(isOpen: boolean, id:number = 0 ,quantidade: number = 0, valor: number = 0, idFazenda: number = 0, idUsuario: number = 0, idInsumoOrEquipamento: number = 0, type: string = '') {
     this.ModalConsumo = isOpen;
 
     if (isOpen) {
+        this.idTab = id;
         this.quantidade = quantidade;
         this.valor = valor;
         this.idFazenda = idFazenda;
@@ -319,12 +323,28 @@ export class Tab5Page implements OnInit {
 }
 
   async salvarConsumo() {
+
+    if (!this.quantidadeConsumida || !this.valor || !this.idFazenda || !this.idFuncionario || !this.idUsuario || !this.idInsumoOrEquipamentoConsumo) {
+      this.Alerta('Digite a quantidade a ser consumida', 'danger');
+      return;
+    }
+
+    if (this.quantidadeConsumida <= 0) {
+      this.Alerta('A quantidade a ser consumida deve ser maior que zero!', 'danger');
+      return;
+    }
+    else if (this.quantidadeConsumida > this.quantidade) {
+      this.Alerta('A quantidade consumida não pode ser maior que a quantidade em estoque!', 'danger');
+      return;
+    }
+    this.quantidade = this.quantidade - this.quantidadeConsumida;
+    this.custo = this.quantidadeConsumida * this.valor;
     try {
-      console.log(this.quantidadeConsumida, this.valor, this.idFazenda, this.idUsuario, this.idInsumoOrEquipamentoConsumo);
-      const res = await this.provider.salvarConsumo(this.quantidadeConsumida, this.valor, this.idFazenda, this.idFuncionario ,this.idUsuario, this.idInsumoOrEquipamentoConsumo);
+      const res = await this.provider.salvarConsumo(this.idTab, this.quantidadeConsumida, this.valor, this.quantidade, this.custo ,this.idFazenda, this.idFuncionario ,this.idUsuario, this.idInsumoOrEquipamentoConsumo, this.type);
       if (res.status === 'success') {
         this.exibirAlerta('Consumo registrado com sucesso', 'success');
         this.atualizarDados();
+        this.limparConsumo();
       } else {
         this.exibirAlerta('Erro ao registrar consumo', 'danger');
       }
@@ -456,6 +476,13 @@ export class Tab5Page implements OnInit {
     this.equipamentoId = null;
   }
 
+  limparConsumo() {
+    this.quantidadeConsumida = 0;
+    this.valorConsumo = 0.0;
+    this.idFazendaConsumo = null;
+    this.idInsumoOrEquipamentoConsumo = null;
+  }
+
 
   async exibirAlerta(mensagem: string, cor: string, segundos: number = 3, titulo: string = '') {
     const alert = await this.alertController.create({
@@ -471,6 +498,15 @@ export class Tab5Page implements OnInit {
     setTimeout(() => {
       alert.dismiss();
     }, 1000);
+  }
+
+  async Alerta(mensagem: string, cor: string) {
+    const alert = await this.alertController.create({
+      header: cor === 'danger' ? 'Erro' : 'Sucesso',
+      message: mensagem,
+      buttons: ['OK']
+    });
+    await alert.present();
   }
 
   fecharMenu() {
