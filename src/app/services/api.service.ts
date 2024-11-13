@@ -1144,7 +1144,83 @@ export class ApiService {
         console.error('Erro ao deletar conta', error);
         throw error;
     }
-}
+  }
+
+  async resetarSenha(nome: any, email: any, token:any) {
+    const options = {
+      url: this.server + 'user/reset',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify({ nome, email, token }),
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao resetar senha', error);
+      throw error;
+    }
+  }
+
+  async enviarResetEmail(email: any, perfil: any) {
+    const options = {
+      url: this.server + 'user/reset/email',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify({ email, perfil }),
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao enviar email de reset', error);
+      throw error;
+    }
+  }
+
+  async verificarToken(token: any) {
+    const options = {
+      url: this.server + 'user/verify?token=' + token,
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao verificar token', error);
+      throw error;
+    }
+  }
+
+  async resetPassword(email: any, perfil: any, token: any, senha:any,) {
+    const options = {
+      url: this.server + 'user/reset/password',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify({ email, perfil, token, senha }),
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao resetar senha', error);
+      throw error;
+    }
+  }
+
 
 
 

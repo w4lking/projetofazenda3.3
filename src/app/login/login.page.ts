@@ -82,41 +82,34 @@ export class LoginPage implements OnInit {
 
     await loading.present();
 
-    return new Promise(resolve => {
-      let dados = {
-        email: this.emailReset,
-        perfil: this.perfilReset,
-        antigo: this.antigo,
-      };
-      this.provider.dadosApi(dados, 'email/sendResetEmail')  // Novo endpoint na API Node.js
-        .then(async (data: any) => {
-          await loading.dismiss();
+    try {
+      const data = await this.provider.enviarResetEmail(this.emailReset, this.perfilReset);
+      await loading.dismiss();
 
-          if (data.ok === true) {
-            this.mensagem(data.mensagem, 'primary');
-            localStorage.getItem('email');
-            this.resetlimpar();
-            this.cancel();
-          } else {
-            this.mensagem(data.mensagem, 'danger');
-          }
-        })
-        .catch(async (error: any) => {
-          await loading.dismiss();
-          this.mensagem('Erro ao enviar o e-mail. Tente novamente mais tarde.', 'danger');
-          console.error('Erro ao enviar o e-mail:', error);
-        });
-    });
+      if (data.ok === true) {
+        this.exibirAlerta(data.mensagem, 'primary');
+        this.resetlimpar(); 
+        this.cancel(); 
+      } else {
+        this.exibirAlerta(data.mensagem, 'danger');
+      }
+    } catch (error) {
+      await loading.dismiss();
+      this.exibirAlerta('Erro ao enviar o e-mail. Tente novamente mais tarde.', 'danger');
+      console.error('Erro ao enviar o e-mail:', error);
+    }
   }
 
+
   async login() {
-     const loading = await this.loadingController.create({
-        message: 'Carregando...',});
+    const loading = await this.loadingController.create({
+      message: 'Carregando...',
+    });
     if (!this.email || !this.senha) {
       this.exibirAlerta('Por favor, preencha o e-mail e a senha', 'danger');
       return;
     }
-   
+
     else if (this.senha.length >= 10) {
       const id = await this.provider.obterUsuarioWithEmail(this.email);
       const perfil = await this.provider.getTipoDeUsuario(this.email);
@@ -137,7 +130,7 @@ export class LoginPage implements OnInit {
         sessionId: this.generateUniqueId(),
       };
 
-      
+
       const response = await this.provider.dadosApi(dados, 'user/login');
       await loading.dismiss();
       if (response && response.ok) {
