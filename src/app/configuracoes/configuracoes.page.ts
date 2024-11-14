@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../services/api.service';
 import { ToastController, LoadingController, AlertController } from '@ionic/angular';
-import { people } from 'ionicons/icons';
 
 @Component({
   selector: 'app-configuracoes',
@@ -10,7 +9,6 @@ import { people } from 'ionicons/icons';
   styleUrls: ['./configuracoes.page.scss'],
 })
 export class ConfiguracoesPage implements OnInit {
-
 
   idUsuario = sessionStorage.getItem('id');
   perfil = sessionStorage.getItem('perfil');
@@ -41,10 +39,18 @@ export class ConfiguracoesPage implements OnInit {
   }
 
   async presentAlertConfirm(id: any, perfil: any) {
+    console.log('perfil: ' + perfil);
     const action = perfil === "FUNCIONARIO" ? 'bloquear' : 'excluir';
     const alert = await this.alertController.create({
       header: `${action.charAt(0).toUpperCase() + action.slice(1)} conta`,
-      message: `Tem certeza que deseja ${action} sua conta de ${perfil}?`,
+      message: `Para confirmar, digite sua senha para ${action} sua conta de ${perfil}.`,
+      inputs: [
+        {
+          name: 'senha',
+          type: 'password',
+          placeholder: 'Senha'
+        }
+      ],
       buttons: [
         {
           text: 'Cancelar',
@@ -54,8 +60,19 @@ export class ConfiguracoesPage implements OnInit {
         },
         {
           text: action.charAt(0).toUpperCase() + action.slice(1),
-          handler: () => {
-            this.excluirConta(id, perfil);
+          handler: async (alertData) => {
+            if (!alertData.senha) {
+              this.presentToast('Por favor, insira sua senha.');
+              return false;
+            }
+            const senhaValida = await this.verifyPassword(alertData.senha);
+            if (senhaValida) {
+              this.excluirConta(id, perfil);
+              return true;
+            } else {
+              this.presentToast('Senha incorreta.');
+              return false;
+            }
           }
         }
       ]
@@ -64,6 +81,15 @@ export class ConfiguracoesPage implements OnInit {
     await alert.present();
   }
 
+  async verifyPassword(senha: string): Promise<boolean> {
+    try {
+      const response = await this.provider.verifyPassword(this.idUsuario, senha, this.perfil);
+      return response.ok;
+    } catch (error) {
+      console.error('Erro ao verificar a senha:', error);
+      return false;
+    }
+  }
 
   excluirConta(id: any, perfil: any) {
     this.provider.excluirConta(id, perfil).then(async data => {
@@ -89,5 +115,4 @@ export class ConfiguracoesPage implements OnInit {
       this.router.navigate(['/tabs/tab1']);
     }
   }
-
 }

@@ -1131,22 +1131,22 @@ export class ApiService {
 
   async excluirConta(id: any, perfil: any) {
     const options = {
-        url: this.server + 'conta/delete?id=' + id + '&perfil=' + perfil,
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-        },
+      url: this.server + 'conta/delete?id=' + id + '&perfil=' + perfil,
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     };
     try {
-        const response = await CapacitorHttp.request(options);
-        return response.data;
+      const response = await CapacitorHttp.request(options);
+      return response.data;
     } catch (error) {
-        console.error('Erro ao deletar conta', error);
-        throw error;
+      console.error('Erro ao deletar conta', error);
+      throw error;
     }
   }
 
-  async resetarSenha(nome: any, email: any, token:any) {
+  async resetarSenha(nome: any, email: any, token: any) {
     const options = {
       url: this.server + 'user/reset',
       method: 'POST',
@@ -1184,6 +1184,26 @@ export class ApiService {
     }
   }
 
+  async verifyPassword(id: any, senha: any, perfil: any) {
+    const options = {
+      url: this.server + 'user/verify/password',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: { id, senha, perfil },
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao verificar senha', error);
+      throw error;
+    }
+  }
+
+
   async verificarToken(token: any) {
     const options = {
       url: this.server + 'user/verify?token=' + token,
@@ -1202,7 +1222,7 @@ export class ApiService {
     }
   }
 
-  async resetPassword(email: any, perfil: any, token: any, senha:any,) {
+  async resetPassword(email: any, perfil: any, token: any, senha: any,) {
     const options = {
       url: this.server + 'user/reset/password',
       method: 'POST',
