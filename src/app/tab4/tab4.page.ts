@@ -118,8 +118,6 @@ export class Tab4Page implements OnInit, ViewWillEnter {
     this.salario = salario.toString();
     this.idFazenda = fazendas_idfazenda;
 
-    console.log('idFazenda ao editar:', this.idFazenda); // Verifique se o valor é correto aqui
-
     this.setOpen(true);
   }
 
@@ -352,7 +350,7 @@ export class Tab4Page implements OnInit, ViewWillEnter {
         {
           text: 'Excluir',
           handler: () => {
-            this.excluirFuncionario(id); // Chama a função de exclusão se o usuário confirmar
+            this.excluirFuncionario(id);
           }
         }
       ]
@@ -364,16 +362,12 @@ export class Tab4Page implements OnInit, ViewWillEnter {
 
   // Função de exclusão
   excluirFuncionario(id: number) {
-    console.log('ID do Funcionário: ', id, 'Tipo do ID: ', typeof id);
     this.provider.deletarFuncionarios(id).then(
       (res: any) => {
-        console.log('Resposta da API:', res);
         if (res.status === 'success') {
-          console.log('Funcionário excluída com sucesso:', id);
           this.exibirAlerta(res.mensagem, 'primary');
           this.obterfuncionarios(); // Atualiza a lista de funcionarios
         } else {
-          console.log('Falha ao excluir a Funcionário:', res.mensagem);
           this.mensagem('Erro ao excluir a Funcionário. Tente novamente!', 'danger');
         }
       }
@@ -427,10 +421,8 @@ export class Tab4Page implements OnInit, ViewWillEnter {
     this.provider.alterarBloqueioFuncionario(funcionario.idfuncionarios, funcionario.bloqueado).then(
       async (res: any) => {
         if (res.status === 'success' || res.ok === true) {
-          console.log('Status de bloqueio alterado com sucesso no banco de dados:', funcionario);
           await this.exibirAlerta('Bloqueio atualizado com sucesso!', 'success');
         } else {
-          console.log('Falha ao alterar o status de bloqueio no banco de dados:', res.mensagem);
           await this.exibirAlerta('Erro ao atualizar o bloqueio. Tente novamente!', 'danger');
         }
       }

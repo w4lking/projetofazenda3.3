@@ -111,10 +111,7 @@ export class SignUpPage implements OnInit {
     this.provider.registrarUsuario(this.cpf, this.nome, this.email, this.senha, this.telefone, this.perfil)
       .subscribe(
         async (data: any) => {
-          console.log('Resposta da API:', data); 
           await loading.dismiss();
-
-          // Verifica se o cadastro foi bem-sucedido
           if (data.status === 'ok') {
             this.router.navigate(['/login']);
             await this.exibirAlerta('Usuário cadastrado com sucesso!', 'success');

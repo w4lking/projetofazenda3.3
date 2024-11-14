@@ -151,7 +151,7 @@ export class Tab5Page implements OnInit {
 
   setSolicEquipamentoModalOpen(isOpen: boolean) {
     this.isSolicEquipamentoModalOpen = isOpen;
-    if (!isOpen) this.limpar(); // Limpa campos ao fechar o modal
+    if (!isOpen) this.limpar();
   }
 
   async obterInsumo() {
@@ -209,7 +209,6 @@ export class Tab5Page implements OnInit {
 
   // tudo enviando certinho, Fazer funcionar amanhã
   async solicitarInsumos() {
-    console.log(this.quantidade, this.valor, this.idFuncionario, this.idFazenda, this.funcionarios.fazendas_usuarios_idusuarios, this.insumType, this.idInsumo);
     if (!this.idFazenda || !this.idInsumo || this.quantidade <= 0 || this.valor <= 0) {
       this.exibirAlerta('Preencha todos os campos obrigatórios!', 'warning');
       return;
@@ -231,7 +230,6 @@ export class Tab5Page implements OnInit {
   }
 
   async solicitarEquipamentos() {
-    console.log(this.quantidade, this.valor, this.idFuncionario, this.idFazenda, this.funcionarios.fazendas_usuarios_idusuarios, this.equipType, this.idEquipamento);
     if (!this.idFazenda || !this.idEquipamento || this.quantidade <= 0 || this.valor <= 0) {
       this.exibirAlerta('Preencha todos os campos obrigatórios!', 'warning');
       return;
@@ -348,7 +346,7 @@ export class Tab5Page implements OnInit {
       } else {
         this.exibirAlerta('Erro ao registrar consumo', 'danger');
       }
-      this.setModalConsumo(false);  // Fecha o modal após salvar
+      this.setModalConsumo(false); 
     } catch (error) {
       this.exibirAlerta('Erro ao conectar-se ao servidor. Tente novamente!', 'danger');
     }
@@ -493,8 +491,6 @@ export class Tab5Page implements OnInit {
     });
 
     await alert.present();
-
-    // Fechar automaticamente após o tempo especificado (em milissegundos)
     setTimeout(() => {
       alert.dismiss();
     }, 1000);

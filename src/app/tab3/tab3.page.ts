@@ -379,8 +379,6 @@ export class Tab3Page implements OnInit {
 
   async confirmarSolicitacao(idSolicitacao: number, quantidade: number, valor: number, idFazenda: number, idusuario: number, idInsumoOuEquipamento: number, tipo: string) {
 
-    console.log(idSolicitacao, quantidade, valor, idFazenda, idusuario, idInsumoOuEquipamento, tipo);
-
     const alert = await this.alertController.create({
       header: 'Aceitar Solicitação',
       message: 'Deseja realmente aceitar esta solicitação?',
@@ -395,7 +393,6 @@ export class Tab3Page implements OnInit {
   }
 
   async aceitarSolicitacao(idSolicitacao: number, quantidade: number, valor: number, idFazenda: number, idusuario: number, idInsumoOuEquipamento: number, tipo: string) {
-  console.log(idSolicitacao, quantidade, valor, idFazenda, idusuario, idInsumoOuEquipamento);
   
   try {
     const data = await this.provider.aceitarSolicitacao(idSolicitacao, quantidade, valor, idFazenda, idusuario, idInsumoOuEquipamento, tipo);

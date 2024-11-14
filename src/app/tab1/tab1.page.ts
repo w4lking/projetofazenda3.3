@@ -98,54 +98,22 @@ export class Tab1Page implements OnInit, ViewWillEnter {
       message: 'Autenticando usuário...',
     });
     await loading.present();
-
-    console.log('Aceitar usuário:', usuario);
     this.provider.autenticarUsuario(usuario.idusuarios).then(
       async (res: any) => {
         await loading.dismiss();
-        console.log('Resposta da API:', res);  // Verificar a resposta completa aqui
         if (res.status == 'success') {
-          console.log('Usuário autenticado com sucesso:', usuario);
           this.mensagem('Usuário autenticado com sucesso!', 'success');
-          this.atualizarListaUsuarios();  // Atualizar a lista de usuários após sucesso
+          this.atualizarListaUsuarios(); 
         } else {
-          console.log('Falha ao autenticar usuário:', res);
           this.mensagem('Falha ao autenticar usuário', 'danger');
         }
       }
     ).catch(async (error) => {
       await loading.dismiss();
-      console.log('Erro ao autenticar usuário:', error);
       this.mensagem('Erro ao autenticar usuário', 'danger');
     });
   }
 
-  // async aceitarFuncionario(funcionario: any) {
-  //   const loading = await this.loadingController.create({
-  //     message: 'Autenticando funcionário...',
-  //   });
-  //   await loading.present();
-
-  //   console.log('Aceitar funcionário:', funcionario);
-  //   this.provider.autenticarfuncionario(funcionario.idfuncionarios).then(
-  //     async (res: any) => {
-  //       await loading.dismiss();
-  //       console.log('Resposta da API:', res);  // Verificar a resposta completa aqui
-  //       if (res.status == 'success') {
-  //         console.log('Funcionário autenticado com sucesso:', funcionario);
-  //         this.mensagem('Funcionário autenticado com sucesso!', 'success');
-  //         this.atualizarListaUsuarios();  // Atualizar a lista de Funcionarios após sucesso
-  //       } else {
-  //         console.log('Falha ao autenticar Funcionário:', res);
-  //         this.mensagem('Falha ao autenticar Funcionário', 'danger');
-  //       }
-  //     }
-  //   ).catch(async (error) => {
-  //     await loading.dismiss();
-  //     console.log('Erro ao autenticar usuário:', error);
-  //     this.mensagem('Erro ao autenticar usuário', 'danger');
-  //   });
-  // }
 
   atualizarListaUsuarios() {
     this.provider.obterUsuariosDesautenticados().then(
@@ -153,7 +121,6 @@ export class Tab1Page implements OnInit, ViewWillEnter {
         this.usuarios = usuarios;  // Atualiza a lista de usuários
       }
     ).catch((error: any) => {
-      console.log('Erro ao buscar usuários:', error);
       this.mensagem('Erro ao atualizar a lista de usuários', 'danger');
     });
   }
@@ -182,30 +149,6 @@ export class Tab1Page implements OnInit, ViewWillEnter {
 
     await alert.present();
   }
-
-  // async confirmarFuncionario(funcionario: any) {
-  //   const alert = await this.alertController.create({
-  //     header: 'Confirmação de Funcionário',
-  //     message: 'Tem certeza que deseja aceitar este Funcionário?',
-  //     buttons: [
-  //       {
-  //         text: 'Cancelar',
-  //         role: 'cancel',
-  //         handler: () => {
-  //           console.log('confirmação cancelada');
-  //         }
-  //       },
-  //       {
-  //         text: 'Aceitar',
-  //         handler: () => {
-  //           this.aceitarFuncionario(funcionario); // Chama a função de exclusão se o usuário confirmar
-  //         }
-  //       }
-  //     ]
-  //   });
-
-  //   await alert.present();
-  // }
 
 
   async confirmarExclusaoUsuario(usuario: any) {
@@ -238,23 +181,18 @@ export class Tab1Page implements OnInit, ViewWillEnter {
       message: 'Rejeitando usuário...',
     });
     await loading.present();
-    console.log('Rejeitar usuário:', usuario);
     this.provider.deletarUsuario(usuario.idusuarios).then(
       async (res: any) => {
         await loading.dismiss();
-        console.log('Resposta da API:', res);
         if (res.status == 'success' || res.ok === true) {
-          console.log('Usuário rejeitado com sucesso:', usuario);
           this.mensagem('Usuário rejeitado com sucesso!', 'success');
           this.atualizarListaUsuarios(); 
         } else {
-          console.log('Falha ao autenticar usuário:', res.mensagem);
           this.mensagem('Falha ao autenticar usuário', 'danger');
         }
       }
     ).catch(async (error) => {
       await loading.dismiss();
-      console.log('Erro ao autenticar usuário:', error);
       this.mensagem('Erro ao autenticar usuário', 'danger');
     });
   }

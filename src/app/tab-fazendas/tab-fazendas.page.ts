@@ -86,32 +86,28 @@ export class TabFazendasPage implements OnInit, ViewWillEnter {
   
 
   editarFazenda(nome: any, cep: any, endereco: any, valor: number, idFazenda: number) {
-    console.log('Dados a serem editados:', {nome, cep, endereco, valor, idFazenda});
     this.nome = nome;
     this.cep = cep;
     this.endereco = endereco;
     this.valor = valor;
     this.idFazenda = idFazenda;
   
-    this.setOpen(true);  // Abre o modal para edição
+    this.setOpen(true);
   }
   
 
   async salvarFazenda() {
-    // Verifica se estamos editando ou adicionando uma nova fazenda
     if (this.idFazenda) {
-      console.log('Editando fazenda:', this.fazendas);
-      // Editar fazenda existente
       this.provider.editarFazenda(this.nome, this.cep, this.endereco, this.valor, this.idFazenda).then(
         async (res: any) => {
           if (res.status === 'success') {
             this.exibirAlerta('Fazenda atualizada com sucesso', 'success');
             this.limpar();
-            this.obterFazendas();  // Atualiza a lista
+            this.obterFazendas();
           } else {
             this.exibirAlerta('Erro ao atualizar fazenda', 'danger');
           }
-          this.setOpen(false); // Fecha o modal
+          this.setOpen(false);
         }
       ).catch((error) => {
         console.error('Erro ao editar fazenda:', error);
@@ -223,8 +219,6 @@ export class TabFazendasPage implements OnInit, ViewWillEnter {
 
   // Função de exclusão
   excluirfazenda(idfazendas: number) {
-    console.log('ID da Fazenda: ', idfazendas, 'Tipo do ID: ', typeof idfazendas);
-
     if (!idfazendas) {
         this.mensagem('ID inválido', 'danger');
         return;
@@ -232,13 +226,9 @@ export class TabFazendasPage implements OnInit, ViewWillEnter {
 
     this.provider.deletarFazenda(idfazendas).then(
         async (res: any) => {
-            console.log('Resposta completa da API:', res); // Log detalhado para verificar o que está vindo da API
-
-            // Certifique-se de que o res.status realmente está sendo recebido e verificado corretamente
             if (res && res.status === 'success') {
-                console.log('Fazenda excluída com sucesso:', idfazendas);
                 this.exibirAlerta('Fazenda excluída com sucesso!', 'success');
-                this.obterFazendas(); // Atualiza a lista de fazendas
+                this.obterFazendas();
             } else {
                 console.error('Erro ao excluir a fazenda, resposta:', res);
                 this.mensagem('Erro ao excluir a Fazenda: ' + (res?.message || 'Resposta não recebida'), 'danger');
