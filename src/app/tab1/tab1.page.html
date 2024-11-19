@@ -2,6 +2,11 @@
   <ion-header>
     <ion-toolbar color="primary">
       <ion-title>Menu</ion-title>
+      <ion-buttons color="light" slot="end">
+        <ion-button (click)="fecharMenu()">
+          <ion-icon name="close-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
     </ion-toolbar>
   </ion-header>
 
@@ -20,7 +25,7 @@
         <ion-label>Configurações</ion-label>
       </ion-item>
     </ion-list>
-    <div style="position: absolute; bottom: 0; width: 100%;">
+    <div style="position: absolute; bottom: 0; width: 100%">
       <ion-item button color="danger" (click)="sair()">
         <ion-icon name="log-out-outline" slot="start"></ion-icon>
         <ion-label>Sair</ion-label>
@@ -35,16 +40,17 @@
     <ion-buttons slot="end">
       <ion-button (click)="goUnidades()">
         <ion-icon name="hammer"></ion-icon>
-      </ion-button> 
-      <ion-menu-button id="main-content"></ion-menu-button>  
+      </ion-button>
+      <ion-menu-button id="main-content"></ion-menu-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="content-no-scroll">
-
   <!-- Exibe a lista de usuários se houver itens -->
-  <ion-list *ngIf="usuarios.length > 0 && tipo === 'usuarios'; else semUsuarios">
+  <ion-list
+    *ngIf="usuarios.length > 0 && tipo === 'usuarios'; else semUsuarios"
+  >
     <ion-item *ngFor="let item of usuarios">
       <ion-label>
         <h2>{{ item.idusuarios }} - {{ item.nome }}</h2>
@@ -54,10 +60,18 @@
       </ion-label>
       <ion-buttons slot="end">
         <ion-button (click)="confirmarUsuario(item)">
-          <ion-icon slot="icon-only" name="checkmark" color="success"></ion-icon>
+          <ion-icon
+            slot="icon-only"
+            name="checkmark"
+            color="success"
+          ></ion-icon>
         </ion-button>
         <ion-button color="danger" (click)="confirmarExclusaoUsuario(item)">
-          <ion-icon slot="icon-only" name="close-outline" color="danger"></ion-icon>
+          <ion-icon
+            slot="icon-only"
+            name="close-outline"
+            color="danger"
+          ></ion-icon>
         </ion-button>
       </ion-buttons>
     </ion-item>
@@ -70,5 +84,4 @@
       <p>Nenhum Usuário para ser autenticado encontrado.</p>
     </div>
   </ng-template>
-
 </ion-content>

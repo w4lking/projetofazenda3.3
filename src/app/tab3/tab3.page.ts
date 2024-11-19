@@ -126,12 +126,12 @@ export class Tab3Page implements OnInit {
 
   setInsumoModalOpen(isOpen: boolean) {
     this.isInsumoModalOpen = isOpen;
-    if (!isOpen) this.limpar(); // Limpa campos ao fechar o modal
+    if (!isOpen) this.limpar();
   }
 
   setEquipamentoModalOpen(isOpen: boolean) {
     this.isEquipamentoModalOpen = isOpen;
-    if (!isOpen) this.limpar(); // Limpa campos ao fechar o modal
+    if (!isOpen) this.limpar();
   }
 
   async obterInsumo() {

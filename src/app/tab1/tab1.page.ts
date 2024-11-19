@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../services/api.service';
-import { ToastController, LoadingController, AlertController } from '@ionic/angular';
+import { ToastController, LoadingController, AlertController, MenuController } from '@ionic/angular';
 import { ViewWillEnter } from '@ionic/angular';
 
 @Component({
@@ -22,7 +22,8 @@ export class Tab1Page implements OnInit, ViewWillEnter {
     private actRouter: ActivatedRoute,
     public toastController: ToastController,
     public loadingController: LoadingController,
-    public alertController: AlertController
+    public alertController: AlertController,
+    private menu: MenuController,
   ) { }
 
   ngOnInit() {
@@ -32,11 +33,6 @@ export class Tab1Page implements OnInit, ViewWillEnter {
   ionViewWillEnter() {
     this.carregarDados();
   }
-
-  // getNome(idUsuario: number | null): string {
-  //   const user = this.usuarios.find((u: { idusuarios: number }) => Number(u.idusuarios) === Number(idUsuario));
-  //   return user ? user.nome : 'user não encontrada';
-  // }
 
   goProfile() {
     this.router.navigate(['/profile']);
@@ -92,7 +88,6 @@ export class Tab1Page implements OnInit, ViewWillEnter {
   // }
 
 
-
   async aceitarUsuario(usuario: any) {
     const loading = await this.loadingController.create({
       message: 'Autenticando usuário...',
@@ -102,10 +97,10 @@ export class Tab1Page implements OnInit, ViewWillEnter {
       async (res: any) => {
         await loading.dismiss();
         if (res.status == 'success') {
-          this.mensagem('Usuário autenticado com sucesso!', 'success');
+          this.Alerta('Usuário autenticado com sucesso!', 'success');
           this.atualizarListaUsuarios(); 
         } else {
-          this.mensagem('Falha ao autenticar usuário', 'danger');
+          this.Alerta('Falha ao autenticar usuário', 'danger');
         }
       }
     ).catch(async (error) => {
@@ -185,15 +180,15 @@ export class Tab1Page implements OnInit, ViewWillEnter {
       async (res: any) => {
         await loading.dismiss();
         if (res.status == 'success' || res.ok === true) {
-          this.mensagem('Usuário rejeitado com sucesso!', 'success');
+          this.Alerta('Usuário rejeitado com sucesso!', 'success');
           this.atualizarListaUsuarios(); 
         } else {
-          this.mensagem('Falha ao autenticar usuário', 'danger');
+          this.Alerta('Falha ao autenticar usuário', 'danger');
         }
       }
     ).catch(async (error) => {
       await loading.dismiss();
-      this.mensagem('Erro ao autenticar usuário', 'danger');
+      this.Alerta('Erro ao autenticar usuário', 'danger');
     });
   }
 
@@ -227,5 +222,10 @@ export class Tab1Page implements OnInit, ViewWillEnter {
     setTimeout(() => {
       alert.dismiss();
     }, 1200);
+  }
+
+
+  fecharMenu() {
+    this.menu.close();
   }
 }
