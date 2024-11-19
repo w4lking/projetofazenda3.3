@@ -105,6 +105,7 @@ export class LoginPage implements OnInit {
     const loading = await this.loadingController.create({
       message: 'Carregando...',
     });
+    await loading.dismiss();
     if (!this.email || !this.senha) {
       this.exibirAlerta('Por favor, preencha o e-mail e a senha', 'danger');
       return;
@@ -132,7 +133,6 @@ export class LoginPage implements OnInit {
 
 
       const response = await this.provider.dadosApi(dados, 'user/login');
-      await loading.dismiss();
       if (response && response.ok) {
         console.log('Login realizado com sucesso!');
         this.handleLoginSuccess(dados, response.perfil, this.id);

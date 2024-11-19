@@ -45,6 +45,10 @@ const routes: Routes = [
         loadChildren: () => import('../tab-vizualizar/tab-vizualizar.module').then( m => m.TabVizualizarPageModule),
       },
       {
+        path:'admin-grafico',
+        loadChildren: () => import('../admin-grafico/admin-grafico.module').then( m => m.AdminGraficoPageModule),
+      },
+      {
         path: '',
         redirectTo: '/tabs/tab1',
         pathMatch: 'full'
