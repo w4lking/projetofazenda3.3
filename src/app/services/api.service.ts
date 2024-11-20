@@ -8,9 +8,9 @@ import { Observable } from 'rxjs';
 })
 export class ApiService {
 
-  server: string = 'https://jsonserver-jet.vercel.app/api/'; // URL do servidor Node.js local
+  server: string = 'https://jsonserver-jet.vercel.app/api/';
 
-  // server: string = 'http://localhost:5000/api/'; // URL do servidor Node.js local para testes
+  // server: string = 'http://localhost:5000/api/';
 
   constructor(private http: HttpClient) { }
 
@@ -34,10 +34,10 @@ export class ApiService {
   }
 
   registrarUsuario(cpf: string, nome: string, email: string, senha: string, telefone: string, perfil: string): Observable<any> {
-    const url = `${this.server}user/register`; // URL para a API de registro
-    const body = { cpf, nome, email, senha, telefone, perfil }; // Dados enviados no corpo da requisição
+    const url = `${this.server}user/register`;
+    const body = { cpf, nome, email, senha, telefone, perfil };
 
-    return this.http.post(url, body); // Realiza a requisição POST
+    return this.http.post(url, body);
   }
 
   async login(email: string, senha: string) {
@@ -66,7 +66,7 @@ export class ApiService {
       headers: {
         'Content-Type': 'application/json',
       },
-      data: { id, senhaAtual, senha }, // Não precisa de `JSON.stringify` com CapacitorHttp
+      data: { id, senhaAtual, senha },
     };
 
     try {
@@ -85,7 +85,7 @@ export class ApiService {
       headers: {
         'Content-Type': 'application/json',
       },
-      data: { id, senhaAtual, senha }, // Não precisa de `JSON.stringify` com CapacitorHttp
+      data: { id, senhaAtual, senha },
     };
 
     try {
@@ -210,7 +210,7 @@ export class ApiService {
 
   async obterUsuarios() {
     const options = {
-      url: this.server + 'users',  // URL correta para a rota
+      url: this.server + 'users',
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -228,7 +228,7 @@ export class ApiService {
 
   async obterFunc() {
     const options = {
-      url: this.server + 'employees/all',  // URL correta para a rota
+      url: this.server + 'employees/all',
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -248,7 +248,7 @@ export class ApiService {
 
   async obterUsuario(id: any) {
     const options = {
-      url: this.server + 'user?id=' + id, // Ajuste o caminho para corresponder ao backend
+      url: this.server + 'user?id=' + id, 
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -266,7 +266,7 @@ export class ApiService {
 
   async obterFuncionario(id: any) {
     const options = {
-      url: this.server + 'employer?id=' + id, // Ajuste o caminho para corresponder ao backend
+      url: this.server + 'employer?id=' + id, 
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -439,24 +439,6 @@ export class ApiService {
     }
   }
 
-  // async getFazendaFuncionario(idFuncionario: any) {
-  //   const options = {
-  //     url: this.server + 'farm/employer?id=' + idFuncionario,
-  //     method: 'GET',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //   };
-
-  //   try {
-  //     const response = await CapacitorHttp.request(options);
-  //     return response.data;
-  //   } catch (error) {
-  //     console.error('Erro ao obter fazenda', error);
-  //     throw error;
-  //   }
-  // }
-
   async obterFazendaFuncionario(idFarm: number) {
     const options = {
       url: this.server + 'employer/farm?id=' + idFarm,
@@ -483,20 +465,20 @@ export class ApiService {
       headers: {
         'Content-Type': 'application/json',
       },
-      data: JSON.stringify({ nome, cep, endereco, valor, id }), // Certifique-se de que os dados estão sendo convertidos em JSON
+      data: JSON.stringify({ nome, cep, endereco, valor, id }),
     };
 
     try {
       const response = await CapacitorHttp.request(options);
-      return response.data; // Verifique se a resposta tem a estrutura correta
+      return response.data;
     } catch (error) {
       console.error('Erro ao adicionar ela no banco', error);
-      throw error; // Joga o erro para ser tratado no front-end
+      throw error;
     }
   }
 
   async deletarFazenda(idfazendas: number) {
-    console.log('ID da Fazenda:', idfazendas); // Verifique se o ID está correto
+    console.log('ID da Fazenda:', idfazendas);
     const options = {
       url: this.server + 'delete?idfazendas=' + idfazendas,
       method: 'DELETE',
@@ -548,8 +530,8 @@ export class ApiService {
         telefone,
         salario,
         senha,
-        idfazendas: idFazenda,  // Alterado para corresponder ao back-end
-        idusuario: idUsuario     // Alterado para corresponder ao back-end
+        idfazendas: idFazenda,
+        idusuario: idUsuario  
       }),
     };
 
@@ -570,7 +552,6 @@ export class ApiService {
       headers: {
         'Content-Type': 'application/json',
       },
-      // Inclui idFazenda e id (em vez de idfuncionario)
       data: JSON.stringify({ id: idfuncionario, nome, cpf, email, telefone, salario, idFazenda }),
     };
 
@@ -621,7 +602,6 @@ export class ApiService {
     }
   }
 
-  // Função para adicionar equipamentos
   async addEquipamento(nome: string) {
     const options = {
       url: this.server + 'equipaments/add',
@@ -641,7 +621,6 @@ export class ApiService {
     }
   }
 
-  // Função para adicionar insumos
   async addInsumo(nome: string, unidade: string) {
     const options = {
       url: this.server + 'insum/add',
@@ -921,7 +900,6 @@ export class ApiService {
     }
   }
 
-  //fazer rota
   async solicitarInsumo(quantidade: number, valor: number, idFuncionario: number, idFazenda: number, idUsuario: number, insumType: string, idInsumo: number) {
     const options = {
       url: this.server + 'solicit/insum/add',
@@ -1240,9 +1218,5 @@ export class ApiService {
       throw error;
     }
   }
-
-
-
-
 
 }
