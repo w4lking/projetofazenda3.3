@@ -171,9 +171,8 @@ export class ProfilePage implements OnInit {
     if (id) {
       this.provider.obterUsuario(id).then(
         async (data: any) => {
-          // Verifica se o status da resposta é 'success'
           if (data.status === 'success') {
-            this.usuario = data.usuario; // Acessa os dados do usuário corretamente
+            this.usuario = data.usuario;
           } else {
             this.mensagem('Nenhum usuário encontrado', 'warning');
           }
@@ -195,7 +194,6 @@ export class ProfilePage implements OnInit {
     if (id) {
       this.provider.obterFuncionario(id).then(
         async (data: any) => {
-          // Verifica se o status da resposta é 'success'
           if (data.status === 'success') {
             this.usuario = data.usuario;
           } else {
@@ -225,7 +223,6 @@ export class ProfilePage implements OnInit {
     return false;
   }
 
-  // Método para verificar caracteres repetidos
   contemCaracteresRepetidos(senha: string): boolean {
     return /^(\d)\1+$/.test(senha);
   }
