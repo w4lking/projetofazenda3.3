@@ -150,9 +150,6 @@ export class LoginPage implements OnInit {
   }
 
 
-
-
-  // Método separado para tratar sucesso no login
   private handleLoginSuccess(dados: any, perfil: string, id: number) {
     this.Alerta(dados.mensagem, 'primary');
     this.provider.armazenarUsuario(dados.email);
@@ -173,7 +170,6 @@ export class LoginPage implements OnInit {
   }
 
 
-  // Método para gerar um identificador único
   generateUniqueId(): string {
     return 'xxxx-xxxx-xxxx'.replace(/[x]/g, () => {
       return Math.floor(Math.random() * 9).toString();

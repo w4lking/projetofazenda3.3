@@ -2,41 +2,45 @@
 
 
   <ion-toolbar color="none">
+
     <ion-buttons slot="start">
       <ion-button (click)="backInicio()">
         <ion-icon name="chevron-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
+
     <ion-buttons slot="end">
       <ion-button>
         <ion-icon name="ellipsis-vertical-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
+
   </ion-toolbar>
   
   <div class="auth-content">
 
-    <!-- Logo -->
     <div padding-horizontal text-center class="animated fadeInDown">
       <div class="logo"></div>
       <h4 no-margin>
         <img src="../../assets/fazenda-inteligente.png" alt="">
-       </h4>
+      </h4>
     </div>
 
-    <!-- Login form -->
+    <div class="list-form">
 
-
-
-    <div  class="list-form">
       <ion-item no-padding class="animated fadeInUp">
-        <ion-input labelPlacement="stacked" label="Email" color="light" placeholder="Seu email..." type="text" [(ngModel)]="email"> <ion-icon slot="start" name="mail" aria-hidden="true"></ion-icon></ion-input>
+        <ion-input labelPlacement="stacked" label="Email" color="light" placeholder="Seu email..." type="text" [(ngModel)]="email"> 
+          <ion-icon slot="start" name="mail" aria-hidden="true"></ion-icon>
+        </ion-input>
       </ion-item>
 
 
       <ion-item no-padding class="animated fadeInUp">
-        <ion-input labelPlacement="stacked" label="Senha" color="light" placeholder="Sua senha..." type="password" [(ngModel)]="senha"> <ion-icon slot="start" name="lock-closed" aria-hidden="true"></ion-icon></ion-input>
+        <ion-input labelPlacement="stacked" label="Senha" color="light" placeholder="Sua senha..." type="password" [(ngModel)]="senha"> 
+          <ion-icon slot="start" name="lock-closed" aria-hidden="true"></ion-icon>
+        </ion-input>
       </ion-item> 
+      
       <p ion-text color="warning" class="text08">
         <a id="open-reset" class="esqueci-senha">Esqueceu a senha?</a>
       </p>
@@ -59,7 +63,6 @@
 
   </div>
 
-  <!-- MODAL -->
 
   <ion-modal  trigger="open-reset" >
     <ng-template>
@@ -74,7 +77,6 @@
       
       <ion-content id="modal" class="ion-padding animated fadeIn login auth-page" >
 
-        <!-- Logo -->
     <div padding-horizontal text-center class="animated fadeInDown">
       <div class="logo"></div>
       <h4 no-margin>
@@ -94,7 +96,6 @@
     
         <ion-item no-padding class="animated fadeInUp">
           <ion-label position="floating" ></ion-label>
-        <!-- liga o campo nome com o valor que ele receberá -->
         <ion-select class="place" placeholder="Perfil" [(ngModel)]="perfilReset">
           <ion-select-option value="PROPRIETARIO">Proprietário</ion-select-option>
           <ion-select-option  value="FUNCIONARIO">Funcionário</ion-select-option>
