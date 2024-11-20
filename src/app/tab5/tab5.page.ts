@@ -29,15 +29,12 @@ export class Tab5Page implements OnInit {
 
   idTab:any;
 
-  //
   insumosfazendas: any = [];
   equipamentosfazendas: any = [];
 
-  //arrays de solicitações 
   solicitacoesInsumos: any = [];
   solicitacoesEquipamentos: any = [];
 
-  //
   funcionarios: any = {};
   nome: string = "";
   email: string = "";
@@ -45,7 +42,6 @@ export class Tab5Page implements OnInit {
   idFazenda: any;
   nomeFazenda: string = "";
 
-  //
   idUsuario: any;
   quantidadeConsumida: any;
   valorConsumo: any;
@@ -95,11 +91,6 @@ export class Tab5Page implements OnInit {
     const fazenda = this.fazendas.find((f: { idfazendas: number | null }) => f.idfazendas == idFazenda);
     return fazenda ? fazenda.nome : 'Fazenda não encontrada';
   }
-
-  // getNomeFuncionario(idFuncionario: number | null): string {
-  //   const funcionario = this.funcionarios.find((f: { idfuncionarios: number | null }) => f.idfuncionarios == idFuncionario);
-  //   return funcionario ? funcionario.nome : 'Funcionário não encontrado';
-  // }
 
   getNomeInsumo(idInsumo: number | null): string {
     const insumo = this.insumos.find((i: { idinsumosCadastrados: number | null }) => i.idinsumosCadastrados == idInsumo);
@@ -159,7 +150,7 @@ export class Tab5Page implements OnInit {
       const data = await this.provider.obterInsumos();
       this.insumos = (data.status === 'success' && data.insumos.length > 0) ? data.insumos : [];
     } catch (error) {
-      // this.exibirAlerta('Erro ao carregar insumos', 'danger');
+      //
     }
   }
 
@@ -168,7 +159,7 @@ export class Tab5Page implements OnInit {
       const data = await this.provider.obterEquipamentos();
       this.equipamentos = (data.status === 'success' && data.equipamentos.length > 0) ? data.equipamentos : [];
     } catch (error) {
-      // this.exibirAlerta('Erro ao carregar equipamentos', 'danger');
+      //
     }
   }
 
@@ -183,12 +174,10 @@ export class Tab5Page implements OnInit {
           this.email = this.funcionarios.email;
           this.telefone = this.funcionarios.telefone;
         } else {
-          // Exibir alerta caso não encontre o usuário
           this.exibirAlerta('Nenhum usuário encontrado', 'warning');
         }
       }
     } catch (error) {
-      // Exibir alerta em caso de erro
       this.exibirAlerta('Erro ao carregar autenticação', 'danger');
     }
   }
@@ -207,7 +196,6 @@ export class Tab5Page implements OnInit {
     }
   }
 
-  // tudo enviando certinho, Fazer funcionar amanhã
   async solicitarInsumos() {
     if (!this.idFazenda || !this.idInsumo || this.quantidade <= 0 || this.valor <= 0) {
       this.exibirAlerta('Preencha todos os campos obrigatórios!', 'warning');
@@ -255,7 +243,7 @@ export class Tab5Page implements OnInit {
       const data = await this.provider.listarSolicitacoesInsumo(this.fazendas[0].idfazendas);
       this.solicitacoesInsumos = (data.status === 'success' && data.solicitacoes.length > 0) ? data.solicitacoes : [];
     } catch (error) {
-      // this.exibirAlerta('Erro ao carregar insumos', 'danger');
+      //
     }
   }
 
@@ -264,7 +252,7 @@ export class Tab5Page implements OnInit {
       const data = await this.provider.listarSolicitacoesEquipamento(this.fazendas[0].idfazendas);
       this.solicitacoesEquipamentos = (data.status === 'success' && data.solicitacoes.length > 0) ? data.solicitacoes : [];
     } catch (error) {
-      // this.exibirAlerta('Erro ao carregar insumos', 'danger');
+      //
     }
   }
 
@@ -274,7 +262,7 @@ export class Tab5Page implements OnInit {
       const data = await this.provider.obterInsumosProprietario(this.funcionarios.fazendas_usuarios_idusuarios);
       this.insumosfazendas = (data.status === 'success' && data.insumos.length > 0) ? data.insumos : [];
     } catch (error) {
-      // this.exibirAlerta('Erro ao carregar insumos', 'danger');
+      //
     }
   }
 
@@ -283,7 +271,7 @@ export class Tab5Page implements OnInit {
       const data = await this.provider.obterEquipamentosProprietario(this.funcionarios.fazendas_usuarios_idusuarios);
       this.equipamentosfazendas = (data.status === 'success' && data.equipamentos.length > 0) ? data.equipamentos : [];
     } catch (error) {
-      // this.exibirAlerta('Erro ao carregar equipamentos', 'danger');
+      //
     }
   }
 
@@ -312,10 +300,10 @@ export class Tab5Page implements OnInit {
 
         if (type === 'equipamentos') {
             this.nomeEquipamento = this.getNomeEquipamento(idInsumoOrEquipamento);
-            this.nomeInsumo = ''; // Limpar o nome do insumo
+            this.nomeInsumo = '';
         } else if (type === 'insumos') {
             this.nomeInsumo = this.getNomeInsumo(idInsumoOrEquipamento);
-            this.nomeEquipamento = ''; // Limpar o nome do equipamento
+            this.nomeEquipamento = '';
         }
     }
 }
@@ -487,7 +475,7 @@ export class Tab5Page implements OnInit {
       header: titulo || (cor === 'danger' ? 'Erro' : 'Sucesso'),
       message: mensagem,
       cssClass: cor,
-      backdropDismiss: false, // Impede que o usuário feche o alerta clicando fora dele
+      backdropDismiss: false,
     });
 
     await alert.present();
