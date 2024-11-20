@@ -48,8 +48,8 @@ export class TabUnidadesPage implements OnInit {
         await loading.dismiss();
         if (res.status === 'success' || res.ok) {
           this.presentAlert('Sucesso', 'Equipamento adicionado com sucesso');
-          this.cancel(); // Fecha o modal
-          this.nome = ''; // Limpa o campo de nome
+          this.cancel();
+          this.nome = '';
         } else {
           this.presentAlert('Erro', 'Erro ao adicionar equipamento. Tente novamente!');
         }
@@ -61,11 +61,10 @@ export class TabUnidadesPage implements OnInit {
     });
   }
 
-  // Método para confirmar adição de insumo
   async confirmInsumos() {
     if (!this.nome || !this.unidade) {
       this.presentAlert('Erro', 'Nome e unidade são obrigatórios');
-      return; // Evita execução adicional
+      return;
     }
 
     const loading = await this.loadingController.create({
@@ -78,8 +77,8 @@ export class TabUnidadesPage implements OnInit {
         await loading.dismiss();
         if (res.status === 'success' || res.ok) {
           this.presentAlert('Sucesso', 'Insumo adicionado com sucesso');
-          this.cancel(); // Fecha o modal
-          this.nome = '';  // Limpa os campos
+          this.cancel();
+          this.nome = '';
           this.unidade = '';
         } else {
           this.presentAlert('Erro', 'Erro ao adicionar insumo. Tente novamente!');
@@ -93,8 +92,6 @@ export class TabUnidadesPage implements OnInit {
   }
 
 
-
-  // Método para exibir alerta
   async presentAlert(header: string, message: string) {
     const alert = await this.toastController.create({
       header,
