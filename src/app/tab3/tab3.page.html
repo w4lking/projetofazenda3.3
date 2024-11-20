@@ -19,7 +19,7 @@
 
 <ion-content class="ion-padding">
 
-  <!-- Lista de Insumos -->
+
   <ion-list *ngIf="insumosProprietario.length > 0 && tipo == '1'; else templateVazioInsumos">
     <ion-item *ngFor="let insumo of insumosProprietario">
       <ion-label>
@@ -41,7 +41,6 @@
     </ion-item>
   </ion-list>
 
-  <!-- Lista de Equipamentos -->
   <ion-list *ngIf="equipamentosProprietario.length > 0 && tipo == '2'; else templateVazioEquipamentos">
     <ion-item *ngFor="let equipamento of equipamentosProprietario">
       <ion-label>
@@ -63,7 +62,6 @@
     </ion-item>
   </ion-list>
 
-  <!-- Lista de Solicitações de Insumos -->
   <ion-list *ngIf="solicitacoesInsumos.length > 0 && tipo == '3'; else templateVazioSolicitacaoInsumos">
     <ion-item *ngFor="let solicitacaoInsumo of solicitacoesInsumos">
       <ion-label>
@@ -88,7 +86,6 @@
     </ion-item>
   </ion-list>
 
-   <!-- Lista de Solicitações de equipamentos -->
   <ion-list *ngIf="solicitacoesEquipamentos.length > 0 && tipo == '4'; else templateVazioSolicitacaoEquipamentos">
     <ion-item *ngFor="let solicitacaoEquipamento of solicitacoesEquipamentos">
       <ion-label>
@@ -112,7 +109,6 @@
     </ion-item>
   </ion-list>
 
-  <!-- Template Vazio para Insumos -->
   <ng-template #templateVazioInsumos>
     <div class="empty-state" *ngIf="tipo == '1'">
       <ion-icon name="alert-circle-outline" size="large"></ion-icon>
@@ -120,7 +116,6 @@
     </div>
   </ng-template>
 
-  <!-- Template Vazio para Equipamentos -->
   <ng-template #templateVazioEquipamentos>
     <div class="empty-state" *ngIf="tipo == '2'">
       <ion-icon name="alert-circle-outline" size="large"></ion-icon>
@@ -128,7 +123,6 @@
     </div>
   </ng-template>
 
-  <!-- Template Vazio para Solicitações de insumos-->
   <ng-template #templateVazioSolicitacaoInsumos>
     <div class="empty-state" *ngIf="tipo == '3'">
       <ion-icon name="alert-circle-outline" size="large"></ion-icon>
@@ -136,7 +130,6 @@
     </div>
   </ng-template>
 
-  <!-- Template Vazio para Solicitações de equipamentos -->
   <ng-template #templateVazioSolicitacaoEquipamentos>
     <div class="empty-state" *ngIf="tipo == '4'">
       <ion-icon name="alert-circle-outline" size="large"></ion-icon>
@@ -144,7 +137,6 @@
     </div>
   </ng-template>
 
-  <!-- Modal para Adicionar/Editar Insumo -->
   <ion-modal [isOpen]="isInsumoModalOpen">
     <ng-template>
       <ion-header>
@@ -191,7 +183,6 @@
     </ng-template>
   </ion-modal>
 
-  <!-- Modal para Adicionar/Editar Equipamento -->
   <ion-modal [isOpen]="isEquipamentoModalOpen">
    <ng-template>
       <ion-header>
@@ -238,7 +229,6 @@
     </ng-template>
   </ion-modal>
 
-  <!-- Botão flutuante para adicionar -->
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button>
       <ion-icon name="add"></ion-icon>
@@ -258,7 +248,7 @@
 
 
 
-<!-- Menu lateral -->
+
 <ion-menu side="end" content-id="main-content">
   <ion-header>
     <ion-toolbar >

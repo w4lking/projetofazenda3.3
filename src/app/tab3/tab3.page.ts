@@ -139,7 +139,7 @@ export class Tab3Page implements OnInit {
       const data = await this.provider.obterInsumos();
       this.insumos = (data.status === 'success' && data.insumos.length > 0) ? data.insumos : [];
     } catch (error) {
-      // this.exibirAlerta('Erro ao carregar insumos', 'danger');
+      //
     }
   }
 
@@ -148,7 +148,7 @@ export class Tab3Page implements OnInit {
       const data = await this.provider.obterEquipamentos();
       this.equipamentos = (data.status === 'success' && data.equipamentos.length > 0) ? data.equipamentos : [];
     } catch (error) {
-      // this.exibirAlerta('Erro ao carregar equipamentos', 'danger');
+      // 
     }
   }
 
@@ -162,11 +162,11 @@ export class Tab3Page implements OnInit {
           this.email = this.usuarios.email;
           this.telefone = this.usuarios.telefone;
         } else {
-          // this.exibirAlerta('Nenhum usuário encontrado', 'warning');
+          // 
         }
       }
     } catch (error) {
-      // this.exibirAlerta('Erro ao carregar autenticação', 'danger');
+      // 
     }
   }
 
@@ -175,7 +175,7 @@ export class Tab3Page implements OnInit {
       const data = await this.provider.obterFazenda(this.idUsuario);
       this.fazendas = (data.status === 'success' && data.fazendas.length > 0) ? data.fazendas : [];
     } catch (error) {
-      // this.exibirAlerta('Erro ao carregar fazendas', 'danger');
+      //
     }
   }
 
@@ -226,7 +226,7 @@ export class Tab3Page implements OnInit {
       const data = await this.provider.obterInsumosProprietario(this.idUsuario);
       this.insumosProprietario = (data.status === 'success' && data.insumos.length > 0) ? data.insumos : [];
     } catch (error) {
-      // this.exibirAlerta('Erro ao carregar insumos', 'danger');
+      //
     }
   }
 
@@ -235,7 +235,7 @@ export class Tab3Page implements OnInit {
       const data = await this.provider.obterEquipamentosProprietario(this.idUsuario);
       this.equipamentosProprietario = (data.status === 'success' && data.equipamentos.length > 0) ? data.equipamentos : [];
     } catch (error) {
-      // this.exibirAlerta('Erro ao carregar equipamentos', 'danger');
+      //
     }
   }
 
@@ -409,7 +409,6 @@ export class Tab3Page implements OnInit {
     }
 
   } catch (error: any) {
-    // Verifique se há uma resposta do backend e exiba a mensagem de erro
     const errorMessage = error?.response?.data?.message || 'Erro ao conectar-se ao servidor. Tente novamente!';
     this.exibirAlerta(errorMessage, 'danger');
   }
