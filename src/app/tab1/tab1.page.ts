@@ -49,19 +49,8 @@ export class Tab1Page implements OnInit, ViewWillEnter {
     });
     await loading.present();
     this.obterUsuariosDesautenticados();
-    // this.obterFuncionariosDesautenticados();
     await loading.dismiss();
   }
-
-
-  // atualizarDados() {
-  //   if (this.tipo == "usuarios") {
-  //     this.carregarDados();
-  //   }
-  //   if (this.tipo == "funcionarios") {
-  //     this.carregarDados();
-  //   }
-  // }
 
   async obterUsuariosDesautenticados() {
     this.provider.obterUsuariosDesautenticados().then(async (data: any) => {
@@ -72,20 +61,6 @@ export class Tab1Page implements OnInit, ViewWillEnter {
     }).catch(async (error) => {
     });
   }
-
-
-  // async obterFuncionariosDesautenticados() {
-
-  //   this.provider.obterFuncionariosDesautenticados().then(async (data: any) => {
-  //     if (data.length > 0) {
-  //       this.funcionarios = data;
-  //     } else {
-  //       // this.Alerta('Nenhuma solicitação de autenticação encontrada', 'warning');
-  //     }
-  //   }).catch(async (error) => {
-  //     // this.Alerta('Erro ao carregar solicitações de autenticação', 'danger');
-  //   });
-  // }
 
 
   async aceitarUsuario(usuario: any) {
@@ -113,7 +88,7 @@ export class Tab1Page implements OnInit, ViewWillEnter {
   atualizarListaUsuarios() {
     this.provider.obterUsuariosDesautenticados().then(
       (usuarios: any) => {
-        this.usuarios = usuarios;  // Atualiza a lista de usuários
+        this.usuarios = usuarios;
       }
     ).catch((error: any) => {
       this.mensagem('Erro ao atualizar a lista de usuários', 'danger');
@@ -162,7 +137,7 @@ export class Tab1Page implements OnInit, ViewWillEnter {
         {
           text: 'Excluir',
           handler: () => {
-            this.rejeitarUsuario(usuario); // Chama a função de exclusão se o usuário confirmar
+            this.rejeitarUsuario(usuario);
           }
         }
       ]
