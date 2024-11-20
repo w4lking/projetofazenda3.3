@@ -25,7 +25,6 @@ export class ResetPasswordPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    // Obter o token e outros parâmetros da URL
     this.route.queryParams.subscribe(params => {
       this.email = params['email'];
       this.perfil = params['perfil'];
@@ -82,13 +81,11 @@ export class ResetPasswordPage implements OnInit {
   }
 
   resetPass() {
-    // Verificar se as senhas coincidem
     if (this.senha !== this.confirmarSenha) {
       this.exibirAlerta('As senhas não coincidem', 'danger');
       return;
     }
 
-    // Verificar o comprimento da senha com base no perfil
     if (this.perfil === 'FUNCIONARIO' && this.senha.length < 8) {
       this.exibirAlerta('A senha deve ter pelo menos 8 caracteres para funcionários', 'danger');
       return;
@@ -97,7 +94,6 @@ export class ResetPasswordPage implements OnInit {
       return;
     }
 
-    // Continuar com a redefinição de senha se todas as condições forem atendidas
     this.provider.resetPassword(this.email, this.perfil, this.token, this.senha).then((data: any) => {
       if (data.ok) {
         this.exibirAlerta(data.mensagem, 'primary');
