@@ -33,12 +33,12 @@ export type ChartOptions = {
   styleUrls: ['./chart-solicitacoes.component.scss'],
 })
 export class ChartSolicitacoesComponent implements OnInit {
-  date: any[] = []; // Array para armazenar os meses no formato abreviado
+  date: any[] = [];
   solicitacoesAceitas: any[] = [];
   consumoRealizado: any[] = [];
   idUsuario = Number(sessionStorage.getItem('id'));
-  currentYear: number = new Date().getFullYear(); // Ano atual
-  loading: boolean = true; // Variável de controle de loading
+  currentYear: number = new Date().getFullYear();
+  loading: boolean = true;
 
   public chartOptions: ChartOptions | any;
 

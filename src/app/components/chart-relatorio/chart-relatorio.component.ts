@@ -20,7 +20,7 @@ export class ChartRelatorioComponent implements OnInit {
   insumosTotal: number = 1;
   equipamentosTotal: number = 1;
   idUsuario = Number(sessionStorage.getItem('id'));
-  dadosCarregados: boolean = false; // Controle de carregamento único
+  dadosCarregados: boolean = false;
 
   @ViewChild('chart') chart: ChartComponent | any;
   public chartOptions: ChartOptions | any;
@@ -41,7 +41,7 @@ export class ChartRelatorioComponent implements OnInit {
             this.insumosTotal = res.insumosTotal ?? 0;
             this.equipamentosTotal = res.equipamentosTotal ?? 0;
             this.inicializarGrafico();
-            this.dadosCarregados = true; // Marca como carregado
+            this.dadosCarregados = true;
           }
         }
       ).catch((error) => {

@@ -33,12 +33,12 @@ export type ChartOptions = {
   styleUrls: ['./chart-gastos.component.scss'],
 })
 export class ChartGastosComponent implements OnInit {
-  date: any[] = []; // Array para armazenar os meses no formato abreviado
+  date: any[] = [];
   insumosTotal: any[] = [];
   equipamentosTotal: any[] = [];
   idUsuario = Number(sessionStorage.getItem('id'));
-  currentYear: number = new Date().getFullYear(); // Ano atual
-  loading: boolean = true; // Variável de controle de loading
+  currentYear: number = new Date().getFullYear(); 
+  loading: boolean = true;
 
   public chartOptions: ChartOptions | any;
 
@@ -81,7 +81,7 @@ export class ChartGastosComponent implements OnInit {
       plotOptions: {
         bar: {
           horizontal: false,
-          columnWidth: "35%", // Ajuste da largura das colunas
+          columnWidth: "35%",
           endingShape: "rounded"
         }
       },
