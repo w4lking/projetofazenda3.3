@@ -23,12 +23,10 @@ export class TabsPage implements OnInit, ViewWillEnter {
     const id = sessionStorage.getItem('id');
 
 
-    // Verifique se o perfil é ADMINISTRADOR ou PROPRIETARIO
     this.isAdmin = perfilUsuario === 'ADMINISTRADOR';
     this.isProprietario = perfilUsuario === 'PROPRIETARIO';
     this.isFuncionario = perfilUsuario === 'FUNCIONARIO';
 
-    // Se o identificador de sessão não estiver presente, redirecione para o login
     if (!sessionId) {
       console.log('Sessão inválida. Redirecionando para login...');
       this.router.navigate(['/login']);
@@ -39,17 +37,14 @@ export class TabsPage implements OnInit, ViewWillEnter {
 
 
   ionViewWillEnter() {
-    // Este método será chamado sempre que a página for exibida
     const perfilUsuario = sessionStorage.getItem('perfil');
     const sessionId = sessionStorage.getItem('sessionId');
     const id = sessionStorage.getItem('id');
 
-    // Verifique se o perfil é ADMINISTRADOR ou PROPRIETARIO
     this.isAdmin = perfilUsuario === 'ADMINISTRADOR';
     this.isProprietario = perfilUsuario === 'PROPRIETARIO';
     this.isFuncionario = perfilUsuario === 'FUNCIONARIO';
 
-    // Se o identificador de sessão não estiver presente, redirecione para o login
     if (!sessionId) {
       console.log('Sessão inválida. Redirecionando para login...');
       this.router.navigate(['/login']);
