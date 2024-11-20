@@ -83,13 +83,12 @@ export class TabRegistroPage implements OnInit {
       const data = await this.provider.obterFuncionario(this.idUsuario);
 
       if (data.status === 'success' && data.usuario) {
-        // Atribui o id da fazenda e o nome da fazenda
         this.funcionarios = [data.usuario];
         this.idFarm = data.usuario.fazendas_idfazendas;
         this.obterConsumo();
         this.obterFazendas();
       } else {
-        // this.exibirAlerta('Nenhuma fazenda encontrada', 'warning');
+
       }
     } catch (error) {
       this.exibirAlerta('Erro ao carregar fazendas', 'danger');
@@ -114,7 +113,6 @@ export class TabRegistroPage implements OnInit {
       const data = await this.provider.obterInsumos();
       this.insumos = (data.status === 'success' && data.insumos.length > 0) ? data.insumos : [];
     } catch (error) {
-      // this.exibirAlerta('Erro ao carregar insumos', 'danger');
     }
   }
 
@@ -123,7 +121,6 @@ export class TabRegistroPage implements OnInit {
       const data = await this.provider.obterEquipamentos();
       this.equipamentos = (data.status === 'success' && data.equipamentos.length > 0) ? data.equipamentos : [];
     } catch (error) {
-      // this.exibirAlerta('Erro ao carregar equipamentos', 'danger');
     }
   }
 
