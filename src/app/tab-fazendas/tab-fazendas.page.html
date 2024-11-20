@@ -11,8 +11,6 @@
 
 <ion-content fullscreen="true" class="ion-padding">
 
-  <!-- Modal para adicionar fazenda -->
-  <!-- Modal para adicionar/editar fazenda -->
 <ion-modal [isOpen]="isModalOpen">
   <ng-template>
     <ion-header>
@@ -52,7 +50,6 @@
   </ng-template>
 </ion-modal>
 
-  <!-- Lista de Fazendas -->
   <ion-list *ngIf="fazendas.length > 0; else semFazendas">
     <ion-item *ngFor="let fazenda of fazendas">
       <ion-label>
@@ -63,12 +60,10 @@
       </ion-label>
 
       <ion-buttons slot="end">
-        <!-- Botão de Edição -->
         <ion-button color="primary" (click)="editarFazenda(fazenda.nome, fazenda.cep, fazenda.endereco, fazenda.valor, fazenda.idfazendas)">
           <ion-icon slot="icon-only" name="create-outline"></ion-icon>
         </ion-button>
 
-        <!-- Botão de Exclusão -->
         <ion-button color="danger" (click)="confirmarExclusaofazenda(fazenda.idfazendas)">
           <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
         </ion-button>
@@ -76,7 +71,6 @@
     </ion-item>
   </ion-list>
 
-  <!-- Caso não haja fazendas -->
   <ng-template #semFazendas>
     <div class="empty-state">
       <ion-icon name="alert-circle-outline" size="large"></ion-icon>
@@ -84,7 +78,6 @@
     </div>
   </ng-template>
 
-  <!-- Botão flutuante -->
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button>
       <ion-icon name="chevron-up-circle"></ion-icon>

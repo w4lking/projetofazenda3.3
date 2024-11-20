@@ -2,7 +2,7 @@ import { cepMask } from './../masks';
 import { MaskitoOptions, MaskitoElementPredicate, maskitoTransform } from '@maskito/core';
 import { ApiService } from './../services/api.service';
 import { Component, OnInit } from '@angular/core';
-import { ToastController, LoadingController, AlertController } from '@ionic/angular'; 
+import { ToastController, LoadingController, AlertController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { add, thumbsUpSharp } from 'ionicons/icons';
 import { ViewWillEnter } from '@ionic/angular';
@@ -33,7 +33,7 @@ export class TabFazendasPage implements OnInit, ViewWillEnter {
   cep: string = "";
   endereco: string = "";
   valor = 0.0;
-  idFazenda: number | null = null;  // Armazena o id da fazenda para edição
+  idFazenda: number | null = null;
 
   constructor(
     private provider: ApiService,
@@ -66,24 +66,17 @@ export class TabFazendasPage implements OnInit, ViewWillEnter {
   }
 
   async obterFazendas() {
-    // const loading = await this.loadingController.create({
-    //   message: 'Carregando Fazendas...',
-    // });
-    // await loading.present();
-
     this.provider.obterFazenda(this.id).then(async (data: any) => {
-      // await loading.dismiss();
-      if (data.status === 'success' && data.fazendas.length > 0) { // Verifica o status e se há fazendas
-          this.fazendas = data.fazendas; // Atribui os dados retornados diretamente
+      if (data.status === 'success' && data.fazendas.length > 0) {
+        this.fazendas = data.fazendas;
       } else {
         this.fazendas = [];
       }
     }).catch(async (error) => {
-      // await loading.dismiss();
       this.mensagem('Erro ao carregar fazendas', 'danger');
-  });
+    });
   }
-  
+
 
   editarFazenda(nome: any, cep: any, endereco: any, valor: number, idFazenda: number) {
     this.nome = nome;
@@ -91,10 +84,10 @@ export class TabFazendasPage implements OnInit, ViewWillEnter {
     this.endereco = endereco;
     this.valor = valor;
     this.idFazenda = idFazenda;
-  
+
     this.setOpen(true);
   }
-  
+
 
   async salvarFazenda() {
     if (this.idFazenda) {
@@ -114,40 +107,39 @@ export class TabFazendasPage implements OnInit, ViewWillEnter {
         this.mensagem('Erro ao conectar-se ao servidor. Tente novamente!', 'danger');
       });
     } else {
-      // Adicionar nova fazenda
       this.adicionarFazenda();
     }
   }
 
   async adicionarFazenda() {
     if (!this.nome || !this.cep || !this.endereco) {
-        this.presentToast();
-        return; // Adicionando retorno para evitar execução adicional
+      this.presentToast();
+      return;
     }
 
     const loading = await this.loadingController.create({
-        message: 'Adicionando fazenda...',
+      message: 'Adicionando fazenda...',
     });
     await loading.present();
 
     this.provider.addFazenda(this.nome, this.cep, this.endereco, this.valor, this.id).then(
-        async (res: any) => {
-            await loading.dismiss();
-            if (res.status === 'success' || res.ok) {
-                this.exibirAlerta('Fazenda adicionada com sucesso!', 'success');
-                this.limpar();
-                this.setOpen(false);
-                this.obterFazendas(); // Atualiza a lista
-            } else {
-                this.mensagem('Erro ao adicionar fazenda. Tente novamente!', 'danger');
-            }
-        }
-    ).catch(async (error) => {
+      async (res: any) => {
         await loading.dismiss();
-        console.error('Erro na requisição ao adicionar fazenda:', error);
-        this.mensagem('Erro ao conectar-se ao servidor. Tente novamente!', 'danger');
+        if (res.status === 'success' || res.ok) {
+          this.exibirAlerta('Fazenda adicionada com sucesso!', 'success');
+          this.limpar();
+          this.setOpen(false);
+          this.obterFazendas();
+        } else {
+          this.mensagem('Erro ao adicionar fazenda. Tente novamente!', 'danger');
+        }
+      }
+    ).catch(async (error) => {
+      await loading.dismiss();
+      console.error('Erro na requisição ao adicionar fazenda:', error);
+      this.mensagem('Erro ao conectar-se ao servidor. Tente novamente!', 'danger');
     });
-}
+  }
 
 
   async presentToast() {
@@ -180,19 +172,17 @@ export class TabFazendasPage implements OnInit, ViewWillEnter {
     const alert = await this.alertController.create({
       message: mensagem,
     });
-  
+
     await alert.present();
-  
-    // Fechar o alerta automaticamente após 3 segundos (3000 ms)
+
     setTimeout(() => {
       alert.dismiss();
     }, 500);
   }
-  
 
-  // Função de confirmação para excluir o usuário
+
   async confirmarExclusaofazenda(idfazendas: number) {
-  
+
     const alert = await this.alertController.create({
       header: 'Confirmação de exclusão',
       message: 'Tem certeza que deseja excluir esta fazenda? Todos os dados serão perdidos. Inclusive funcionários e insumos relacionados a ela.',
@@ -207,42 +197,39 @@ export class TabFazendasPage implements OnInit, ViewWillEnter {
         {
           text: 'Excluir',
           handler: () => {
-            this.excluirfazenda(idfazendas); // Chama a função de exclusão se o usuário confirmar
+            this.excluirfazenda(idfazendas);
           }
         }
       ]
     });
-  
+
     await alert.present();
   }
-  
 
-  // Função de exclusão
+
   excluirfazenda(idfazendas: number) {
     if (!idfazendas) {
-        this.mensagem('ID inválido', 'danger');
-        return;
+      this.mensagem('ID inválido', 'danger');
+      return;
     }
 
     this.provider.deletarFazenda(idfazendas).then(
-        async (res: any) => {
-            if (res && res.status === 'success') {
-                this.exibirAlerta('Fazenda excluída com sucesso!', 'success');
-                this.obterFazendas();
-            } else {
-                console.error('Erro ao excluir a fazenda, resposta:', res);
-                this.mensagem('Erro ao excluir a Fazenda: ' + (res?.message || 'Resposta não recebida'), 'danger');
-            }
+      async (res: any) => {
+        if (res && res.status === 'success') {
+          this.exibirAlerta('Fazenda excluída com sucesso!', 'success');
+          this.obterFazendas();
+        } else {
+          console.error('Erro ao excluir a fazenda, resposta:', res);
+          this.mensagem('Erro ao excluir a Fazenda: ' + (res?.message || 'Resposta não recebida'), 'danger');
         }
+      }
     ).catch((error) => {
-        console.error('Erro na requisição ao excluir fazenda:', error);
-        this.mensagem('Erro ao conectar-se ao servidor. Tente novamente!', 'danger');
+      console.error('Erro na requisição ao excluir fazenda:', error);
+      this.mensagem('Erro ao conectar-se ao servidor. Tente novamente!', 'danger');
     });
-}
+  }
 
 
-
-  
 
   async mensagem(mensagem: any, cor: string) {
     const toast = await this.toastController.create({
