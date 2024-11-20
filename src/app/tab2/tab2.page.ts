@@ -52,10 +52,11 @@ export class Tab2Page implements OnInit, ViewWillEnter  {
       if (data.length > 0) {
         this.usuarios = data;
       } else {
-        // await this.exibirAlerta('Nenhum usuário encontrado', 'danger');
+        //
       }
     }).catch(async (error) => {
-      // await this.exibirAlerta('Erro ao carregar usuários', 'danger');
+      console.error('Erro na requisição:', error);
+      await this.exibirAlerta('Erro ao conectar-se ao servidor. Tente novamente!', 'danger');
     });
   }
 
