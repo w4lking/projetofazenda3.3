@@ -52,8 +52,8 @@ export class Tab4Page implements OnInit, ViewWillEnter {
   perfil = "FUNCIONARIO";
   salario = maskitoTransform('R$ 0,00', salarioMask);
 
-  idfuncionario: any;  // Armazena o id do funcionario para edição
-  idFazenda: any; // Armazena o id da fazenda para edição
+  idfuncionario: any;
+  idFazenda: any;
 
   constructor(
     private provider: ApiService,
@@ -139,7 +139,7 @@ export class Tab4Page implements OnInit, ViewWillEnter {
         this.fazendas = [];
       }
     }).catch(async (error) => {
-      // this.mensagem('Erro ao carregar fazendas', 'danger');
+      //
     });
   }
 
@@ -154,7 +154,7 @@ export class Tab4Page implements OnInit, ViewWillEnter {
         }
       }
     ).catch(async (error) => {
-      // this.mensagem('Erro ao carregar funcionários', 'danger');
+      //
     });
   }
 
@@ -165,15 +165,14 @@ export class Tab4Page implements OnInit, ViewWillEnter {
     this.cpf = cpf;
     this.telefone = telefone;
     this.salario = salario;
-    this.idFazenda = idfazendas;  // Certifique-se de que o nome está correto
+    this.idFazenda = idfazendas;
 
-    this.setOpen(true);  // Abre o modal para edição
+    this.setOpen(true); 
   }
 
 
   async salvarFuncionario() {
     if (this.editando) {
-      // Validações de CPF e e-mail
       if (!this.validarCPF(this.cpf)) {
         this.exibirAlerta('CPF inválido. Preencha corretamente!', 'danger');
         return;
@@ -182,8 +181,6 @@ export class Tab4Page implements OnInit, ViewWillEnter {
         this.exibirAlerta('E-mail inválido. Preencha corretamente!', 'danger');
         return;
       }
-
-      // Chamada à API para editar o funcionário
       try {
         const res: any = await this.provider.editarFuncionarios(
           this.idfuncionario,
@@ -192,21 +189,19 @@ export class Tab4Page implements OnInit, ViewWillEnter {
           this.email,
           this.telefone,
           this.salario,
-          this.idFazenda // Certifique-se de que está correto
+          this.idFazenda
         );
 
         if (res.status === 'success') {
           this.exibirAlerta('Funcionário atualizado com sucesso', 'success');
           this.limpar();
-          this.obterfuncionarios(); // Atualiza a lista de funcionários
+          this.obterfuncionarios();
         } else {
-          // Exibe a mensagem de erro específica retornada pela API
           this.exibirAlerta(res.message || 'Erro ao atualizar funcionário, alguns campos não foram preenchidos...', 'danger');
         }
         this.setOpen(false);
 
       } catch (error) {
-        // Erro de conexão ou servidor
         console.error('Erro ao editar funcionário:', error);
         this.mensagem('Erro ao conectar-se ao servidor. Tente novamente!', 'danger');
       }
@@ -220,7 +215,6 @@ export class Tab4Page implements OnInit, ViewWillEnter {
 
   async adicionarFuncionario() {
 
-    // Validações de CPF, email e senha
     if (!this.validarCPF(this.cpf)) {
       this.exibirAlerta('CPF inválido. Preencha corretamente!', 'danger');
       return;
@@ -256,7 +250,7 @@ export class Tab4Page implements OnInit, ViewWillEnter {
         this.salario,
         this.senha,
         this.idFazenda,
-        Number(this.idUsuario)  // Garante que idUsuario é um número
+        Number(this.idUsuario)
       );
 
       await loading.dismiss();
@@ -264,14 +258,13 @@ export class Tab4Page implements OnInit, ViewWillEnter {
       if (res.status === 'success') {
         this.exibirAlerta('Funcionário adicionado com sucesso!', 'success');
         this.limpar();
-        this.obterfuncionarios(); // Atualiza a lista de funcionários
+        this.obterfuncionarios();
       } else {
         this.exibirAlerta(res.message || 'Erro ao adicionar funcionário.', 'danger');
       }
     } catch (error) {
       await loading.dismiss();
 
-      // Exibe uma mensagem de erro mais detalhada com base no retorno do erro da API
       if ((error as any).status === 400) {
         const errorMessage = (error as any).error?.message || 'Dados inválidos. Verifique as informações e tente novamente.';
         this.exibirAlerta(errorMessage, 'danger');
@@ -326,14 +319,12 @@ export class Tab4Page implements OnInit, ViewWillEnter {
 
     await alert.present();
 
-    // Fechar o alerta automaticamente após 3 segundos (3000 ms)
     setTimeout(() => {
       alert.dismiss();
     }, 500);
   }
 
 
-  // Função de confirmação para excluir o usuário
   async confirmarExclusaofuncionario(id: number) {
 
     const alert = await this.alertController.create({
@@ -360,13 +351,12 @@ export class Tab4Page implements OnInit, ViewWillEnter {
   }
 
 
-  // Função de exclusão
   excluirFuncionario(id: number) {
     this.provider.deletarFuncionarios(id).then(
       (res: any) => {
         if (res.status === 'success') {
           this.exibirAlerta(res.mensagem, 'primary');
-          this.obterfuncionarios(); // Atualiza a lista de funcionarios
+          this.obterfuncionarios();
         } else {
           this.mensagem('Erro ao excluir a Funcionário. Tente novamente!', 'danger');
         }
@@ -442,7 +432,6 @@ export class Tab4Page implements OnInit, ViewWillEnter {
     return false;
   }
 
-  // Método para verificar caracteres repetidos
   contemCaracteresRepetidos(senha: string): boolean {
     return /^(\d)\1+$/.test(senha);
   }

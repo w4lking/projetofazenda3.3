@@ -11,7 +11,6 @@
 
 <ion-content fullscreen="true" class="ion-padding">
 
-  <!-- Modal para adicionar/editar funcionário -->
   <ion-modal [isOpen]="isModalOpen">
     <ng-template>
       <ion-header>
@@ -52,13 +51,11 @@
           <ion-input [(ngModel)]="salario" type="number"></ion-input>
         </ion-item>
 
-        <!-- Campo de Senha aparece apenas ao adicionar -->
         <ion-item *ngIf="!editando">
           <ion-label position="floating">Senha</ion-label>
           <ion-input [(ngModel)]="senha" [counter]="true" maxlength="8" type="password"></ion-input>
         </ion-item>
 
-        <!-- Select de Fazenda deve aparecer tanto ao adicionar quanto ao editar -->
         <ion-item>
           <ion-label position="floating">Fazenda</ion-label>
           <ion-select [(ngModel)]="idFazenda">
@@ -73,7 +70,6 @@
     </ng-template>
   </ion-modal>
 
-<!-- Lista de Funcionários -->
 <ion-list *ngIf="funcionarios.length > 0; else semFuncionarios">
   <ion-item *ngFor="let funcionario of funcionarios">
     <ion-label>
@@ -90,15 +86,12 @@
         </ion-button>
       </ion-buttons>
     </ion-label>
-
-    <!-- Ações: Bloqueio, Edição e Exclusão -->
+>
     <ion-buttons slot="end">
-      <!-- Botão de Edição -->
       <ion-button color="primary" (click)="abrirModalEditar(funcionario.idfuncionarios, funcionario.nome, funcionario.cpf, funcionario.email, funcionario.telefone, funcionario.salario, funcionario.fazendas_idfazendas)">
         <ion-icon slot="icon-only" size="medium" name="create-outline"></ion-icon>
       </ion-button>
 
-      <!-- Botão de Exclusão -->
       <ion-button color="danger" (click)="confirmarExclusaofuncionario(funcionario.idfuncionarios)">
         <ion-icon slot="icon-only" size="medium" name="trash-outline"></ion-icon>
       </ion-button>
@@ -106,7 +99,6 @@
   </ion-item>
 </ion-list>
 
-  <!-- Caso não haja Funcionários -->
   <ng-template #semFuncionarios>
     <div class="empty-state">
       <ion-icon name="alert-circle-outline" size="large"></ion-icon>
@@ -114,7 +106,6 @@
     </div>
   </ng-template>
 
-  <!-- Botão flutuante -->
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button>
       <ion-icon name="chevron-up-circle"></ion-icon>
