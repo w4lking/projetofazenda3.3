@@ -12,31 +12,25 @@ export class RedirectGuardGuard implements CanActivate {
   constructor(private apiService: ApiService, private router: Router) {}
 
   canActivate(): Observable<boolean> {
-    // Obtenha o email do usuário armazenado localmente
-    const email = this.apiService.getUsuario(); // Pega o email do usuário
-    
+    const email = this.apiService.getUsuario();
     if (!email) {
-      // Se não tiver email, redirecione ou negue o acesso
-      this.router.navigate(['/login']); // ou qualquer rota de fallback
+      this.router.navigate(['/login']);
       return new Observable((observer) => observer.next(false));
     }
-
-    // Obtém o perfil do usuário através do serviço de autenticação
     const perfil = sessionStorage.getItem('perfil');
     if (!perfil) {
-      // Handle the case where perfil is null
       return new Observable((observer) => observer.next(false));
     }
     return from([perfil]).pipe(
       map((res: any) => {
         if (res.perfil === 'ADMINISTRADOR') {
-          this.router.navigate(['/tabs/tab1']); // Redireciona para tab1
-          return false; // Bloqueia o acesso atual e redireciona
+          this.router.navigate(['/tabs/tab1']);
+          return false;
         } else if (res.perfil === 'PROPRIETARIO') {
-          this.router.navigate(['/tabs/tab3']); // Redireciona para tab3
-          return false; // Bloqueia o acesso atual e redireciona
+          this.router.navigate(['/tabs/tab3']);
+          return false;
         } else {
-          return true; // Permite a navegação para outros perfis
+          return true;
         }
       })
     );
