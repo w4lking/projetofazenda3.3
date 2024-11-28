@@ -25,7 +25,7 @@ export class ChartRelatorioComponent implements OnInit {
   @ViewChild('chart') chart: ChartComponent | any;
   public chartOptions: ChartOptions | any;
 
-  constructor(private provider: ApiService) { }
+  constructor(private readonly provider: ApiService) { }
 
   ngOnInit() {
     this.carregarDados();

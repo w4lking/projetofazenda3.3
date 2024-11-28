@@ -42,7 +42,7 @@ export class ChartSolicitacoesComponent implements OnInit {
 
   public chartOptions: ChartOptions | any;
 
-  constructor(private provider: ApiService) { }
+  constructor(private readonly provider: ApiService) { }
 
   ngOnInit() {
     this.fetchExpensesData();
