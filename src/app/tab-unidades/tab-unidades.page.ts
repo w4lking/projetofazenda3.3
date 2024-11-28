@@ -8,21 +8,18 @@ import { Router } from '@angular/router';
   templateUrl: './tab-unidades.page.html',
   styleUrls: ['./tab-unidades.page.scss'],
 })
-export class TabUnidadesPage implements OnInit {
+export class TabUnidadesPage {
 
   nome: string = '';
   unidade: string = '';
 
   constructor(
-    private provider: ApiService,
-    private toastController: ToastController,
-    private modalCtrl: ModalController,
-    private router: Router,
-    private loadingController: LoadingController,
+    private readonly provider: ApiService,
+    private readonly toastController: ToastController,
+    private readonly modalCtrl: ModalController,
+    private readonly router: Router,
+    private readonly loadingController: LoadingController,
   ) { }
-
-  ngOnInit() {
-  }
 
   cancel() {
     this.modalCtrl.dismiss(null, 'cancel');
@@ -35,7 +32,7 @@ export class TabUnidadesPage implements OnInit {
   async confirmEquipamentos() {
     if (!this.nome) {
       this.presentAlert('Erro', 'Nome do equipamento é obrigatório');
-      return; // Evita execução adicional
+      return;
     }
 
     const loading = await this.loadingController.create({
