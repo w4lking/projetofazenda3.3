@@ -1,5 +1,5 @@
 import { ApiService } from '../services/api.service';  // Serviço atualizado para Node.js
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { ToastController, LoadingController, AlertController } from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
@@ -9,7 +9,7 @@ import { ModalController } from '@ionic/angular';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnInit {
+export class LoginPage {
 
   email: string = "";
   senha: string = "";
@@ -22,15 +22,13 @@ export class LoginPage implements OnInit {
   antigo: string = "";
 
   constructor(
-    private router: Router,
-    private provider: ApiService,
+    private readonly router: Router,
+    private readonly provider: ApiService,
     public toastController: ToastController,
-    private modalCtrl: ModalController,
+    private readonly modalCtrl: ModalController,
     public loadingController: LoadingController,
-    private alertController: AlertController
+    private readonly alertController: AlertController
   ) { }
-
-  ngOnInit() { }
 
   async mensagem(mensagem: any, cor: string) {
     const toast = await this.toastController.create({
