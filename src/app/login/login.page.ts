@@ -1,6 +1,6 @@
 import { ApiService } from '../services/api.service';  // Serviço atualizado para Node.js
 import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ToastController, LoadingController, AlertController } from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
 
