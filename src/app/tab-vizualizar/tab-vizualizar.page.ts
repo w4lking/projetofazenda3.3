@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastController, LoadingController, AlertController, ModalController } from '@ionic/angular'; // Adicione AlertControllerimport { Component, OnInit } from '@angular/core';
+import { ToastController, LoadingController, AlertController, ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab-vizualizar',

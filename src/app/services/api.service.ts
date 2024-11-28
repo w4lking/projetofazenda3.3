@@ -1089,6 +1089,25 @@ export class ApiService {
     }
   }
 
+  async obterUsuariosAdmin(){
+    const options = {
+      url: this.server + 'users/admin',
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    }
+    catch (error) {
+      console.error('Erro ao obter usuários', error);
+      throw error;
+    }
+  }
+
   async obterSolicitacaoConsumoEstoque(id: any, year: number) {
     const options = {
       url: `${this.server}solicit/consumption?id=${id}&year=${year}`,

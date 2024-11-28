@@ -7,14 +7,17 @@ import { IonicModule } from '@ionic/angular';
 import { AdminGraficoPageRoutingModule } from './admin-grafico-routing.module';
 
 import { AdminGraficoPage } from './admin-grafico.page';
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { ChartUsuariosComponent } from '../components/chart-usuarios/chart-usuarios.component';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    AdminGraficoPageRoutingModule
+    AdminGraficoPageRoutingModule,
+    NgApexchartsModule,
   ],
-  declarations: [AdminGraficoPage]
+  declarations: [AdminGraficoPage, ChartUsuariosComponent]
 })
 export class AdminGraficoPageModule {}
