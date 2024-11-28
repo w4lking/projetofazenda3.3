@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  ChartComponent,
   ApexAxisChartSeries,
   ApexChart,
   ApexXAxis,
@@ -35,7 +34,7 @@ export class ChartUsuariosComponent implements OnInit {
 
   public chartOptions: ChartOptions | any; // Opções do gráfico
 
-  constructor(private provider: ApiService) {}
+  constructor(private readonly provider: ApiService) {}
 
   ngOnInit() {
     this.carregarDadosPorMes(this.currentYear); // Carrega os dados para o gráfico
