@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ApiService } from '../services/api.service';
-import { ToastController, LoadingController, AlertController, MenuController } from '@ionic/angular';
-import { ViewWillEnter } from '@ionic/angular';
+import { ToastController, LoadingController, AlertController, MenuController, ViewWillEnter } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab1',
@@ -17,13 +16,12 @@ export class Tab1Page implements OnInit, ViewWillEnter {
   prot: any[] = [];
 
   constructor(
-    private router: Router,
-    private provider: ApiService,
-    private actRouter: ActivatedRoute,
+    private readonly router: Router,
+    private readonly provider: ApiService,
     public toastController: ToastController,
     public loadingController: LoadingController,
     public alertController: AlertController,
-    private menu: MenuController,
+    private readonly menu: MenuController,
   ) { }
 
   ngOnInit() {
