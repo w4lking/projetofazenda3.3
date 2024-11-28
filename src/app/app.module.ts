@@ -1,18 +1,19 @@
-import { ApiService } from './services/api.service';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { IonicStorageModule } from "@ionic/storage-angular";
+
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IonicStorageModule } from "@ionic/storage-angular";
-import { NgApexchartsModule } from 'ng-apexcharts';
-import { MaskitoDirective } from '@maskito/angular';
-import { LOCALE_ID} from '@angular/core';
+import { ApiService } from './services/api.service';
+
 import { registerLocaleData } from '@angular/common';
 import ptBr from '@angular/common/locales/pt';
 
