@@ -4,7 +4,6 @@ import { ApiService } from './../services/api.service';
 import { Component, OnInit, ChangeDetectorRef  } from '@angular/core';
 import { ToastController, LoadingController, AlertController, ViewWillEnter } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { add } from 'ionicons/icons';
 
 import {
   chevronDownCircle,
@@ -13,6 +12,7 @@ import {
   colorPalette,
   document,
   globe,
+  add,
 } from 'ionicons/icons';
 
 @Component({

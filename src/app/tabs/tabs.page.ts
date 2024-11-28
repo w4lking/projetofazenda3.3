@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../services/api.service';
 import { Router } from '@angular/router';
 import { ViewWillEnter } from '@ionic/angular';
 

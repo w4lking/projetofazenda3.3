@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component} from '@angular/core';
 import { ModalController, ToastController, LoadingController } from '@ionic/angular';
 import { ApiService } from '../services/api.service';
 import { Router } from '@angular/router';

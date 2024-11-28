@@ -1,7 +1,7 @@
 import { cepMask } from './../masks';
 import { MaskitoElementPredicate } from '@maskito/core';
 import { ApiService } from './../services/api.service';
-import { Component, OnInit, ChangeDetectorRef  } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ToastController, LoadingController, AlertController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { add} from 'ionicons/icons';
