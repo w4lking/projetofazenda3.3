@@ -1,12 +1,11 @@
 import { cepMask } from './../masks';
-import { MaskitoOptions, MaskitoElementPredicate, maskitoTransform } from '@maskito/core';
+import { MaskitoElementPredicate } from '@maskito/core';
 import { ApiService } from './../services/api.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef  } from '@angular/core';
 import { ToastController, LoadingController, AlertController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { add, thumbsUpSharp } from 'ionicons/icons';
+import { add} from 'ionicons/icons';
 import { ViewWillEnter } from '@ionic/angular';
-import { ChangeDetectorRef } from '@angular/core';
 
 import {
   chevronDownCircle,
@@ -36,11 +35,10 @@ export class TabFazendasPage implements OnInit, ViewWillEnter {
   idFazenda: number | null = null;
 
   constructor(
-    private provider: ApiService,
+    private readonly provider: ApiService,
     public toastController: ToastController,
     public loadingController: LoadingController,
     public alertController: AlertController,
-    private cdr: ChangeDetectorRef
   ) {
     addIcons({ chevronDownCircle, chevronForwardCircle, chevronUpCircle, colorPalette, document, globe, add });
   }

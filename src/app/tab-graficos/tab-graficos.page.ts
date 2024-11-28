@@ -1,22 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastController, LoadingController, AlertController, ModalController } from '@ionic/angular'; // Adicione AlertController
+import { ToastController, LoadingController, AlertController, ModalController } from '@ionic/angular';
 @Component({
   selector: 'app-tab-graficos',
   templateUrl: './tab-graficos.page.html',
   styleUrls: ['./tab-graficos.page.scss'],
 })
-export class TabGraficosPage implements OnInit {
+export class TabGraficosPage  {
  danger: string = 'danger';
 
   constructor(
     public toastController: ToastController,
     public loadingController: LoadingController,
-    private alertController: AlertController,
-    private modalCtrl: ModalController,
+    private readonly alertController: AlertController,
+    private readonly modalCtrl: ModalController,
   ) { }
-
-  ngOnInit() {
-  }
 
   cancel() {
     this.modalCtrl.dismiss(null, 'cancel');
