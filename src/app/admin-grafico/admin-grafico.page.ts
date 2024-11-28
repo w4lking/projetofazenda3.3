@@ -6,17 +6,14 @@ import { ModalController } from '@ionic/angular';
   templateUrl: './admin-grafico.page.html',
   styleUrls: ['./admin-grafico.page.scss'],
 })
-export class AdminGraficoPage implements OnInit {
+export class AdminGraficoPage {
+  private readonly modalCtrl: ModalController;
 
-  constructor(
-    private readonly modalCtrl: ModalController,
-  ) { }
-
-  ngOnInit() {
+  constructor(modalCtrl: ModalController) {
+    this.modalCtrl = modalCtrl;
   }
 
   cancel() {
     this.modalCtrl.dismiss(null, 'cancel');
   }
-
 }
