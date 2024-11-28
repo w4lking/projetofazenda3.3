@@ -248,7 +248,7 @@ export class ApiService {
 
   async obterUsuario(id: any) {
     const options = {
-      url: this.server + 'user?id=' + id, 
+      url: this.server + 'user?id=' + id,
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -266,7 +266,7 @@ export class ApiService {
 
   async obterFuncionario(id: any) {
     const options = {
-      url: this.server + 'employer?id=' + id, 
+      url: this.server + 'employer?id=' + id,
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -531,7 +531,7 @@ export class ApiService {
         salario,
         senha,
         idfazendas: idFazenda,
-        idusuario: idUsuario  
+        idusuario: idUsuario
       }),
     };
 
@@ -1089,9 +1089,9 @@ export class ApiService {
     }
   }
 
-  async obterUsuariosAdmin(){
+  async obterUsuariosCadastradosPorMes(year: number) {
     const options = {
-      url: this.server + 'users/admin',
+      url: `${this.server}userPerMonth?year=${year}`,
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -1100,13 +1100,22 @@ export class ApiService {
 
     try {
       const response = await CapacitorHttp.request(options);
-      return response.data;
-    }
-    catch (error) {
-      console.error('Erro ao obter usuários', error);
-      throw error;
+
+      if (response.status === 200 && response.data.status === 'success') {
+        return response.data.data; // Retorna os dados no formato esperado
+      } else {
+        throw new Error(
+          `Erro na API: ${response.data.message || 'Erro desconhecido'}`
+        );
+      }
+    } catch (error) {
+      const err = error as any;
+      console.error('Erro ao obter usuários por mês:', err.message || err);
+      throw error; // Repassa o erro para o chamador
     }
   }
+
+
 
   async obterSolicitacaoConsumoEstoque(id: any, year: number) {
     const options = {
