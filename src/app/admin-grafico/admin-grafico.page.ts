@@ -9,9 +9,6 @@ import { ToastController, LoadingController, AlertController, ModalController } 
 export class AdminGraficoPage implements OnInit {
 
   constructor(
-    public toastController: ToastController,
-    public loadingController: LoadingController,
-    private alertController: AlertController,
     private modalCtrl: ModalController,
   ) { }
 
