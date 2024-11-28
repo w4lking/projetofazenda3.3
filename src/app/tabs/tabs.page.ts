@@ -8,7 +8,6 @@ import { ViewWillEnter } from '@ionic/angular';
   styleUrls: ['tabs.page.scss']
 })
 export class TabsPage implements OnInit, ViewWillEnter {
-
   isAdmin: boolean = false;
   isProprietario: boolean = false;
   isFuncionario: boolean = false;
@@ -16,24 +15,14 @@ export class TabsPage implements OnInit, ViewWillEnter {
   constructor(private readonly router: Router) { }
 
   ngOnInit() {
-    const perfilUsuario = sessionStorage.getItem('perfil');
-    const sessionId = sessionStorage.getItem('sessionId');
-
-
-    this.isAdmin = perfilUsuario === 'ADMINISTRADOR';
-    this.isProprietario = perfilUsuario === 'PROPRIETARIO';
-    this.isFuncionario = perfilUsuario === 'FUNCIONARIO';
-
-    if (!sessionId) {
-      console.log('Sessão inválida. Redirecionando para login...');
-      this.router.navigate(['/login']);
-      return;
-    }
-
+    this.verificarSessao();
   }
-
 
   ionViewWillEnter() {
+    this.verificarSessao();
+  }
+
+  private verificarSessao(): void {
     const perfilUsuario = sessionStorage.getItem('perfil');
     const sessionId = sessionStorage.getItem('sessionId');
 
@@ -44,9 +33,6 @@ export class TabsPage implements OnInit, ViewWillEnter {
     if (!sessionId) {
       console.log('Sessão inválida. Redirecionando para login...');
       this.router.navigate(['/login']);
-      return;
     }
-
   }
-
 }
