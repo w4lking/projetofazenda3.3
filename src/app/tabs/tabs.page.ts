@@ -14,13 +14,11 @@ export class TabsPage implements OnInit, ViewWillEnter {
   isProprietario: boolean = false;
   isFuncionario: boolean = false;
 
-  constructor(private api: ApiService, private router: Router) { }
+  constructor(private readonly router: Router) { }
 
   ngOnInit() {
     const perfilUsuario = sessionStorage.getItem('perfil');
     const sessionId = sessionStorage.getItem('sessionId');
-    const email = sessionStorage.getItem('email');
-    const id = sessionStorage.getItem('id');
 
 
     this.isAdmin = perfilUsuario === 'ADMINISTRADOR';
@@ -39,7 +37,6 @@ export class TabsPage implements OnInit, ViewWillEnter {
   ionViewWillEnter() {
     const perfilUsuario = sessionStorage.getItem('perfil');
     const sessionId = sessionStorage.getItem('sessionId');
-    const id = sessionStorage.getItem('id');
 
     this.isAdmin = perfilUsuario === 'ADMINISTRADOR';
     this.isProprietario = perfilUsuario === 'PROPRIETARIO';

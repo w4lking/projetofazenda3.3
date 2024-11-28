@@ -65,12 +65,12 @@ export class Tab5Page implements OnInit {
 
 
   constructor(
-    private router: Router,
-    private provider: ApiService,
+    private readonly router: Router,
+    private readonly provider: ApiService,
     public toastController: ToastController,
     public loadingController: LoadingController,
-    private menu: MenuController,
-    private alertController: AlertController
+    private readonly menu: MenuController,
+    private readonly alertController: AlertController
   ) { }
 
   ngOnInit() {
