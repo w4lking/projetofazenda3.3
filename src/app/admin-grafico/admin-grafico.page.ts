@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastController, LoadingController, AlertController, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-admin-grafico',
@@ -9,7 +9,7 @@ import { ToastController, LoadingController, AlertController, ModalController } 
 export class AdminGraficoPage implements OnInit {
 
   constructor(
-    private modalCtrl: ModalController,
+    private readonly modalCtrl: ModalController,
   ) { }
 
   ngOnInit() {
