@@ -37,7 +37,8 @@ const routes: Routes = [
   },
   {
     path: 'profile',
-    loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
+    loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'tab-registro',
@@ -57,7 +58,8 @@ const routes: Routes = [
   },
   {
     path: 'configuracoes',
-    loadChildren: () => import('./configuracoes/configuracoes.module').then( m => m.ConfiguracoesPageModule)
+    loadChildren: () => import('./configuracoes/configuracoes.module').then( m => m.ConfiguracoesPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'reset-password',
