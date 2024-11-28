@@ -3,14 +3,13 @@ import { Router } from '@angular/router';
 import { ApiService } from '../services/api.service';
 import { ToastController, LoadingController, AlertController } from '@ionic/angular';
 import { ViewWillEnter } from '@ionic/angular';
-import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
 })
-export class ProfilePage implements OnInit {
+export class ProfilePage implements OnInit, ViewWillEnter {
 
   usuario: any = {};
   idUsuario = sessionStorage.getItem('id');
@@ -20,11 +19,11 @@ export class ProfilePage implements OnInit {
   confirmarSenha = '';
 
   constructor(
-    private router: Router,
-    private provider: ApiService,
+    private readonly router: Router,
+    private readonly provider: ApiService,
     public toastController: ToastController,
     public loadingController: LoadingController,
-    private alertController: AlertController
+    private readonly alertController: AlertController
   ) { }
 
   ngOnInit() {

@@ -18,10 +18,10 @@ export class ResetPasswordPage implements OnInit {
 
   constructor(
     public toastController: ToastController,
-    private router: Router,
-    private provider: ApiService,
-    private alertController: AlertController,
-    private route: ActivatedRoute
+    private readonly router: Router,
+    private readonly provider: ApiService,
+    private readonly alertController: AlertController,
+    private readonly route: ActivatedRoute
   ) { }
 
   ngOnInit() {

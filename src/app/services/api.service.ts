@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CapacitorHttp, HttpResponse } from '@capacitor/core';
+import { CapacitorHttp} from '@capacitor/core';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -12,7 +12,7 @@ export class ApiService {
 
   // server: string = 'http://localhost:5000/api/';
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
   async dadosApi(dados: any, api: string) {
     const options = {

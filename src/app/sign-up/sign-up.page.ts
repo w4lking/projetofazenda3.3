@@ -12,7 +12,7 @@ import { MaskitoElementPredicate } from '@maskito/core';
   templateUrl: './sign-up.page.html',
   styleUrls: ['./sign-up.page.scss'],
 })
-export class SignUpPage implements OnInit {
+export class SignUpPage {
 
   readonly userNameMask = userNameMask;
   readonly cpfMask = cpfMask;
@@ -29,14 +29,12 @@ export class SignUpPage implements OnInit {
   perfil: string = "PROPRIETARIO";
 
   constructor(
-    private router: Router,
-    private provider: ApiService,
+    private readonly router: Router,
+    private readonly provider: ApiService,
     public toastController: ToastController,
     public loadingController: LoadingController,
-    private alertController: AlertController
+    private readonly alertController: AlertController
   ) { }
-
-  ngOnInit() { }
 
   backInicio() {
     this.router.navigate(['inicial']);
