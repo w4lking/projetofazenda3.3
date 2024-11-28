@@ -3,7 +3,6 @@ import { ApiService } from 'src/app/services/api.service';
 import {
   ApexAxisChartSeries,
   ApexChart,
-  ChartComponent,
   ApexDataLabels,
   ApexPlotOptions,
   ApexYAxis,
@@ -42,7 +41,7 @@ export class ChartGastosComponent implements OnInit {
 
   public chartOptions: ChartOptions | any;
 
-  constructor(private provider: ApiService) { }
+  constructor(private readonly provider: ApiService) { }
 
   ngOnInit() {
     this.fetchExpensesData();
