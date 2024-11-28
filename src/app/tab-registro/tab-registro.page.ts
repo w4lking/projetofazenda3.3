@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { ApiService } from '../services/api.service';
-import { Router } from '@angular/router';
 import { formatDate } from '@angular/common';
 
 @Component({
@@ -27,11 +26,10 @@ export class TabRegistroPage implements OnInit {
   nomeFuncionario: string = '';
 
   constructor(
-    private router: Router,
-    private provider: ApiService,
+    private readonly provider: ApiService,
     public toastController: ToastController,
     public loadingController: LoadingController,
-    private alertController: AlertController
+    private readonly alertController: AlertController
   ) { }
 
   ngOnInit() {
@@ -123,8 +121,6 @@ export class TabRegistroPage implements OnInit {
     } catch (error) {
     }
   }
-
-
 
 
   async obterConsumo() {
