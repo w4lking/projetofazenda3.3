@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../services/api.service';
-import { ToastController, LoadingController, AlertController } from '@ionic/angular';
-import { MenuController } from '@ionic/angular';
+import { ToastController, LoadingController, AlertController, MenuController  } from '@ionic/angular';
 import { formatDate } from '@angular/common';
 
 @Component({
@@ -50,12 +49,12 @@ export class Tab3Page implements OnInit {
   isEquipamentoModalOpen = false;
 
   constructor(
-    private router: Router,
-    private provider: ApiService,
+    private readonly router: Router,
+    private readonly provider: ApiService,
     public toastController: ToastController,
     public loadingController: LoadingController,
-    private menu: MenuController,
-    private alertController: AlertController
+    private readonly menu: MenuController,
+    private readonly alertController: AlertController
   ) {}
 
   ngOnInit() {

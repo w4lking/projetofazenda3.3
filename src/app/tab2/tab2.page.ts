@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service';
-import { ToastController, LoadingController, AlertController } from '@ionic/angular';
-import { ViewWillEnter } from '@ionic/angular';
+import { ToastController, LoadingController, AlertController, ViewWillEnter  } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab2',
@@ -14,10 +13,10 @@ export class Tab2Page implements OnInit, ViewWillEnter  {
   tipo = "usuarios";
 
   constructor(
-    private provider: ApiService,
+    private readonly provider: ApiService,
     public toastController: ToastController,
     public loadingController: LoadingController,
-    private alertController: AlertController 
+    private readonly alertController: AlertController 
   ) {}
 
   ngOnInit() {

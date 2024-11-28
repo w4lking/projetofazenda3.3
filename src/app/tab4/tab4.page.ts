@@ -1,15 +1,10 @@
-import { cpfMask } from './../masks';
-import { telefoneMask } from './../masks';
-import { salarioMask } from './../masks';
-import { userNameMask } from './../masks';
-import { MaskitoOptions, MaskitoElementPredicate, maskitoTransform } from '@maskito/core';
+import { cpfMask, telefoneMask, salarioMask, userNameMask } from './../masks';
+import { MaskitoElementPredicate, maskitoTransform } from '@maskito/core';
 import { ApiService } from './../services/api.service';
-import { Component, OnInit } from '@angular/core';
-import { ToastController, LoadingController, AlertController } from '@ionic/angular'; // Adicione AlertController
+import { Component, OnInit, ChangeDetectorRef  } from '@angular/core';
+import { ToastController, LoadingController, AlertController, ViewWillEnter } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { add, thumbsUpSharp } from 'ionicons/icons';
-import { ViewWillEnter } from '@ionic/angular';
-import { ChangeDetectorRef } from '@angular/core';
+import { add } from 'ionicons/icons';
 
 import {
   chevronDownCircle,
@@ -19,7 +14,6 @@ import {
   document,
   globe,
 } from 'ionicons/icons';
-import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-tab4',
@@ -56,11 +50,11 @@ export class Tab4Page implements OnInit, ViewWillEnter {
   idFazenda: any;
 
   constructor(
-    private provider: ApiService,
+    private readonly provider: ApiService,
     public toastController: ToastController,
     public loadingController: LoadingController,
     public alertController: AlertController,
-    private cdr: ChangeDetectorRef
+    private readonly cdr: ChangeDetectorRef
   ) {
     addIcons({ chevronDownCircle, chevronForwardCircle, chevronUpCircle, colorPalette, document, globe, add });
   }
