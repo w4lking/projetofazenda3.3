@@ -9,7 +9,7 @@ import { Component} from '@angular/core';
 export class InicialPage{
 
   constructor(
-    private router: Router,
+    private readonly router: Router,
   ) { }
 
   isModalOpen = false;

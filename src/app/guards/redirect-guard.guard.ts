@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
 })
 export class RedirectGuardGuard implements CanActivate {
 
-  constructor(private apiService: ApiService, private router: Router) {}
+  constructor(private readonly apiService: ApiService, private readonly router: Router) {}
 
   canActivate(): Observable<boolean> {
     const email = this.apiService.getUsuario();

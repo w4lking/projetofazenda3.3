@@ -1,7 +1,10 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button (click)="back()">
+      <ion-button
+        tabindex="0"
+        (click)="back()"
+        (keydown.space)="back()">
         <ion-icon name="chevron-back-outline" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -12,9 +15,14 @@
 <ion-content [fullscreen]="true">
   <ion-card class="user-info-card">
     <ion-card-content>
-      <ion-button expand="block" (click)="presentAlertConfirm(idUsuario, perfil)">
+      <ion-button
+        tabindex="0"
+        expand="block"
+        (click)="presentAlertConfirm(idUsuario, perfil)"
+        (keydown.enter)="onKeydownEnter($event)"
+        (keydown.space)="onKeydownEnter($event)">
         {{ perfil === 'FUNCIONARIO' ? 'Bloquear Conta' : 'Excluir Conta' }}
       </ion-button>
     </ion-card-content>
-  </ion-card> 
+  </ion-card>
 </ion-content>

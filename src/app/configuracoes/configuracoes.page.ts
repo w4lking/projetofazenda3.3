@@ -14,11 +14,11 @@ export class ConfiguracoesPage implements OnInit {
   perfil = sessionStorage.getItem('perfil');
 
   constructor(
-    private router: Router,
-    private provider: ApiService,
+    private readonly router: Router,
+    private readonly provider: ApiService,
     public toastController: ToastController,
     public loadingController: LoadingController,
-    private alertController: AlertController
+    private readonly alertController: AlertController
   ) { }
 
   ngOnInit() {
@@ -39,7 +39,6 @@ export class ConfiguracoesPage implements OnInit {
   }
 
   async presentAlertConfirm(id: any, perfil: any) {
-    console.log('perfil: ' + perfil);
     const action = perfil === "FUNCIONARIO" ? 'bloquear' : 'excluir';
     const alert = await this.alertController.create({
       header: `${action.charAt(0).toUpperCase() + action.slice(1)} conta`,
@@ -103,6 +102,13 @@ export class ConfiguracoesPage implements OnInit {
       this.router.navigate(['/login']);
     });
   }
+
+  onKeydownEnter(event: Event): void {
+    const keyboardEvent = event as KeyboardEvent;
+    keyboardEvent.preventDefault();
+    this.presentAlertConfirm(this.idUsuario, this.perfil);
+  }
+
 
   back() {
     if (this.perfil == "PROPRIETARIO") {
