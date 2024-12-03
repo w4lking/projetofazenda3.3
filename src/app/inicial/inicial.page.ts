@@ -17,7 +17,7 @@ export class InicialPage{
   setOpen(isOpen: boolean) {
     this.isModalOpen = isOpen;
   }
-
+  
 
   login(){
     this.router.navigate(['/login']);
