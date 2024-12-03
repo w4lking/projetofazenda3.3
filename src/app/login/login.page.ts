@@ -1,8 +1,7 @@
 import { ApiService } from '../services/api.service';  // Serviço atualizado para Node.js
 import { Router } from '@angular/router';
 import { Component } from '@angular/core';
-import { ToastController, LoadingController, AlertController } from '@ionic/angular';
-import { ModalController } from '@ionic/angular';
+import { ToastController, LoadingController, AlertController,  ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -131,7 +130,7 @@ export class LoginPage {
 
 
       const response = await this.provider.dadosApi(dados, 'user/login');
-      if (response && response.ok) {
+      if (response?.ok) {
         console.log('Login realizado com sucesso!');
         this.handleLoginSuccess(dados, response.perfil, this.id);
         sessionStorage.setItem('id', this.id);
