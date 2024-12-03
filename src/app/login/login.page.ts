@@ -168,9 +168,10 @@ export class LoginPage {
 
 
   generateUniqueId(): string {
-    return 'xxxx-xxxx-xxxx'.replace('x', () => {
+    return 'xxxx-xxxx-xxxx'.replace(/x/g, () => {
       return Math.floor(Math.random() * 9).toString();
     });
   }
+
 
 }
