@@ -1,7 +1,7 @@
 import { ApiService } from '../services/api.service';  // Serviço atualizado para Node.js
 import { Router } from '@angular/router';
 import { Component } from '@angular/core';
-import { ToastController, LoadingController, AlertController,  ModalController } from '@ionic/angular';
+import { ToastController, LoadingController, AlertController, ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -85,8 +85,8 @@ export class LoginPage {
 
       if (data.ok === true) {
         this.exibirAlerta(data.mensagem, 'primary');
-        this.resetlimpar(); 
-        this.cancel(); 
+        this.resetlimpar();
+        this.cancel();
       } else {
         this.exibirAlerta(data.mensagem, 'danger');
       }
@@ -168,8 +168,9 @@ export class LoginPage {
 
 
   generateUniqueId(): string {
-    return 'xxxx-xxxx-xxxx'.replace(/[x]/g, () => {
+    return 'xxxx-xxxx-xxxx'.replace('x', () => {
       return Math.floor(Math.random() * 9).toString();
     });
   }
+
 }
