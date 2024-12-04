@@ -18,6 +18,13 @@ export class ProfilePage implements OnInit, ViewWillEnter {
   novaSenha = '';
   confirmarSenha = '';
 
+  nome: string = '';
+  cpf: string = '';
+  email: string = '';
+  telefone: string = '';
+
+  isModalOpen = false;
+
   constructor(
     private readonly router: Router,
     private readonly provider: ApiService,
@@ -44,17 +51,35 @@ export class ProfilePage implements OnInit, ViewWillEnter {
     }
   }
 
+  setModalOpen(isOpen: boolean) {
+    this.isModalOpen = isOpen;
+    if (!isOpen) this.limpar();
+  }
+
 
   back() {
-    if (this.perfil == "PROPRIETARIO"){
+    if (this.perfil == "PROPRIETARIO") {
       this.router.navigate(['/tabs/tab3']);
     }
-    else if (this.perfil == "FUNCIONARIO"){
+    else if (this.perfil == "FUNCIONARIO") {
       this.router.navigate(['/tabs/tab5']);
     }
-    else if (this.perfil == "ADMINISTRADOR"){
+    else if (this.perfil == "ADMINISTRADOR") {
       this.router.navigate(['/tabs/tab1']);
     }
+  }
+
+  limpar() {
+
+  }
+
+  async editar(nome: string, cpf: string, email: string, telefone: string) {
+
+    this.nome = nome;
+    this.cpf = cpf;
+    this.email = email;
+    this.telefone = telefone;
+    this.setModalOpen(true);
   }
 
   async alterarSenha() {
@@ -64,10 +89,10 @@ export class ProfilePage implements OnInit, ViewWillEnter {
       this.Alerta('As senhas não conferem', 'warning');
     } else if (this.novaSenha.length < 10) {
       this.Alerta('A senha deve conter no mínimo 10 caracteres', 'warning');
-    }else if (this.contemNumerosSequenciais(this.novaSenha)) {
+    } else if (this.contemNumerosSequenciais(this.novaSenha)) {
       await this.Alerta(`A nova Senha não deve conter números sequenciais simples como ${this.novaSenha}.`, 'warning');
       return;
-    }else if (this.contemCaracteresRepetidos(this.novaSenha)) {
+    } else if (this.contemCaracteresRepetidos(this.novaSenha)) {
       await this.Alerta(`A nova Senha não deve conter todos os caracteres iguais, como ${this.novaSenha}.`, 'warning');
       return;
     } else if (this.senhaAtual === this.novaSenha) {
@@ -94,17 +119,17 @@ export class ProfilePage implements OnInit, ViewWillEnter {
     }
   }
 
-   async alterarSenhaFunc() {
+  async alterarSenhaFunc() {
     if (this.senhaAtual === '' || this.novaSenha === '' || this.confirmarSenha === '') {
       this.Alerta('Preencha todos os campos', 'warning');
     } else if (this.novaSenha !== this.confirmarSenha) {
       this.Alerta('As senhas não conferem', 'warning');
     } else if (this.novaSenha.length < 8) {
       this.Alerta('A senha deve conter 8 caracteres', 'warning');
-    }else if (this.contemNumerosSequenciais(this.novaSenha)) {
+    } else if (this.contemNumerosSequenciais(this.novaSenha)) {
       await this.Alerta(`A nova Senha não deve conter números sequenciais simples como ${this.novaSenha}.`, 'warning');
       return;
-    }else if (this.contemCaracteresRepetidos(this.novaSenha)) {
+    } else if (this.contemCaracteresRepetidos(this.novaSenha)) {
       await this.Alerta(`A nova Senha não deve conter todos os caracteres iguais, como ${this.novaSenha}.`, 'warning');
       return;
     } else if (this.senhaAtual === this.novaSenha) {
@@ -182,6 +207,58 @@ export class ProfilePage implements OnInit, ViewWillEnter {
         });
     }
   }
+
+  async editarUsuario() {
+    const loading = await this.loadingController.create({
+      message: 'Atualizando dados ...',
+    });
+
+    if (this.nome == '' || this.cpf == '' || this.email == '' || this.telefone == '') {
+      this.Alerta('Preencha todos os campos', 'warning');
+      return;
+    } else if (
+      this.nome === this.usuario.nome &&
+      this.cpf === this.usuario.cpf &&
+      this.email === this.usuario.email &&
+      this.telefone === this.usuario.telefone
+    ) {
+      this.Alerta('Nenhum dado foi alterado', 'warning');
+      this.setModalOpen(false);
+      return;
+    }
+
+    await loading.present();
+
+    this.provider.editarUsuario(
+      Number(this.idUsuario),
+      this.nome,
+      this.cpf,
+      this.email,
+      this.telefone,
+      String(this.perfil)
+    ).then(
+      async (data: any) => {
+        if (data.status === 'success') {
+          this.Alerta('Dados atualizados com sucesso', 'success');
+          this.setModalOpen(false);
+          this.obterUsuario();
+        } else {
+          this.Alerta(data.message || 'Erro ao atualizar dados', 'danger');
+        }
+        await loading.dismiss();
+      }
+    ).catch(async (error) => {
+      await loading.dismiss();
+
+      if (error.status === 409) {
+        // Tratamento de duplicidade
+        this.Alerta(error.error.message, 'warning');
+      } else {
+        this.Alerta('Erro ao atualizar dados', 'danger');
+      }
+    });
+  }
+
 
   async obterFunc() {
     const loading = await this.loadingController.create({

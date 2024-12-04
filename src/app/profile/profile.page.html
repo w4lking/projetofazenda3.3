@@ -21,14 +21,17 @@
           <ion-label><strong>Nome:</strong> {{ usuario.nome }}</ion-label>
         </ion-item>
         <ion-item>
+          <ion-icon name="people-outline" slot="start"></ion-icon>
+          <ion-label><strong>CPF:</strong> {{ usuario.cpf }}</ion-label>
+        </ion-item>
+        <ion-item>
           <ion-icon name="mail-outline" slot="start"></ion-icon>
           <ion-label><strong>Email:</strong> {{ usuario.email }}</ion-label>
         </ion-item>
         <ion-item>
-          <ion-icon name="call-outline" slot="start"></ion-icon>
+          <ion-icon name="phone-portrait-outline" slot="start"></ion-icon>
           <ion-label
-            ><strong>Telefone:</strong> {{ usuario.telefone }}</ion-label
-          >
+            ><strong>Telefone:</strong> {{ usuario.telefone }}</ion-label>
         </ion-item>
         <ion-item>
           <ion-icon name="briefcase-outline" slot="start"></ion-icon>
@@ -40,8 +43,7 @@
 
   <ion-fab slot="fixed" vertical="top" horizontal="end">
     <ion-fab-button
-      (click)="exibirAlerta('A EDIÇÃO DE INFORMAÇÕES DO USUÁRIO AINDA NÃO ESTÁ HABILITADA!')"
-    >
+      (click)="editar(usuario.nome, usuario.cpf, usuario.email, usuario.telefone)">
       <ion-icon name="pencil-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
@@ -69,5 +71,43 @@
     <ion-button expand="block" (click)="perfil === 'FUNCIONARIO' ? alterarSenhaFunc() : alterarSenha()">{{ perfil === 'FUNCIONARIO' ? 'Editar Senha' : 'Alterar Senha' }}</ion-button>
   </ion-card-content>
 </ion-card> 
+
+
+
+<ion-modal [isOpen]="isModalOpen">
+   <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title> Editar informações</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="setModalOpen(false)">
+              <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-label position="floating">Nome</ion-label>
+          <ion-input type="text" [(ngModel)]="nome"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">CPF</ion-label>
+          <ion-input type="text" [(ngModel)]="cpf"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Email</ion-label>
+          <ion-input type="email" [(ngModel)]="email"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Telefone</ion-label>
+          <ion-input type="text" [(ngModel)]="telefone"></ion-input>
+        </ion-item>
+        <ion-item>
+        </ion-item>
+        <ion-button expand="block" color="success"  (click)="editarUsuario()">Salvar Alterações</ion-button>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 
 </ion-content>

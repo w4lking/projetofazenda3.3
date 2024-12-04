@@ -97,6 +97,25 @@ export class ApiService {
     }
   }
 
+  async editarUsuario(id: number, nome: string, cpf: string, email: string, telefone: string, perfil: string) {
+
+    const options = {
+      url: this.server + 'user/updateUser',
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify({ id, nome, cpf, email, telefone, perfil }),
+    };
+
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao editar usuário:', error);
+      throw new Error('Erro ao tentar editar o usuário.');
+    }
+  }
 
   async getTipoDeUsuario(email: any) {
     const options = {
