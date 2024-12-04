@@ -2,9 +2,7 @@ import { Component } from '@angular/core';
 import { ToastController, LoadingController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ApiService } from './../services/api.service';
-import { userNameMask } from './../masks';
-import { cpfMask } from './../masks';
-import { telefoneMask } from './../masks';
+import { userNameMask, cpfMask, telefoneMask  } from './../masks';
 import { MaskitoElementPredicate } from '@maskito/core';
 
 @Component({

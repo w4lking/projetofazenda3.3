@@ -89,11 +89,15 @@
       <ion-content class="ion-padding">
         <ion-item>
           <ion-label position="floating">Nome</ion-label>
-          <ion-input type="text" [(ngModel)]="nome"></ion-input>
+          <ion-input type="text" [(ngModel)]="nome" 
+        [maskito]="userNameMask"
+        [maskitoElement]="maskPredicate" maxlength="45"></ion-input>
         </ion-item>
         <ion-item>
           <ion-label position="floating">CPF</ion-label>
-          <ion-input type="text" [(ngModel)]="cpf"></ion-input>
+          <ion-input type="text" [(ngModel)]="cpf" 
+        [maskito]="cpfMask"
+        [maskitoElement]="maskPredicate"></ion-input>
         </ion-item>
         <ion-item>
           <ion-label position="floating">Email</ion-label>
@@ -101,7 +105,9 @@
         </ion-item>
         <ion-item>
           <ion-label position="floating">Telefone</ion-label>
-          <ion-input type="text" [(ngModel)]="telefone"></ion-input>
+          <ion-input type="text" [(ngModel)]="telefone"
+        [maskito]="telefoneMask"
+        [maskitoElement]="maskPredicate"></ion-input>
         </ion-item>
         <ion-item>
         </ion-item>

@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { ApiService } from '../services/api.service';
 import { ToastController, LoadingController, AlertController } from '@ionic/angular';
 import { ViewWillEnter } from '@ionic/angular';
+import { userNameMask, cpfMask, telefoneMask  } from './../masks';
+import { MaskitoElementPredicate } from '@maskito/core';
 
 @Component({
   selector: 'app-profile',
@@ -10,6 +12,12 @@ import { ViewWillEnter } from '@ionic/angular';
   styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage implements OnInit, ViewWillEnter {
+
+  readonly userNameMask = userNameMask;
+  readonly cpfMask = cpfMask;
+  readonly telefoneMask = telefoneMask;
+
+  readonly maskPredicate: MaskitoElementPredicate = async (el) => (el as HTMLIonInputElement).getInputElement();
 
   usuario: any = {};
   idUsuario = sessionStorage.getItem('id');
@@ -227,6 +235,11 @@ export class ProfilePage implements OnInit, ViewWillEnter {
       return;
     }
 
+    if (!this.validarCPF(this.cpf)) {
+      this.Alerta('CPF inválido', 'warning');
+      return;
+    }
+
     await loading.present();
 
     this.provider.editarUsuario(
@@ -287,6 +300,35 @@ export class ProfilePage implements OnInit, ViewWillEnter {
     this.senhaAtual = '';
     this.novaSenha = '';
     this.confirmarSenha = '';
+  }
+
+  validarCPF(cpf: string): boolean {
+    cpf = cpf.replace(/[^\d]+/g, '');
+    if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) {
+      return false;
+    }
+
+    let soma = 0;
+    for (let i = 0; i < 9; i++) {
+      soma += parseInt(cpf.charAt(i)) * (10 - i);
+    }
+    let resto = (soma * 10) % 11;
+    if (resto === 10 || resto === 11) {
+      resto = 0;
+    }
+    if (resto !== parseInt(cpf.charAt(9))) {
+      return false;
+    }
+
+    soma = 0;
+    for (let i = 0; i < 10; i++) {
+      soma += parseInt(cpf.charAt(i)) * (11 - i);
+    }
+    resto = (soma * 10) % 11;
+    if (resto === 10 || resto === 11) {
+      resto = 0;
+    }
+    return resto === parseInt(cpf.charAt(10));
   }
 
   contemNumerosSequenciais(senha: string): boolean {
