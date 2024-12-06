@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../services/api.service';
-import { ToastController, LoadingController, AlertController } from '@ionic/angular';
-import { ViewWillEnter } from '@ionic/angular';
+import { ToastController, LoadingController, AlertController, ViewWillEnter } from '@ionic/angular';
 import { userNameMask, cpfMask, telefoneMask  } from './../masks';
 import { MaskitoElementPredicate } from '@maskito/core';
 

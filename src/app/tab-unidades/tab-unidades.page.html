@@ -5,13 +5,15 @@
         <ion-icon name="chevron-back-outline" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>Área das unidades</ion-title>
+    <ion-title>Área para cadastros</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-button id="open-equipamentos" expand="block">Equipamentos</ion-button>
+  <ion-button id="open-usuarios" expand="block">Usuários</ion-button>
   <ion-button id="open-insumos" expand="block">Insumos</ion-button>
+  <ion-button id="open-equipamentos" expand="block">Equipamentos</ion-button>
+
   
   <ion-modal trigger="open-equipamentos" >
     <ng-template>
@@ -84,6 +86,97 @@
             
           </ion-select>
         </ion-item>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+
+  <ion-modal trigger="open-usuarios" >
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cancel()" [strong]="true">Cancelar</ion-button>
+          </ion-buttons>
+          <ion-buttons slot="end">
+            <ion-button (click)="confirmarUsuario()" [strong]="true">Confirmar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-input
+        [maskito]="userNameMask"
+        [maskitoElement]="maskPredicate" maxlength="45"
+            label="Nome"
+            labelPlacement="stacked"
+            type="text"
+            placeholder="Ex: Batman Silva..."
+            [(ngModel)]="nome"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input
+        [maskito]="cpfMask"
+        [maskitoElement]="maskPredicate"
+            label="CPF"
+            labelPlacement="stacked"
+            type="text"
+            placeholder="000.000.000-00"
+            [(ngModel)]="cpf"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input
+            label="E-mail"
+            labelPlacement="stacked"
+            type="email"
+            placeholder="algo@gmail.com"
+            [(ngModel)]="email"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input
+        [maskito]="telefoneMask"
+        [maskitoElement]="maskPredicate"
+            label="Telefone"
+            labelPlacement="stacked"
+            type="text"
+            placeholder="(35) 9999-9999"
+            [(ngModel)]="telefone"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input
+            label="Senha"
+            labelPlacement="stacked"
+            type="password"
+            placeholder="********"
+            [(ngModel)]="senha"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input
+            label="Confirme a senha"
+            labelPlacement="stacked"
+            type="password"
+            placeholder="********"
+            [(ngModel)]="confirmarSenha"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-select placeholder="Selecione o perfil" [(ngModel)]="perfil">
+            <ion-select-option value="ADMINISTRADOR">Administrador</ion-select-option>
+            <ion-select-option value="PROPRIETARIO">Proprietário</ion-select-option>
+          </ion-select>
+        </ion-item>
+
       </ion-content>
     </ng-template>
   </ion-modal>

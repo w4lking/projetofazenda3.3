@@ -8,9 +8,9 @@ import { Observable } from 'rxjs';
 })
 export class ApiService {
 
-  server: string = 'https://jsonserver-jet.vercel.app/api/';
+  // server: string = 'https://jsonserver-jet.vercel.app/api/';
 
-  // server: string = 'http://localhost:5000/api/';
+  server: string = 'http://localhost:5000/api/';
 
   constructor(private readonly http: HttpClient) { }
 
@@ -33,11 +33,25 @@ export class ApiService {
     }
   }
 
-  registrarUsuario(cpf: string, nome: string, email: string, senha: string, telefone: string, perfil: string): Observable<any> {
-    const url = `${this.server}user/register`;
-    const body = { cpf, nome, email, senha, telefone, perfil };
+  async registrarUsuario(cpf: string, nome: string, email: string, senha: string, telefone: string, perfil: string): Promise<Observable<any>> {
+    
+    const options = {
+      url: this.server + 'user/register',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify({ cpf, nome, email, senha, telefone, perfil }),
+    };
 
-    return this.http.post(url, body);
+    try {
+      const response = await CapacitorHttp.request(options);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao registrar usuário:', error);
+      throw new Error('Erro na comunicação com o servidor.');
+    }
+
   }
 
   async login(email: string, senha: string) {
