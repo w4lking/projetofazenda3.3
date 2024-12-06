@@ -8,9 +8,9 @@ import { Observable } from 'rxjs';
 })
 export class ApiService {
 
-  // server: string = 'https://jsonserver-jet.vercel.app/api/';
+  server: string = 'https://jsonserver-jet.vercel.app/api/';
 
-  server: string = 'http://localhost:5000/api/';
+  // server: string = 'http://localhost:5000/api/';
 
   constructor(private readonly http: HttpClient) { }
 
