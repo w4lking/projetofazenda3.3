@@ -95,7 +95,7 @@ export class SignUpPage {
     });
     await loading.present();
 
-    this.provider.registrarUsuario(this.cpf, this.nome, this.email, this.senha, this.telefone, this.perfil)
+    this.provider.registrarUsuario(this.cpf, this.nome, this.email, this.senha, this.telefone, this.perfil, 0)
       .then(
         async (data: any) => {
           await loading.dismiss();

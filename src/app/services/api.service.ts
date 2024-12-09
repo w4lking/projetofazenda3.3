@@ -33,7 +33,7 @@ export class ApiService {
     }
   }
 
-  async registrarUsuario(cpf: string, nome: string, email: string, senha: string, telefone: string, perfil: string): Promise<Observable<any>> {
+  async registrarUsuario(cpf: string, nome: string, email: string, senha: string, telefone: string, perfil: string, autenticado: number): Promise<Observable<any>> {
     
     const options = {
       url: this.server + 'user/register',
@@ -41,7 +41,7 @@ export class ApiService {
       headers: {
         'Content-Type': 'application/json',
       },
-      data: JSON.stringify({ cpf, nome, email, senha, telefone, perfil }),
+      data: JSON.stringify({ cpf, nome, email, senha, telefone, perfil, autenticado }),
     };
 
     try {

@@ -146,7 +146,7 @@ export class TabUnidadesPage {
       return;
     }
 
-    this.provider.registrarUsuario(this.cpf, this.nome, this.email, this.senha, this.telefone, this.perfil).then(
+    this.provider.registrarUsuario(this.cpf, this.nome, this.email, this.senha, this.telefone, this.perfil, 1).then(
       async (res: any) => {
         if (res.status === 'success' || res.status === 'ok') {
           this.Alerta('Sucesso', 'Usuário adicionado com sucesso');
