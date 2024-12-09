@@ -11,6 +11,7 @@ export class Tab2Page implements OnInit, ViewWillEnter  {
   usuarios: any[] = [];
   funcionarios: any[] = [];
   tipo = "usuarios";
+  idUsuario = sessionStorage.getItem('id');
 
   constructor(
     private readonly provider: ApiService,
@@ -47,7 +48,7 @@ export class Tab2Page implements OnInit, ViewWillEnter  {
 
   async obterUsuarios() {
 
-    this.provider.obterUsuarios().then(async (data: any) => {
+    this.provider.obterUsuarios(Number(this.idUsuario)).then(async (data: any) => {
       if (data.length > 0) {
         this.usuarios = data;
       } else {

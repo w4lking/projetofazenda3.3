@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CapacitorHttp} from '@capacitor/core';
+import { CapacitorHttp } from '@capacitor/core';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -34,7 +34,7 @@ export class ApiService {
   }
 
   async registrarUsuario(cpf: string, nome: string, email: string, senha: string, telefone: string, perfil: string, autenticado: number): Promise<Observable<any>> {
-    
+
     const options = {
       url: this.server + 'user/register',
       method: 'POST',
@@ -241,9 +241,9 @@ export class ApiService {
     }
   }
 
-  async obterUsuarios() {
+  async obterUsuarios(id: number): Promise<any> {
     const options = {
-      url: this.server + 'users',
+      url: `${this.server}users/${id}`,
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -258,6 +258,7 @@ export class ApiService {
       throw error;
     }
   }
+
 
   async obterFunc() {
     const options = {
