@@ -14,6 +14,12 @@
       </ion-label>
 
       <ion-buttons slot="end">
+
+        <ion-button (click)="editarUsuario(usuario)">
+          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+        </ion-button>
+
+
         <ion-button (click)="alterarBloqueio(usuario)">
           <ion-icon  [name]="usuario.bloqueado == 1 ? 'lock-closed-outline' : 'lock-open-outline'"></ion-icon>
         </ion-button>
