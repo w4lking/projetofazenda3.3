@@ -1,7 +1,7 @@
 
 
 <ion-content>
-  <ion-list *ngIf="usuarios.length > 0 && tipo == 'usuarios'; else semUsuarios">
+  <ion-list *ngIf="usuarios.length > 0; else semUsuarios">
     <ion-item *ngFor="let usuario of usuarios">
       <ion-label>
         <h2>{{usuario.idusuarios}} - {{ usuario.nome }}</h2>
@@ -15,7 +15,7 @@
 
       <ion-buttons slot="end">
 
-        <ion-button (click)="editarUsuario(usuario)">
+        <ion-button (click)="editar(usuario.idusuarios, usuario.nome, usuario.cpf, usuario.email, usuario.telefone, usuario.perfil)">
           <ion-icon slot="icon-only" name="create-outline"></ion-icon>
         </ion-button>
 
@@ -33,10 +33,59 @@
 
   
   <ng-template #semUsuarios>
-    <ion-item class="empty-message" *ngIf="tipo == 'usuarios'">
+    <ion-item class="empty-message">
       <ion-label>Nenhum usuário encontrado.</ion-label>
     </ion-item>
   </ng-template>
+
+
+  <ion-modal [isOpen]="isModalOpen">
+   <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title> Editar informações</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="setModalOpen(false)">
+              <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-label position="floating">Nome</ion-label>
+          <ion-input type="text" [(ngModel)]="nome" 
+        [maskito]="userNameMask"
+        [maskitoElement]="maskPredicate" maxlength="45"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">CPF</ion-label>
+          <ion-input type="text" [(ngModel)]="cpf" 
+        [maskito]="cpfMask"
+        [maskitoElement]="maskPredicate"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Email</ion-label>
+          <ion-input type="email" [(ngModel)]="email"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Telefone</ion-label>
+          <ion-input type="text" [(ngModel)]="telefone"
+        [maskito]="telefoneMask"
+        [maskitoElement]="maskPredicate"></ion-input>
+        </ion-item>
+
+      <ion-item>
+          <ion-select placeholder="Selecione o perfil" [(ngModel)]="perfil">
+            <ion-select-option value="ADMINISTRADOR">Administrador</ion-select-option>
+            <ion-select-option value="PROPRIETARIO">Proprietário</ion-select-option>
+          </ion-select>
+      </ion-item>
+
+        <ion-button expand="block" color="success"  (click)="editarUsuario()">Salvar Alterações</ion-button>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 
 
 </ion-content>

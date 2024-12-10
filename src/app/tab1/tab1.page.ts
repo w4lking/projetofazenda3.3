@@ -13,7 +13,6 @@ export class Tab1Page implements OnInit, ViewWillEnter {
   usuarios: any[] = [];
   funcionarios: any[] = [];
   tipo: any = "usuarios";
-  prot: any[] = [];
 
   constructor(
     private readonly router: Router,
@@ -167,8 +166,9 @@ export class Tab1Page implements OnInit, ViewWillEnter {
 
 
   sair() {
-    this.router.navigate(['/login']);
+    sessionStorage.setItem('id', '');
     sessionStorage.clear();
+    this.router.navigate(['/login']);
     console.log('Sessão encerrada ADMINISTRADOR');
   }
 

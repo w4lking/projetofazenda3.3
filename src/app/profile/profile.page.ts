@@ -63,6 +63,13 @@ export class ProfilePage implements OnInit, ViewWillEnter {
     if (!isOpen) this.limpar();
   }
 
+  limpar() {
+    this.nome = '';
+    this.cpf = '';
+    this.email = '';
+    this.telefone = '';
+  }
+
 
   back() {
     if (this.perfil == "PROPRIETARIO") {
@@ -76,9 +83,6 @@ export class ProfilePage implements OnInit, ViewWillEnter {
     }
   }
 
-  limpar() {
-
-  }
 
   async editar(nome: string, cpf: string, email: string, telefone: string) {
 
@@ -263,7 +267,6 @@ export class ProfilePage implements OnInit, ViewWillEnter {
       await loading.dismiss();
 
       if (error.status === 409) {
-        // Tratamento de duplicidade
         this.Alerta(error.error.message, 'warning');
       } else {
         this.Alerta('Erro ao atualizar dados', 'danger');
