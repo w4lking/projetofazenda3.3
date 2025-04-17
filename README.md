@@ -14,7 +14,7 @@ Este projeto é uma aplicação desenvolvida em Ionic para o gerenciamento de um
 - **Ionic Framework**: Para o desenvolvimento da interface e funcionalidades.
 - **Angular**: Para a estruturação e lógica do front-end.
 - **TypeScript**: Linguagem principal para o desenvolvimento.
-- **Chart.js**: Para a criação de gráficos dinâmicos.
+- **ApexCharts.js**: Para a criação de gráficos dinâmicos.
 
 ## Como Executar o Projeto
 
