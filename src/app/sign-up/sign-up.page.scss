@@ -3,190 +3,39 @@ ion-item {
     --ion-item-background: transparent;
     padding-bottom: 15px;
   }
-  
-  .text-final {
-  width: 320px;
-  font-size: 12px;
-  color: #000000;
-  text-align: center;
+
+
+  ion-icon {
+    color: green;
   }
+
   
-  .place{
-    --placeholder-color: #ffffff;
-    --placeholder-opacity: 1;
-    --highlight-color-valid: #ffffff;
-    --highlight-color-focused: #ffffff;
-    color: #ffffff;
-  }
-  
-  
-  strong {
-  color: #003DB5;
-  }
-  
-  
-  .forgot{
-  text-align: right;
-  font-size: .8rem;
-  }
-  
-  
-  // backgrounds //
-  .bg-white {
-  background-color: #fff;
-  }
-  
-  .bg-light {
-    background-color: var(--ion-color-light);
-  }
-  
-  .bg-dark {
-      background-color: var(--ion-color-dark);
-  }
-  
-  .bg-primary {
-      background-color: var(--ion-color-primary);
-  }
-  
-  .bg-secondary {
-      background-color: var(--ion-color-secondary);
-  }
-  
-  .bg-tertiary {
-      background-color: var(--ion-color-tertiary);
-  }
-  
-  .bg-profile {
-    background-image: linear-gradient(135deg, var(--ion-color-dark), var(--ion-color-danger))
-  }
-  
-  .bg-green {
-    background-image: linear-gradient(135deg, var(--ion-color-green), var(--ion-color-medium))
-  }
-  
-  .bg-main {
-      background-image: linear-gradient(-135deg, var(--ion-color-medium), var(--ion-color-dark))
-  }
-  
-  // Helpers //
-  .w100 {
-    width: 100%;
-  }
-  
-  .bold,
-  .fw500 {
-      font-weight: 500 !important;
-  }
-  
-  .fw400 {
-      font-weight: 400 !important;
-     
-  }
-  
-  .fw700 {
-    font-weight: 700 !important;
-  }
-  
-  .text08 {
-    font-size: .8rem;
-    text-align: left;
-    text-align: end;
-  }
-  
-  .text1 {
-    font-size: 1rem !important;
-  }
-  
-  .text12 {
-    font-size: 1.2rem;
-  }
-  
-  .text15 {
-    font-size: 1.5rem;
-  }
-  
-  .text20 {
-    font-size: 2rem;
-  }
-  
-  .text-white {
-      color: #fff;
-  }
-  
-  .text-primary {
-      color: var(--ion-color-primary);
-  }
-  
-  .text-secondary {
-    color: var(--ion-color-secondary);
-  }
-  
-  .text-dark {
-    color: var(--ion-color-dark);
-  }
-  
-  // menu //
-  // Menu user profile
-  ion-toolbar.user-profile {
-  
-    .user-avatar {
-      width: 68px;
-      height: 68px;
-    }
-    .item-inner {
-      border-width: 0;
-    }
-  }
-  
-  // Custom toolbar (overriding Shadow DOM)
-  ion-toolbar {
-    &.ion-color-primary {
-      --ion-color-base: linear-gradient(135deg, var(--ion-color-dark), var(--ion-color-primary)) !important;
-    }
-  }
-  
-  // Android card shadow
-  ion-card {
-    &.sc-ion-card-md-h {
-      box-shadow: 0 2px 4px rgba(var(--ion-color-dark-rgb),.24);
-    }
-  }
   
   // style for auth pages
   .auth-page {
     background-image: linear-gradient(135deg, var(--ion-color-dark), var(--ion-color-primary));
   
-    .grid {
-      padding: 0;
-      .col {
-        padding: 0;
-      }
-    }
-  
-    .btn-group {
-      .button-ios,
-      .button-md {
-        border-radius: 0;
-        &:first-of-type {
-          border-radius: 2px 0 0 2px;
-        }
-        &:last-of-type {
-          border-radius: 0 2px 2px 0;
-        }
-      }
-    }
-  
+
     .auth-content {
       margin: 0 5%;
-  
-      .logo {
-        width: 20px;
-        height: 20px;
-        margin: 20px auto 8px;
-        border-radius: 10%;
-       
-        background-size: 100%;
+      padding: 20px 0;
+
+      @media (min-width: 768px) {
+        max-width: 700px;
+        margin: 100px auto;
+        background-color: rgba(0, 0, 0, 0.4);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 16px;
+        padding: 40px;
       }
+
+      ion-button:hover {
+        color: #FFF;
+        transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+        font-weight: bold;
+        transform: translateY(-2px);
+      }
+  
   
       .list-form {
         padding: 0;
@@ -222,50 +71,9 @@ ion-item {
   
   }
   
-  // Custom Menu styles (overriding Shadow DOM)
-  ion-menu {
-    ion-header {
-      ion-toolbar {
-        &.ion-color-dark {
-          --ion-color-base: linear-gradient(135deg, var(--ion-color-medium), var(--ion-color-dark)) !important;
-        }
-      }
-    }
-  }
-  
-  .mto {
-    margin-top: 12px;
-    ion-icon {
-      margin-bottom: -2px;
-    }
-  }
   
   
-  .icon-add{
-    color: #FFF;
-  }
-  
-  
-  .form-registrar {
-    --background: linear-gradient(135deg, var(--ion-color-medium), var(--ion-color-dark))
-  }
-  
-  .branco{
-      color: #FFF;
-  }
-  
-  .red{
-    color: red;
-  }
-  
-  .green{
-  color: green;
-  }
-  
-  
-  
-    
-    :host {
+  :host {
         ion-content {
             --background: linear-gradient(90deg, rgba(2,66,1,0.4066001400560224) 0%, rgba(0,0,0,0.700717787114846) 100%);
             background-image: url('../../assets/fazenda1.jpg');
@@ -275,17 +83,5 @@ ion-item {
         }
     }
     
-    .paz {
-        position: relative;
-        z-index: 10;
-    }
+
     
-    .img-login{
-        width:80px;
-        margin:0;
-    }
-    
-    .center{
-        margin:0 auto;
-        text-align:center;
-    }
