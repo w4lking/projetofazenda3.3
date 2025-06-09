@@ -4,18 +4,11 @@ ion-item {
     padding-bottom: 15px;
   }
 
-
-  ion-icon {
-    color: green;
-  }
-
   
   
   // style for auth pages
   .auth-page {
-    background-image: linear-gradient(135deg, var(--ion-color-dark), var(--ion-color-primary));
-  
-
+    
     .auth-content {
       margin: 0 5%;
       padding: 20px 0;
@@ -23,7 +16,7 @@ ion-item {
       @media (min-width: 768px) {
         max-width: 700px;
         margin: 100px auto;
-        background-color: rgba(0, 0, 0, 0.4);
+        background-color: rgba(0, 0, 0, 0.13);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         border-radius: 16px;
         padding: 40px;

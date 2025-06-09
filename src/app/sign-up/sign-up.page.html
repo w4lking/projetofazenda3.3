@@ -4,7 +4,7 @@
   <ion-toolbar color="none">
     <ion-buttons slot="start">
       <ion-button (click)="backInicio()">
-        <ion-icon name="chevron-back-outline"></ion-icon>
+        <ion-icon color="dark" name="chevron-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
     <ion-buttons slot="end">
@@ -26,32 +26,32 @@
       <ion-item no-padding class="animated fadeInUp">
         <ion-input labelPlacement="stacked" label="Nome" color="light" placeholder="Seu nome..." type="text" [(ngModel)]="nome" 
         [maskito]="userNameMask"
-        [maskitoElement]="maskPredicate"> <ion-icon slot="start" name="people-outline" aria-hidden="true"></ion-icon></ion-input>
+        [maskitoElement]="maskPredicate"> <ion-icon slot="start" name="people-outline" color="dark" aria-hidden="true"></ion-icon></ion-input>
       </ion-item>
 
       <ion-item no-padding class="animated fadeInUp">
         <ion-input labelPlacement="stacked" label="Cpf" color="light" placeholder="Seu Cpf" type="text" [(ngModel)]="cpf"
         [maskito]="cpfMask"
-        [maskitoElement]="maskPredicate"> <ion-icon slot="start" name="person-outline" aria-hidden="true"></ion-icon></ion-input>
+        [maskitoElement]="maskPredicate"> <ion-icon slot="start" name="person-outline" color="dark" aria-hidden="true"></ion-icon></ion-input>
         </ion-item>
 
         <ion-item no-padding class="animated fadeInUp">
           <ion-input labelPlacement="stacked" label="Telefone" color="light" placeholder="Seu telefone..." type="text" [(ngModel)]="telefone"
           [maskito]="telefoneMask"
-          [maskitoElement]="maskPredicate"> <ion-icon slot="start" name="phone-portrait-outline" aria-hidden="true"></ion-icon></ion-input>
+          [maskitoElement]="maskPredicate"> <ion-icon slot="start" name="phone-portrait-outline"color="dark" aria-hidden="true"></ion-icon></ion-input>
       </ion-item> 
 
         <ion-item no-padding class="animated fadeInUp">
-          <ion-input labelPlacement="stacked" label="Email" color="light" placeholder="Seu email..." type="text" [(ngModel)]="email"> <ion-icon slot="start" name="mail-outline" aria-hidden="true"></ion-icon></ion-input>
+          <ion-input labelPlacement="stacked" label="Email" color="light" placeholder="Seu email..." type="text" [(ngModel)]="email"> <ion-icon slot="start" name="mail-outline" color="dark" aria-hidden="true"></ion-icon></ion-input>
       </ion-item> 
 
 
       <ion-item no-padding class="animated fadeInUp">
-        <ion-input labelPlacement="stacked" label="Senha" color="light" placeholder="Sua senha..." type="password" [(ngModel)]="senha"> <ion-icon slot="start" name="lock-closed-outline" aria-hidden="true"></ion-icon></ion-input>
+        <ion-input labelPlacement="stacked" label="Senha" color="light" placeholder="Sua senha..." type="password" [(ngModel)]="senha"> <ion-icon slot="start" name="lock-closed-outline" color="dark" aria-hidden="true"></ion-icon></ion-input>
       </ion-item>
 
       <ion-item no-padding class="animated fadeInUp">
-        <ion-input labelPlacement="stacked" label="confirmar Senha" color="light" placeholder="Sua confirmação de Senha..." type="password" [(ngModel)]="confirmarSenha"> <ion-icon slot="start" name="lock-open-outline" aria-hidden="true"></ion-icon></ion-input>
+        <ion-input labelPlacement="stacked" label="confirmar Senha" color="light" placeholder="Sua confirmação de Senha..." type="password" [(ngModel)]="confirmarSenha"> <ion-icon slot="start" name="lock-open-outline" color="dark" aria-hidden="true"></ion-icon></ion-input>
       </ion-item>
 
         
@@ -61,7 +61,7 @@
 
     <div>
       <ion-button icon-left size="medium" expand="full" shape="round" color="dark" (click)="cadastrarUsuario()" tappable>
-        <ion-icon slot="start" name="log-in-outline"></ion-icon>
+        <ion-icon slot="start" color="primary" name="log-in-outline"></ion-icon>
         Confirmar
       </ion-button>
       
