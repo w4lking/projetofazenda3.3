@@ -2,45 +2,8 @@ ion-item {
   --ion-item-background: transparent;
 }
 
-.image {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  max-height: 500px;
-  max-width: 500px;
-}
-
 ion-icon {
   color: green;
-}
-
-.sobre {
-  color: green;
-}
-
-.icoTop {
-  color: green;
-}
-
-.texto {
-  text-align: justify;
-  font-size: medium;
-}
-
-.logo {
-
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  max-height: 500px;
-  max-width: 500px;
-  align-items: center;
-}
-
-
-
-strong {
-  color: #003DB5;
 }
 
 .auth-content {
@@ -50,7 +13,7 @@ strong {
   left: 50%;
   transform: translate(-50%, -50%);
   max-width: 720px;
-  background-color: rgba(45, 44, 44, 0.344); 
+  background-color: rgba(255, 255, 255, 0.473);
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -58,7 +21,7 @@ strong {
   border-radius: 12px;
 }
 
-.auth-content .btns {
+.auth-content .btns-container {
   background-color: none;
   width: 100%;
   gap: 12px;
@@ -68,50 +31,19 @@ strong {
   border-radius: 12px;
 }
 
-.auth-content .btns ion-button:hover{
+.auth-content .btns-container ion-button:hover {
   color: #FFF;
-  transition: background-color 0.3s ease;
-  border-radius: 12px;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
   font-weight: bold;
-  padding: 1px;
-  border-radius: 12px;
-  
+  transform: translateY(-2px);
 }
   
 
-// Custom Menu styles (overriding Shadow DOM)
-
-.mto {
-  margin-top: 12px;
-
-  ion-icon {
-    margin-bottom: -2px;
-  }
-}
-
-
-.icon-add {
-  color: #FFF;
-}
 
 
 .form-registrar {
   --background: linear-gradient(135deg, var(--ion-color-medium), var(--ion-color-dark))
 }
-
-.branco {
-  color: #FFF;
-}
-
-.red {
-  color: red;
-}
-
-.green {
-  color: green;
-}
-
-
 
 
 :host {
@@ -124,29 +56,32 @@ strong {
   }
 }
 
-.img-login {
-  width: 80px;
-  margin: 0;
-}
 
-.center {
-  margin: 0 auto;
-  text-align: center;
+.auth-content .image ion-img {
+  width: 180px;
+  height: auto;
+  margin: 0 auto; 
+  display: block; 
 }
 
 
 @media (max-width: 768px) {
-  .auth-content {
-    position: relative; /* Remove o posicionamento fixo */
-    align-items: center;
-    justify-content: center; /* Centraliza o conteúdo verticalmente */
-    top: 0; /* Alinha ao topo da tela */
-    left: 0; /* Alinha à esquerda da tela */
-    transform: none; /* Remove a transformação de centralização */
-    max-width: 100%; /* Largura máxima de 100% da tela */
-    background-color: transparent; /* Remove o fundo */
-    padding: 0; /* Ajusta para seguir o padrão do Ionic */
-    border-radius: 0; /* Remove bordas arredondadas */
-  }
+    .auth-content {
+        position: relative;
+        top: auto;
+        left: auto; 
+        transform: none;
+        width: 100%; 
+        background-color: transparent;
+        border-radius: 0;
+        padding: 20px; 
+        box-sizing: border-box;
+    }
+
+    .auth-content .btns {
+        padding: 0; 
+    }
 }
+
+
 

@@ -1,7 +1,6 @@
 
 
-<ion-content class="ion-padding animated fadeIn login auth-page">
-
+<ion-content class="ion-padding auth-page">
 
   <ion-modal [isOpen]="isModalOpen">
     <ng-template>
@@ -25,30 +24,28 @@
   </ion-modal>
   
   <div class="auth-content">
-    <div padding-horizontal text-center class="image">
-      <div class="logo"></div>
-        <h4 no-margin>
-          <img src="../../assets/LogoAgro-removebg-preview.png" alt="Logo do aplicativo Agro">
-        </h4>
+
+    <div class="logo-container">
+      <img src="../../assets/LogoAgroOnline.png" alt="AgroOnline">
     </div>
-    <div class="btns">
-      <ion-button icon-left size="medium" expand="full" shape="round" color="dark" (click)="login()"  tappable>
-        <ion-icon name="log-in"></ion-icon>
+
+    <div class="btns-container">
+      <ion-button expand="full" shape="round" color="dark" (click)="cadastro()">
+        <ion-icon slot="start" name="person-add-outline"></ion-icon>
+        Sign Up
+      </ion-button>
+
+      <ion-button expand="full" shape="round" color="dark" (click)="login()">
+        <ion-icon slot="start" name="log-in-outline"></ion-icon>
         Login
       </ion-button>
 
-      <ion-button icon-left size="medium" expand="full" shape="round" color="dark" (click)="cadastro()"  tappable>
-        <ion-icon name="log-in"></ion-icon>
-        Sign In
-      </ion-button>
-
-      <ion-button class="sobre" icon-left size="bigger" expand="full" shape="round" color="success" (click)="setOpen(true)"  tappable>
-        <ion-icon name="information-circle-outline"></ion-icon>
-        About
+      <ion-button expand="full" shape="round" fill="clear" color="success" (click)="setOpen(true)">
+        <ion-icon slot="start" name="information-circle-outline"></ion-icon>
+        Sobre o aplicativo
       </ion-button>
 
     </div>
-
   </div>
 </ion-content>
 
