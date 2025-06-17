@@ -15,8 +15,12 @@
     </ion-buttons>
 
   </ion-toolbar>
+
+  <br><br>
   
   <div class="auth-content">
+    
+    
     <div padding-horizontal text-center class="animated fadeInDown">
       <h4 no-margin>
         <img src="../../assets/fazenda-inteligente.png" alt="Mini logo do Fazendeiro">
@@ -38,21 +42,17 @@
         </ion-input>
       </ion-item> 
       
-      <p ion-text color="warning" class="text08">
-        <a id="open-reset" class="esqueci-senha">Esqueceu a senha?</a>
+      <p slot="end" ion-text  class="text08">
+        <a id="open-reset" color="primary" class="esqueci-senha">Esqueceu a senha?</a>
       </p>
         
     </div>
 
-    <ion-item lines="none">
-    
-    </ion-item>
-    
     <br><br>
 
     <div>
       <ion-button  icon-left size="medium" expand="full" shape="round" color="dark" (click)="login()"  tappable>
-        <ion-icon name="log-in" ></ion-icon>
+        <ion-icon slot="start" color="primary" name="log-in-outline" ></ion-icon>
         Login
       </ion-button>
     </div>
@@ -92,10 +92,10 @@
     
         <ion-item no-padding class="animated fadeInUp">
           <ion-label position="floating" ></ion-label>
-        <ion-select class="place" placeholder="Perfil" [(ngModel)]="perfilReset">
-          <ion-select-option value="PROPRIETARIO">Proprietário</ion-select-option>
-          <ion-select-option  value="FUNCIONARIO">Funcionário</ion-select-option>
-        </ion-select>
+          <ion-select color="light" class="place" placeholder="Perfil" [(ngModel)]="perfilReset">
+            <ion-select-option value="PROPRIETARIO">Proprietário</ion-select-option>
+            <ion-select-option  value="FUNCIONARIO">Funcionário</ion-select-option>
+          </ion-select>
         </ion-item>
         
         
