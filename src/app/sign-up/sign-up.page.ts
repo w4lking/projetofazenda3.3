@@ -38,6 +38,10 @@ export class SignUpPage {
     this.router.navigate(['inicial']);
   }
 
+  goLogin() {
+    this.router.navigate(['/login']);
+  }
+
   async exibirAlerta(mensagem: string, cor: string) {
     const alert = await this.alertController.create({
       header: cor === 'danger' ? 'Erro' : 'Sucesso',

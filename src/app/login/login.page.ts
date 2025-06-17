@@ -46,6 +46,10 @@ export class LoginPage {
     this.modalCtrl.dismiss(null, 'cancel');
   }
 
+  goCadastro() {
+    this.router.navigate(['/sign-up']);
+  }
+
   async exibirAlerta(mensagem: string, cor: string) {
     const alert = await this.alertController.create({
       header: cor === 'danger' ? 'Erro' : 'Sucesso',
